@@ -22,7 +22,7 @@ import {
 import { SignInDto } from './dto/signIn.dto';
 import { CurrentUser } from '../common';
 import { AuthPayload } from './entities/user.entity';
-import { AuthGuard } from './guard/jwt.guard';
+import { AuthGuard } from '../auth/guard/jwt.guard';
 
 @Controller('user')
 @UseInterceptors(ClassSerializerInterceptor)
