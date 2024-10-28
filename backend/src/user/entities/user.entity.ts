@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Exclude } from 'class-transformer';
-import { BaseEntity } from 'src/common/Entity/baseEntity';
+import { BaseEntity } from '../../common/index';
 import { Column, Entity } from 'typeorm';
 
 @Entity()
