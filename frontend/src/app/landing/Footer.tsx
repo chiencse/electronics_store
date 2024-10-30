@@ -1,9 +1,9 @@
 import React from 'react';
 
 const articles = [
-  { id: 1, date: '22 Dec 2022', title: 'Make your desk more neat and beautiful', description: 'Lorem ipsum dolor sit amet consectetur. Arcu pellentesque etiam scelerisque pharetra id. Maecenas diam eu amet eros', image: 'path/to/image1' },
-  { id: 2, date: '22 Dec 2022', title: 'What are the fashion trend in 2023?', description: 'Lorem ipsum dolor sit amet consectetur. Arcu pellentesque etiam scelerisque pharetra id. Maecenas diam eu amet eros', image: 'path/to/image2' },
-  { id: 3, date: '22 Dec 2022', title: 'Tips for Work Life Balance', description: 'Lorem ipsum dolor sit amet consectetur. Arcu pellentesque etiam scelerisque pharetra id. Maecenas diam eu amet eros', image: 'path/to/image3' },
+  { id: 1, date: '22 Dec 2022', title: 'Make your desk more neat and beautiful', description: 'Lorem ipsum dolor sit amet consectetur. Arcu pellentesque etiam scelerisque pharetra id. Maecenas diam eu amet eros', image: 'https://monngonmoingay.com/wp-content/smush-webp/2024/10/Salad-ca-hoi-sot-tom-kho.png.webp' },
+  { id: 2, date: '22 Dec 2022', title: 'What are the fashion trend in 2023?', description: 'Lorem ipsum dolor sit amet consectetur. Arcu pellentesque etiam scelerisque pharetra id. Maecenas diam eu amet eros', image: 'https://monngonmoingay.com/wp-content/smush-webp/2024/10/Salad-ca-hoi-sot-tom-kho.png.webp' },
+  { id: 3, date: '22 Dec 2022', title: 'Tips for Work Life Balance', description: 'Lorem ipsum dolor sit amet consectetur. Arcu pellentesque etiam scelerisque pharetra id. Maecenas diam eu amet eros', image: 'https://monngonmoingay.com/wp-content/smush-webp/2024/10/Salad-ca-hoi-sot-tom-kho.png.webp' },
 ];
 
 const Footer = () => {

@@ -1,14 +1,14 @@
 import React from 'react';
 
 const products = [
-  { id: 1, name: 'Spy x Family Tshirt', price: '$26', rating: 4.8, sold: 1238, location: 'North Purwokerto', image: 'path/to/image1' },
-  { id: 2, name: 'Green Man Jacket', price: '$49', rating: 4.8, sold: 1238, location: 'North Purwokerto', image: 'path/to/image2' },
-  { id: 3, name: 'Iphone 14 Pro Max', price: '$1200', rating: 4.8, sold: 1238, location: 'North Purwokerto', image: 'path/to/image3' },
-  { id: 4, name: 'Oversized Tshirt', price: '$48', rating: 4.8, sold: 1238, location: 'North Purwokerto', image: 'path/to/image4' },
-  { id: 5, name: 'Brown Woman Hoodie', price: '$49', rating: 4.8, sold: 1238, location: 'North Purwokerto', image: 'path/to/image5' },
-  { id: 6, name: 'Airpod Pro 2022', price: '$459', rating: 4.8, sold: 1238, location: 'North Purwokerto', image: 'path/to/image6' },
-  { id: 7, name: 'DJI Mini 3 Pro', price: '$842', rating: 4.8, sold: 1238, location: 'North Purwokerto', image: 'path/to/image7' },
-  { id: 8, name: 'Ipad Pro Gen 3', price: '$338', rating: 4.8, sold: 1238, location: 'North Purwokerto', image: 'path/to/image8' },
+  { id: 1, name: 'Spy x Family Tshirt', price: '$26', rating: 4.8, sold: 1238, location: 'North Purwokerto', image: 'https://monngonmoingay.com/wp-content/smush-webp/2024/10/Salad-ca-hoi-sot-tom-kho.png.webp' },
+  { id: 2, name: 'Green Man Jacket', price: '$49', rating: 4.8, sold: 1238, location: 'North Purwokerto', image: 'https://monngonmoingay.com/wp-content/smush-webp/2024/10/Salad-ca-hoi-sot-tom-kho.png.webp' },
+  { id: 3, name: 'Iphone 14 Pro Max', price: '$1200', rating: 4.8, sold: 1238, location: 'North Purwokerto', image: 'https://monngonmoingay.com/wp-content/smush-webp/2024/10/Salad-ca-hoi-sot-tom-kho.png.webp' },
+  { id: 4, name: 'Oversized Tshirt', price: '$48', rating: 4.8, sold: 1238, location: 'North Purwokerto', image: 'https://monngonmoingay.com/wp-content/smush-webp/2024/10/Salad-ca-hoi-sot-tom-kho.png.webp' },
+  { id: 5, name: 'Brown Woman Hoodie', price: '$49', rating: 4.8, sold: 1238, location: 'North Purwokerto', image: 'https://monngonmoingay.com/wp-content/smush-webp/2024/10/Salad-ca-hoi-sot-tom-kho.png.webp' },
+  { id: 6, name: 'Airpod Pro 2022', price: '$459', rating: 4.8, sold: 1238, location: 'North Purwokerto', image: 'https://monngonmoingay.com/wp-content/smush-webp/2024/10/Salad-ca-hoi-sot-tom-kho.png.webp' },
+  { id: 7, name: 'DJI Mini 3 Pro', price: '$842', rating: 4.8, sold: 1238, location: 'North Purwokerto', image: 'https://monngonmoingay.com/wp-content/smush-webp/2024/10/Salad-ca-hoi-sot-tom-kho.png.webp' },
+  { id: 8, name: 'Ipad Pro Gen 3', price: '$338', rating: 4.8, sold: 1238, location: 'North Purwokerto', image: 'https://monngonmoingay.com/wp-content/smush-webp/2024/10/Salad-ca-hoi-sot-tom-kho.png.webp' },
 ];
 
 const PopularSection = () => {
@@ -46,7 +46,7 @@ const PopularSection = () => {
 
       {/* Featured Product Section */}
       <div className="mt-12 bg-gray-50 p-8 rounded-lg flex flex-col lg:flex-row items-center shadow-md">
-        <img src="path/to/ipad-image" alt="Ipad Air Gen 5" className="w-80 lg:w-96" />
+        <img src="https://monngonmoingay.com/wp-content/smush-webp/2024/10/Salad-ca-hoi-sot-tom-kho.png.webp-image" alt="Ipad Air Gen 5" className="w-80 lg:w-96" />
         <div className="lg:ml-10 mt-6 lg:mt-0">
           <h3 className="text-3xl font-semibold text-gray-900">Ipad Air Gen 5</h3>
           <p className="text-gray-500 mt-2">Lorem ipsum dolor sit amet consectetur. Integer cursus cursus in sapien quam risus sed diam.</p>

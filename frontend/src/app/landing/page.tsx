@@ -1,8 +1,9 @@
 import React from 'react';
-import Header from './components/Header';
-import HeroSection from './components/HeroSection';
-import FeaturedCategories from './components/FeaturedCategories';
+import Header from './Header';
+import HeroSection from './HeroSection';
+import FeaturedCategories from './FeaturedCategories';
 import PopularSection from './PopularSection';
+import Footer from './Footer';
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
       <HeroSection />
       <FeaturedCategories />
       <PopularSection />
+      <Footer />
     </div>
   );
 }
