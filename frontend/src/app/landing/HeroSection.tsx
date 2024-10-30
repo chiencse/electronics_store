@@ -1,5 +1,5 @@
 import React from 'react';
-import GeneriCoverImage from './assets/generic1.png';
+// import GeneriCoverImage from './assets/generic1.png';
 
 const HeroSection = () => {
   return (
@@ -23,7 +23,7 @@ const HeroSection = () => {
       </div>
       <div className="lg:w-1/2 flex justify-start">
         {/* Placeholder for the image */}
-        <div className="w-64 h-64 bg-gray-200 rounded-lg flex items-center justify-center shadow-lg grow bg-[url('../../assets/generic1.png')]">
+        <div className="w-64 h-64 bg-gray-200 rounded-lg flex items-center justify-center shadow-lg grow bg-[url('./generic1.png')]">
         </div>
       </div>
     </section>
