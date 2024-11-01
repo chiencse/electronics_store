@@ -5,6 +5,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { dataSourceOptions } from '../ormconfig';
 import { ConfigModule } from '@nestjs/config';
 import { UserModule } from './user/user.module';
+import { FilesAzureService } from './modules/files/files.service';
+
+
 
 
 @Global()
@@ -16,6 +19,7 @@ import { UserModule } from './user/user.module';
             envFilePath: '.env',
         }),
         UserModule,
+        
     ],
     controllers: [AppController],
     providers: [AppService],

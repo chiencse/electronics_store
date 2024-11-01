@@ -5,6 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { FilesAzureService } from 'src/modules/files/files.service';
 
 @Module({
     imports: [
@@ -15,10 +16,11 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
                 secret: process.env.JWT_SECRET,
                 signOptions: { expiresIn: process.env.JWT_EXPIRATION },
             }),
-        }),
+        }), 
+
     ],
     controllers: [UserController],
-    providers: [UserService],
+    providers: [UserService, FilesAzureService],
     exports: [UserService],
 })
 export class UserModule {}
