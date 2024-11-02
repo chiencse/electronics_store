@@ -19,11 +19,12 @@ import {
     ApiTags,
 } from '@nestjs/swagger';
 import { SignInDto } from './dto/signIn.dto';
-import { CurrentUser } from 'src/common';
+import { CurrentUser } from '../common';
 import { AuthPayload } from './entities/user.entity';
 import { AuthGuard } from './guard/jwt.guard';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { FilesAzureService } from 'src/modules/files/files.service';
+import { AuthGuard } from '../auth/guard/jwt.guard';
 
 
 @Controller('user')

@@ -6,9 +6,7 @@ import { dataSourceOptions } from '../ormconfig';
 import { ConfigModule } from '@nestjs/config';
 import { UserModule } from './user/user.module';
 import { FilesAzureService } from './modules/files/files.service';
-
-
-
+import { AuthModule } from './auth/auth.module';
 
 @Global()
 @Module({
@@ -18,8 +16,7 @@ import { FilesAzureService } from './modules/files/files.service';
             isGlobal: true,
             envFilePath: '.env',
         }),
-        UserModule,
-        
+        AuthModule,
     ],
     controllers: [AppController],
     providers: [AppService],
