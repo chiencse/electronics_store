@@ -4,11 +4,10 @@ import {
     Post,
     Body,
     Patch,
-    Param,
-    Delete,
     UseGuards,
     UseInterceptors,
     ClassSerializerInterceptor,
+    UploadedFile,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -22,13 +21,19 @@ import {
 import { SignInDto } from './dto/signIn.dto';
 import { CurrentUser } from '../common';
 import { AuthPayload } from './entities/user.entity';
+import { AuthGuard } from './guard/jwt.guard';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { FilesAzureService } from 'src/modules/files/files.service';
 import { AuthGuard } from '../auth/guard/jwt.guard';
+
 
 @Controller('user')
 @UseInterceptors(ClassSerializerInterceptor)
 @ApiTags('User')
 export class UserController {
-    constructor(private readonly userService: UserService) {}
+    constructor(private readonly userService: UserService, 
+        private readonly fileService: FilesAzureService 
+    ) {}
 
     @Post('/signup')
     @ApiOperation({ summary: 'Create a new user' })
@@ -71,4 +76,13 @@ export class UserController {
     ) {
         return this.userService.update(updateUserDto, crtUser);
     }
-}
+
+
+    @Post('/upload') 
+    @UseInterceptors(FileInterceptor('image')) 
+    async up(@UploadedFile() file: Express.Multer.File) { 
+        const containerName = 'fileupload'; 
+        const upload = await this.fileService.uploadFile(file, containerName) 
+        return { upload, message: 'uploaded successfully' } 
+    } 
+} 
