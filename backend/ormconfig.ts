@@ -24,7 +24,7 @@ export const dataSourceOptions: DataSourceOptions = {
     username: process.env.USER_DB_AZURE,
     password: process.env.PASSWORD_DB_AZURE,
     database: process.env.DATABASE_DB_AZURE,
-    synchronize: false,
+    synchronize: true,
     bigNumberStrings: true,
     multipleStatements: true,
     logging: true,
