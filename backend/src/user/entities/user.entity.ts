@@ -32,7 +32,7 @@ export class User extends BaseEntity {
 
     @Column()
     @ApiProperty({ description: 'The phone_number of the user' })
-    phone_number: Number;
+    phone_number: string;
 
     @Column()
     @ApiProperty({ type: 'string', description: 'The address of the user' })

@@ -6,7 +6,6 @@ import { dataSourceOptions } from '../ormconfig';
 import { ConfigModule } from '@nestjs/config';
 import { UserModule } from './user/user.module';
 
-
 @Global()
 @Module({
     imports: [

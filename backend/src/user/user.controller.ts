@@ -57,7 +57,11 @@ export class UserController {
     }
 
     @Patch('/update')
-    @ApiOperation({ summary: 'Update user details' , description:'Update user details, only update field have value, delete field dont want to update'})
+    @ApiOperation({
+        summary: 'Update user details',
+        description:
+            'Update user details, only update field have value, delete field dont want to update',
+    })
     @ApiResponse({
         status: 200,
         description: 'The user has been successfully updated.',
