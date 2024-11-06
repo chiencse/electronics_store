@@ -10,7 +10,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { dataSourceOptions } from '../ormconfig';
 import { ConfigModule } from '@nestjs/config';
 import { UserModule } from './user/user.module';
+
 import { CurrentUserMiddleware } from 'utility/middleware/current-user.middleware';
+import { FilesAzureService } from './modules/files/files.service';
+import { AuthModule } from './auth/auth.module';
+
 
 @Global()
 @Module({
@@ -20,7 +24,7 @@ import { CurrentUserMiddleware } from 'utility/middleware/current-user.middlewar
             isGlobal: true,
             envFilePath: '.env',
         }),
-        UserModule,
+        AuthModule, UserModule
     ],
     controllers: [AppController],
     providers: [AppService],

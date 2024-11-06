@@ -17,6 +17,26 @@ export const dataSourceOptions: DataSourceOptions = {
     migrationsRun: true,
 };
 
-const dataSource = new DataSource(dataSourceOptions);
+// export const dataSourceOptions: DataSourceOptions = {
+//     type: (process.env.TYPE_AZURE as any) ?? 'mysql',
+//     host: process.env.HOST_DB_AZURE,
+//     port: parseInt(process.env.PORT_DB_AZURE, 10) ?? 3306,
+//     username: process.env.USER_DB_AZURE,
+//     password: process.env.PASSWORD_DB_AZURE,
+//     database: process.env.DATABASE_DB_AZURE,
+//     synchronize: false,
+//     // bigNumberStrings: true,
+//     // multipleStatements: true,
+//     logging: true,
+//     entities: ['dist/**/*.entity.{ts,js}'],
+//     migrations: ['dist/database/migrations/*.js'],
+//     migrationsRun: true,
+//     extra: {
+//         ssl: {
+//           rejectUnauthorized: false, // Optional; required if Azure uses self-signed certificates
+//         },
+//       },
+// };
 
+const dataSource = new DataSource(dataSourceOptions);
 export default dataSource;

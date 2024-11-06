@@ -1,7 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Exclude } from 'class-transformer';
-import { BaseEntity } from 'src/common/Entity/baseEntity';
+
 import { Roles } from 'src/common/user-role.enum';
+
+import { BaseEntity } from '../../common/index';
+
 import { Column, Entity } from 'typeorm';
 
 @Entity()
