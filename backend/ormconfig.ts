@@ -8,7 +8,7 @@ export const dataSourceOptions: DataSourceOptions = {
     username: process.env.DB_USERNAME,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
-    synchronize: false,
+    synchronize: true,
     bigNumberStrings: true,
     multipleStatements: true,
     logging: true,

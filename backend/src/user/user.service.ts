@@ -84,6 +84,7 @@ export class UserService {
         return {
             message: 'User logged in successfully',
             token: this.jwtService.sign(payload),
+            user,
         };
     }
 
@@ -107,6 +108,16 @@ export class UserService {
             throw new BadRequestException('Failed to update user');
         }
 
+        return user;
+    }
+
+    async findAll() {
+        return await this.userRepository.find();
+    }
+
+    async findOne(id: string) {
+        const user = await this.userRepository.findOneBy({ id });
+        if (!user) throw new NotFoundException('user not found');
         return user;
     }
 }

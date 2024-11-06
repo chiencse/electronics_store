@@ -23,6 +23,8 @@ import { SignInDto } from './dto/signIn.dto';
 import { CurrentUser } from 'src/common';
 import { AuthPayload } from './entities/user.entity';
 import { AuthGuard } from './guard/jwt.guard';
+import { AuthorizeGuard } from './guard/authorization.guard';
+import { Roles } from 'src/common/user-role.enum';
 
 @Controller('user')
 @UseInterceptors(ClassSerializerInterceptor)
@@ -74,5 +76,22 @@ export class UserController {
         @CurrentUser() crtUser: AuthPayload,
     ) {
         return this.userService.update(updateUserDto, crtUser);
+    }
+
+    @Get('/all')
+    @ApiOperation({ summary: 'Get all users (Admin only)' })
+    @ApiResponse({
+        status: 201,
+        description: 'Successfully retrieved all users.',
+    })
+    @ApiResponse({ status: 400, description: 'Bad Request.' })
+    @ApiResponse({
+        status: 401,
+        description: 'Unauthorized. Requires ADMIN role.',
+    })
+    @ApiBearerAuth('JWT-auth')
+    @UseGuards(AuthGuard, AuthorizeGuard([Roles.ADMIN]))
+    async findAll() {
+        return this.userService.findAll();
     }
 }
