@@ -7,15 +7,17 @@ import { DataSource } from 'typeorm';
 @Injectable()
 export class AuthService {
     constructor(
-        private readonly dataSource : DataSource,
-        private readonly jwtService : JwtService,
+        private readonly dataSource: DataSource,
+        private readonly jwtService: JwtService,
     ) {}
 
     async googleLogin(req) {
         if (!req.user) {
             return 'No user from google';
         }
-        const user = await this.dataSource.getRepository(User).findOneBy({ email: req.user.email });
+        const user = await this.dataSource
+            .getRepository(User)
+            .findOneBy({ email: req.user.email });
         if (!user) {
             const newUser = this.dataSource.getRepository(User).create({
                 Fname: req.user.FName,
@@ -36,7 +38,7 @@ export class AuthService {
                 }),
             };
         }
-        const payload : AuthPayload = {
+        const payload: AuthPayload = {
             id: user.id,
             email: user.email,
         };

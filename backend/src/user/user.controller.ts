@@ -25,14 +25,16 @@ import { AuthPayload } from './entities/user.entity';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { FilesAzureService } from 'src/modules/files/files.service';
 import { AuthGuard } from '../auth/guard/jwt.guard';
-
+import { AuthorizeGuard } from 'src/auth/guard/authorization.guard';
+import { Roles } from 'src/common/user-role.enum';
 
 @Controller('user')
 @UseInterceptors(ClassSerializerInterceptor)
 @ApiTags('User')
 export class UserController {
-    constructor(private readonly userService: UserService, 
-        private readonly fileService: FilesAzureService 
+    constructor(
+        private readonly userService: UserService,
+        private readonly fileService: FilesAzureService,
     ) {}
 
     @Post('/signup')
@@ -62,7 +64,11 @@ export class UserController {
     }
 
     @Patch('/update')
-    @ApiOperation({ summary: 'Update user details' , description:'Update user details, only update field have value, delete field dont want to update'})
+    @ApiOperation({
+        summary: 'Update user details',
+        description:
+            'Update user details, only update field have value, delete field dont want to update',
+    })
     @ApiResponse({
         status: 200,
         description: 'The user has been successfully updated.',
@@ -77,12 +83,28 @@ export class UserController {
         return this.userService.update(updateUserDto, crtUser);
     }
 
+    @Post('/upload')
+    @UseInterceptors(FileInterceptor('image'))
+    async up(@UploadedFile() file: Express.Multer.File) {
+        const containerName = 'fileupload';
+        const upload = await this.fileService.uploadFile(file, containerName);
+        return { upload, message: 'uploaded successfully' };
+    }
 
-    @Post('/upload') 
-    @UseInterceptors(FileInterceptor('image')) 
-    async up(@UploadedFile() file: Express.Multer.File) { 
-        const containerName = 'fileupload'; 
-        const upload = await this.fileService.uploadFile(file, containerName) 
-        return { upload, message: 'uploaded successfully' } 
-    } 
-} 
+    @Get('/all')
+    @ApiOperation({ summary: 'Get all users (Admin only)' })
+    @ApiResponse({
+        status: 201,
+        description: 'Successfully retrieved all users.',
+    })
+    @ApiResponse({ status: 400, description: 'Bad Request.' })
+    @ApiResponse({
+        status: 401,
+        description: 'Unauthorized. Requires ADMIN role.',
+    })
+    @ApiBearerAuth('JWT-auth')
+    @UseGuards(AuthGuard, AuthorizeGuard([Roles.ADMIN]))
+    async findAll() {
+        return this.userService.findAll();
+    }
+}

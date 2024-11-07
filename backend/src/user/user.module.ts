@@ -9,7 +9,6 @@ import { FilesAzureService } from 'src/modules/files/files.service';
 
 import { AuthModule } from 'src/auth/auth.module';
 
-
 @Module({
     imports: [
         TypeOrmModule.forFeature([User]),
@@ -20,11 +19,9 @@ import { AuthModule } from 'src/auth/auth.module';
                 secret: process.env.JWT_SECRET,
                 signOptions: { expiresIn: process.env.JWT_EXPIRATION },
             }),
-        }), 
+        }),
 
-
-        AuthModule
-
+        AuthModule,
     ],
     controllers: [UserController],
     providers: [UserService, FilesAzureService],

@@ -2,6 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Exclude } from 'class-transformer';
 import { BaseEntity } from '../../common/index';
 import { Column, Entity } from 'typeorm';
+import { Roles } from 'src/common/user-role.enum';
 
 @Entity()
 export class User extends BaseEntity {
@@ -37,6 +38,9 @@ export class User extends BaseEntity {
     @Column()
     @ApiProperty({ type: 'string', description: 'The address of the user' })
     address: string;
+
+    @Column({ type: 'set', enum: Roles, default: [Roles.USER] })
+    role: Roles[];
 }
 
 export interface AuthPayload {
