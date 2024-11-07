@@ -1,11 +1,13 @@
 import { ApiProperty } from '@nestjs/swagger';
 import {
     IsEmail,
+    IsEnum,
     IsNumber,
     IsNumberString,
     IsString,
     Length,
 } from 'class-validator';
+import { Roles } from 'src/common/user-role.enum';
 
 export class CreateUserDto {
     @IsString()
@@ -56,4 +58,14 @@ export class CreateUserDto {
     })
     @Length(6, 30)
     password: string;
+
+    @IsEnum(Roles, { each: true })
+    @ApiProperty({
+        enum: Roles,
+        isArray: true,
+        type: 'string',
+        description: 'The roles of the user',
+        example: [Roles.USER]
+    })
+    roles: Roles[];
 }

@@ -12,6 +12,7 @@ import { DataSource, Repository } from 'typeorm';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { SignInDto } from './dto/signIn.dto';
+import { use } from 'passport';
 
 @Injectable()
 export class UserService {
@@ -80,10 +81,11 @@ export class UserService {
             throw new NotFoundException('Invalid password');
         }
 
-        const payload:AuthPayload = { id: user.id, email: user.email };
+        const payload: AuthPayload = { id: user.id, email: user.email };
         return {
             message: 'User logged in successfully',
             token: this.jwtService.sign(payload),
+            user
         };
     }
 
@@ -107,6 +109,16 @@ export class UserService {
             throw new BadRequestException('Failed to update user');
         }
 
+        return user;
+    }
+
+    async findAll() {
+        return await this.userRepository.find();
+    }
+
+    async findOne(id: string) {
+        const user = await this.userRepository.findOneBy({ id });
+        if (!user) throw new NotFoundException('User not found');
         return user;
     }
 }

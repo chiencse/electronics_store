@@ -7,15 +7,17 @@ import { ConfigModule } from '@nestjs/config';
 import { UserModule } from 'src/user/user.module';
 
 @Module({
-  imports: [JwtModule.registerAsync({
-    imports: [ConfigModule],
-    useFactory: async () => ({
-        secret: process.env.JWT_SECRET,
-        signOptions: { expiresIn: process.env.JWT_EXPIRATION },
-    }),
-})],
-  controllers: [AuthController],
-  providers: [AuthService, GoogleStrategy],
-  exports: [JwtModule]
+    imports: [
+        JwtModule.registerAsync({
+            imports: [ConfigModule],
+            useFactory: async () => ({
+                secret: process.env.JWT_SECRET,
+                signOptions: { expiresIn: process.env.JWT_EXPIRATION },
+            }),
+        }),
+    ],
+    controllers: [AuthController],
+    providers: [AuthService, GoogleStrategy],
+    exports: [JwtModule],
 })
 export class AuthModule {}

@@ -1,4 +1,9 @@
-import { Global, Module } from '@nestjs/common';
+import {
+    Global,
+    MiddlewareConsumer,
+    Module,
+    RequestMethod,
+} from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -7,6 +12,7 @@ import { ConfigModule } from '@nestjs/config';
 import { UserModule } from './user/user.module';
 import { FilesAzureService } from './modules/files/files.service';
 import { AuthModule } from './auth/auth.module';
+import { CurrentUserMiddleware } from 'ultility/middleware/current-user.middleware';
 
 @Global()
 @Module({
@@ -16,9 +22,17 @@ import { AuthModule } from './auth/auth.module';
             isGlobal: true,
             envFilePath: '.env',
         }),
-        AuthModule, UserModule
+        AuthModule,
+        UserModule,
     ],
     controllers: [AppController],
     providers: [AppService],
 })
-export class AppModule {}
+export class AppModule {
+    configure(consumer: MiddlewareConsumer) {
+        consumer.apply(CurrentUserMiddleware).forRoutes({
+            path: '*',
+            method: RequestMethod.ALL,
+        }); // áp dụng cho tất cả các route trong module
+    }
+}
