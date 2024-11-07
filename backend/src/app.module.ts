@@ -13,6 +13,7 @@ import { UserModule } from './user/user.module';
 import { FilesAzureService } from './modules/files/files.service';
 import { AuthModule } from './auth/auth.module';
 import { CurrentUserMiddleware } from 'ultility/middleware/current-user.middleware';
+import { ProductModule } from './product/product.module';
 
 @Global()
 @Module({
@@ -24,6 +25,7 @@ import { CurrentUserMiddleware } from 'ultility/middleware/current-user.middlewa
         }),
         AuthModule,
         UserModule,
+        ProductModule,
     ],
     controllers: [AppController],
     providers: [AppService],

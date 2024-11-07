@@ -85,7 +85,7 @@ export class UserService {
         return {
             message: 'User logged in successfully',
             token: this.jwtService.sign(payload),
-            user
+            user,
         };
     }
 
