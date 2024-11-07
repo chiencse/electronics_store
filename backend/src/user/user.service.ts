@@ -12,7 +12,9 @@ import { DataSource, Repository } from 'typeorm';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { SignInDto } from './dto/signIn.dto';
-import { use } from 'passport';
+import { RedisService } from 'src/common/redis.service';
+import { MailService } from 'src/mail/mail.service';
+
 
 @Injectable()
 export class UserService {
@@ -21,6 +23,8 @@ export class UserService {
         private userRepository: Repository<User>,
         private readonly jwtService: JwtService,
         private readonly dataSource: DataSource,
+        private readonly redisService: RedisService,
+        private readonly mailService : MailService,
     ) {}
 
     async createUser(createUserDto: CreateUserDto) {
@@ -120,5 +124,16 @@ export class UserService {
         const user = await this.userRepository.findOneBy({ id });
         if (!user) throw new NotFoundException('User not found');
         return user;
+    }
+
+    async forgotPassword(email: string) {
+        const user = await this.userRepository.findOneBy({ email });
+        if (!user) {
+            throw new NotFoundException('User not found');
+        }
+        const code = Math.floor(100000 + Math.random() * 900000).toString();
+        this.mailService.sendMail(user.email, code);
+        await this.redisService.set(user.email, code , 300);
+        return code;
     }
 }

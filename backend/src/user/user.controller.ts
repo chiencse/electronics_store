@@ -8,6 +8,8 @@ import {
     UseInterceptors,
     ClassSerializerInterceptor,
     UploadedFile,
+    Param,
+    Query,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -27,6 +29,7 @@ import { FilesAzureService } from 'src/modules/files/files.service';
 import { AuthGuard } from '../auth/guard/jwt.guard';
 import { AuthorizeGuard } from 'src/auth/guard/authorization.guard';
 import { Roles } from 'src/common/user-role.enum';
+import e from 'express';
 
 @Controller('user')
 @UseInterceptors(ClassSerializerInterceptor)
@@ -106,5 +109,12 @@ export class UserController {
     @UseGuards(AuthGuard, AuthorizeGuard([Roles.ADMIN]))
     async findAll() {
         return this.userService.findAll();
+    }
+
+    @Post('forgot-password')
+    async forgotPassword(
+        @Query('email') email: string,
+    ) {
+        return this.userService.forgotPassword(email);
     }
 }

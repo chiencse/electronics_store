@@ -1,4 +1,6 @@
+PORT = 3001
 TYPE = "mysql"
+TYPE_AZURE = "mssql"
 DB_HOST = "localhost"
 DB_PORT = "3306"
 DB_USERNAME= "dev_user"
