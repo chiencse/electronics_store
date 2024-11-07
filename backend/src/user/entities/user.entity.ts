@@ -40,7 +40,7 @@ export class User extends BaseEntity {
     address: string;
 
     @Column({ type: 'set', enum: Roles, default: [Roles.USER] })
-    role: Roles[];
+    roles: Roles[];
 }
 
 export interface AuthPayload {

@@ -67,5 +67,5 @@ export class CreateUserDto {
         description: 'The roles of the user',
         example: [Roles.USER]
     })
-    role: Roles[];
+    roles: Roles[];
 }
