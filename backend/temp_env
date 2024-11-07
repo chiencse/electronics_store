@@ -8,5 +8,3 @@ DB_PASSWORD= "devpassword"
 DB_NAME= "dev_db"
 JWT_SECRET ="mysecret"
 JWT_EXPIRATION= "60m"
-
-
