@@ -1,4 +1,6 @@
+PORT = 3001
 TYPE = "mysql"
+TYPE_AZURE = "mssql"
 DB_HOST = "localhost"
 DB_PORT = "3306"
 DB_USERNAME= "dev_user"
@@ -6,3 +8,14 @@ DB_PASSWORD= "devpassword"
 DB_NAME= "dev_db"
 JWT_SECRET ="mysecret"
 JWT_EXPIRATION= "60m"
+REDIS_PASSWORD = "i2ryTDm5v6rDtKvc0is7QjoN6HVEKjVJ3AzCaCn5uFs="
+REDIS_HOST = "ebkstore.redis.cache.windows.net"
+REDIS_PORT = "6380"
+
+EMAIL_USER = "minhchien662004@gmail.com"
+EMAIL_PASS = "qyzb ocrs fjui cgyr"
+
+GOOGLE_CLIENT_ID = "449327973557-vdfdf195fcj6q4ssmkbtehqj2tcqc3f2.apps.googleusercontent.com"
+GOOGLE_CLIENT_SECRET = "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"
+GOOGLE_CALLBACK_URL = "http://localhost:3001/auth/google/redirect"
+AZURE_CONTAINER_CONECTION_STRING = "DefaultEndpointsProtocol=https;AccountName=ebkstorage;AccountKey=+nREhYgK9Q9uOgzOCTGsjVecaKy2oG5HHargJsV+xQ8q9tnLgCpxmgUIqIR2OaxeC3Szox7ikCd/+AStKuuq+Q==;EndpointSuffix=core.windows.net"
