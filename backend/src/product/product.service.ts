@@ -6,6 +6,9 @@ import { Repository } from 'typeorm';
 import { Product } from './entities/product.entity';
 import { ImageProduct } from './entities/imageProduct.entity';
 import { ProductVariant } from './entities/productVariants.entity';
+import { PageOptionDto } from 'src/common/paging/pageOption.dto';
+import { PageMetaDto } from 'src/common/paging/pageMeta.dto';
+import { PageDto } from 'src/common/paging/page.dto';
 
 @Injectable()
 export class ProductService {
@@ -49,8 +52,17 @@ export class ProductService {
         return this.productRepository.save(savedProduct);
     }
 
-    async findAll() {
-        return await this.productRepository.find();
+    async findAll(pageOption : PageOptionDto) {
+        const queryBuilder = this.productRepository.createQueryBuilder('product');
+        queryBuilder
+            .orderBy('product.id', pageOption.orderBy)
+            .skip(pageOption.skip)
+            .take(pageOption.take);
+
+        const totalItems = await queryBuilder.getCount();
+        const listUser = (await queryBuilder.getRawAndEntities()).entities;
+        const pageMeta = new PageMetaDto(totalItems, pageOption);
+        return new PageDto<Product>(listUser, pageMeta);
     }
 
     async findOne(id: string) {
