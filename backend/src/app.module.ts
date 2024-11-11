@@ -10,10 +10,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { dataSourceOptions } from '../ormconfig';
 import { ConfigModule } from '@nestjs/config';
 import { UserModule } from './user/user.module';
-import { FilesAzureService } from './modules/files/files.service';
 import { AuthModule } from './auth/auth.module';
 import { CurrentUserMiddleware } from 'ultility/middleware/current-user.middleware';
 import { MailModule } from './mail/mail.module';
+import { OrderModule } from './order/order.module';
+import { RedisModule } from './modules/redis/redis.module';
+import { FilesModule } from './modules/files/file.module';
 
 @Global()
 @Module({
@@ -26,6 +28,9 @@ import { MailModule } from './mail/mail.module';
         AuthModule,
         UserModule,
         MailModule,
+        OrderModule,
+        RedisModule,
+        FilesModule
     ],
     controllers: [AppController],
     providers: [AppService],
