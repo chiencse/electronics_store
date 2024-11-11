@@ -9,6 +9,9 @@ import { ProductVariant } from './entities/productVariants.entity';
 import { PageOptionDto } from 'src/common/paging/pageOption.dto';
 import { PageMetaDto } from 'src/common/paging/pageMeta.dto';
 import { PageDto } from 'src/common/paging/page.dto';
+import { UpdateProductVariantsDto } from './dto/update-productVariant.dto';
+import { CreatePropertyProductDto } from './dto/create-property.dto';
+import { UpdateProductImageDto } from './dto/update-productImage.dto';
 
 @Injectable()
 export class ProductService {
@@ -52,8 +55,9 @@ export class ProductService {
         return this.productRepository.save(savedProduct);
     }
 
-    async findAll(pageOption : PageOptionDto) {
-        const queryBuilder = this.productRepository.createQueryBuilder('product');
+    async findAll(pageOption: PageOptionDto) {
+        const queryBuilder =
+            this.productRepository.createQueryBuilder('product');
         queryBuilder
             .orderBy('product.id', pageOption.orderBy)
             .skip(pageOption.skip)
@@ -77,11 +81,132 @@ export class ProductService {
         return product;
     }
 
-    update(id: number, updateProductDto: UpdateProductDto) {
-        return `This action updates a #${id} product`;
+    async updateProductImages(
+        id: string,
+        imageUpdates: UpdateProductImageDto[],
+    ) {
+        const product = await this.productRepository.findOne({
+            where: { id },
+            relations: ['imageProducts'],
+        });
+        if (!product) throw new NotFoundException('Product not found.');
+
+        // Xử lý thêm, cập nhật
+        for (const imageUpdate of imageUpdates) {
+            if (imageUpdate.id) {
+                // Cập nhật ảnh
+                const image = product.imageProducts.find(
+                    (img) => img.id === imageUpdate.id,
+                );
+                if (image) {
+                    image.imageUrl = imageUpdate.imageUrl;
+                } else {
+                    throw new NotFoundException(
+                        'Image not found in this product',
+                    );
+                }
+            } else {
+                // Thêm mới ảnh
+                const newImage = this.imageProductRepository.create({
+                    imageUrl: imageUpdate.imageUrl,
+                    product: product,
+                });
+                product.imageProducts.push(newImage);
+            }
+        }
+        return this.productRepository.save(product);
     }
 
-    remove(id: number) {
-        return `This action removes a #${id} product`;
+    async updateProductVariants(
+        id: string,
+        variantUpdates: UpdateProductVariantsDto[],
+    ) {
+        const product = await this.productRepository.findOne({
+            where: { id: id },
+            relations: ['variants'],
+        });
+        if (!product) throw new NotFoundException('Product not found');
+
+        for (const variantUpdate of variantUpdates) {
+            if (variantUpdate.id) {
+                const variant = product.variants.find(
+                    (v) => v.id === variantUpdate.id,
+                );
+                if (variant) {
+                    Object.assign(variant, variantUpdate);
+                } else {
+                    throw new NotFoundException(
+                        'Variant not found in this product',
+                    );
+                }
+            } else {
+                const newVariant = this.productVariantRepository.create({
+                    ...variantUpdate,
+                    product: product,
+                });
+                product.variants.push(newVariant);
+            }
+        }
+        return this.productRepository.save(product);
+    }
+
+    async updateProductProperties(
+        id: string,
+        propertiesUpdates: Partial<CreatePropertyProductDto>,
+    ) {
+        const product = await this.productRepository.findOne({
+            where: { id },
+        });
+        if (!product) throw new NotFoundException('Product not found.');
+
+        Object.assign(product.properties, propertiesUpdates);
+
+        return this.productRepository.save(product);
+    }
+    async update(id: string, updateProductDto: UpdateProductDto) {
+        const product = await this.findOne(id);
+        if (!product) throw new NotFoundException('Product not found');
+        const { imageProducts, variants, properties, ...productUpdates } =
+            updateProductDto;
+        Object.assign(product, productUpdates);
+
+        await this.productRepository.save(product);
+
+        if (imageProducts) {
+            await this.updateProductImages(id, imageProducts);
+        }
+        if (variants) {
+            await this.updateProductVariants(id, variants);
+        }
+        if (properties) {
+            await this.updateProductProperties(id, properties);
+        }
+        const updatedProduct = await this.productRepository.findOne({
+            where: { id },
+            relations: ['imageProducts', 'variants'],
+        });
+        return updatedProduct;
+    }
+
+    async removeProduct(id: string) {
+        const product = await this.findOne(id);
+        if (!product) throw new NotFoundException('Product is not found');
+        return this.productRepository.remove(product);
+    }
+
+    async removeImageProduct(id: string) {
+        const image = await this.imageProductRepository.findOne({
+            where: { id: id },
+        });
+        if (!image) throw new NotFoundException('Image is not found');
+        return this.imageProductRepository.remove(image);
+    }
+
+    async removeVariantProduct(id: string) {
+        const variant = await this.productVariantRepository.findOne({
+            where: { id: id },
+        });
+        if (!variant) throw new NotFoundException('Variant is not found');
+        return this.productVariantRepository.remove(variant);
     }
 }

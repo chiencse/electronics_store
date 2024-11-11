@@ -112,9 +112,7 @@ export class UserController {
     }
 
     @Post('forgot-password')
-    async forgotPassword(
-        @Query('email') email: string,
-    ) {
+    async forgotPassword(@Query('email') email: string) {
         return this.userService.forgotPassword(email);
     }
 }

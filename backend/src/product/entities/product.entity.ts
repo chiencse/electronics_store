@@ -29,11 +29,13 @@ export class Product extends BaseEntity {
 
     @OneToMany(() => ImageProduct, (imageProduct) => imageProduct.product, {
         cascade: true,
+        onDelete: 'CASCADE',
     })
     imageProducts: ImageProduct[];
 
     @OneToMany(() => ProductVariant, (variant) => variant.product, {
         cascade: true,
+        onDelete: 'CASCADE',
     })
     variants: ProductVariant[];
 }
