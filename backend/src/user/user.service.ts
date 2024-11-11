@@ -12,7 +12,7 @@ import { DataSource, Repository } from 'typeorm';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { SignInDto } from './dto/signIn.dto';
-import { RedisService } from 'src/modules/redis/redis.service';
+import { RedisService } from 'src/common/redis.service';
 import { MailService } from 'src/mail/mail.service';
 
 

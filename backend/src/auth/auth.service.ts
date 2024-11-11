@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Exception } from 'src/common';
-import { RedisService } from 'src/modules/redis/redis.service';
+import { RedisService } from 'src/common/redis.service';
 import { AuthPayload, User } from 'src/user/entities/user.entity';
 import { UserService } from 'src/user/user.service';
 import { DataSource } from 'typeorm';
