@@ -1,9 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Exclude } from 'class-transformer';
 import { BaseEntity } from '../../common/index';
-import { Column, Entity, OneToMany } from 'typeorm';
+import { Column, Entity } from 'typeorm';
 import { Roles } from 'src/common/user-role.enum';
-import { Order } from 'src/order/entities/order.entity';
 
 @Entity()
 export class User extends BaseEntity {
@@ -42,9 +41,6 @@ export class User extends BaseEntity {
 
     @Column({ type: 'set', enum: Roles, default: [Roles.USER] })
     roles: Roles[];
-
-    @OneToMany(() => Order, (order) => order.customer, { nullable: true })
-    orders: Order[];
 }
 
 export interface AuthPayload {
