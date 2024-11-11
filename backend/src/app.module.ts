@@ -16,6 +16,7 @@ import { MailModule } from './mail/mail.module';
 import { OrderModule } from './order/order.module';
 import { RedisModule } from './modules/redis/redis.module';
 import { FilesModule } from './modules/files/file.module';
+import { DiscountModule } from './discount/discount.module';
 
 @Global()
 @Module({
@@ -30,7 +31,8 @@ import { FilesModule } from './modules/files/file.module';
         MailModule,
         OrderModule,
         RedisModule,
-        FilesModule
+        FilesModule,
+        DiscountModule
     ],
     controllers: [AppController],
     providers: [AppService],
