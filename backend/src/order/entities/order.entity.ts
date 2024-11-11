@@ -1,7 +1,9 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { BaseEntity } from "src/common";
 import { User } from "src/user/entities/user.entity";
-import { Column, Entity, ManyToOne } from "typeorm";
+import { Column, Entity, ManyToMany, ManyToOne, OneToMany, OneToOne } from "typeorm";
+import { Invoice } from "./invoice.entity";
+import { Discount } from "src/discount/entities/discount.entity";
 
 @Entity()
 export class Order extends BaseEntity {
@@ -29,10 +31,14 @@ export class Order extends BaseEntity {
     @ManyToOne(() => User, (customer) => customer.orders)
     customer: User;
 
+    @OneToOne(() => Invoice, (invoice) => invoice.order)
+    invoice: Invoice;
 
+    @ManyToMany(() => Discount, discount => discount.order, {nullable: true})
+    discount : Discount[]
     // @ApiProperty({description: 'Customer number', type: 'number' })
     // ProductId: number;
-    // InvoiceId: number;
+ 
     // DiscountId: number;
 
 }

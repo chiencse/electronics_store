@@ -1,15 +1,17 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, UseFilters } from '@nestjs/common';
 import { OrderService } from './order.service';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import { AuthGuard } from 'src/auth/guard/jwt.guard';
 import { ApiBearerAuth, ApiProperty, ApiTags } from '@nestjs/swagger';
-import { CurrentUser } from 'src/common';
+import { CurrentUser, TypeORMExceptionFilter } from 'src/common';
+import { CreateInvoiceDto } from './dto/createInvoice.dto';
 
 @Controller('order')
 @ApiTags('Order')
 @UseGuards(AuthGuard)
 @ApiBearerAuth('JWT-auth')
+@UseFilters(TypeORMExceptionFilter) 
 export class OrderController {
   constructor(private readonly orderService: OrderService) {}
 
@@ -24,7 +26,7 @@ export class OrderController {
 
   @Get('/all')
   @ApiProperty({ description: 'Get all orders' })
-  findAll(
+  async findAll(
     @CurrentUser() user: any
   ) {
     return this.orderService.findAll(user);
@@ -38,13 +40,19 @@ export class OrderController {
 
   @Patch(':id')
   @ApiProperty({ description: 'Update a order by id' })
-  update(@Param('id') id: string, @Body() updateOrderDto: UpdateOrderDto) {
+  async update(@Param('id') id: string, @Body() updateOrderDto: UpdateOrderDto) {
     return this.orderService.update(id, updateOrderDto);
   }
 
   @Delete(':id')
   @ApiProperty({ description: 'Delete a order by id' })
-  remove(@Param('id') id: string) {
+  async remove(@Param('id') id: string) {
     return this.orderService.remove(id);
+  }
+
+  @Post('/invoice')
+  @ApiProperty({ description: 'Generate invoice' })
+  async generateInvoice(@Body() invoiceDto : CreateInvoiceDto) {
+    return this.orderService.generateInvoice(invoiceDto);
   }
 }
