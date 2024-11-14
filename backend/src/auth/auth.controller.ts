@@ -1,9 +1,16 @@
-import { Body, Controller, Get, Post, Req, Res, UseGuards } from '@nestjs/common';
+import {
+    Body,
+    Controller,
+    Get,
+    Post,
+    Req,
+    Res,
+    UseGuards,
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthGuard } from '@nestjs/passport';
 import { verifyDto } from './dto/veryfyDto';
 import { ApiProperty } from '@nestjs/swagger';
-
 
 @Controller('auth')
 export class AuthController {
@@ -21,9 +28,7 @@ export class AuthController {
 
     @Post('veryfy-code')
     @ApiProperty({ type: verifyDto, description: 'Verify code' })
-    async verifyCode(
-        @Body() veryfyDto : verifyDto
-    ) {
+    async verifyCode(@Body() veryfyDto: verifyDto) {
         console.log(veryfyDto);
         return this.authService.verifyCode(veryfyDto.code, veryfyDto.email);
     }

@@ -3,10 +3,9 @@ import { MailService } from './mail.service';
 
 @Controller('mail')
 export class MailController {
-  constructor(private readonly mailService: MailService) {}
+    constructor(private readonly mailService: MailService) {}
 
-
-  sendMail(toEmail: string, code: string) {
-    return this.mailService.sendMail(toEmail, code);
-  }
+    sendMail(toEmail: string, code: string) {
+        return this.mailService.sendMail(toEmail, code);
+    }
 }
