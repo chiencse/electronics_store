@@ -139,19 +139,24 @@ export class ProductService {
             relations: ['imageProducts'],
         });
         if (!product) throw new NotFoundException('Product not found.');
+
         const updatePromises = imageUpdates.map(async (imageUpdate) => {
+
+
+        // Xử lý thêm, cập nhật
+
             if (imageUpdate.id) {
-                // Cập nhật ảnh
-                const image = product.imageProducts.find(
-                    (img) => img.id === imageUpdate.id,
+            // Cập nhật ảnh
+            const image = product.imageProducts.find(
+                (img) => img.id === imageUpdate.id,
+            );
+            if (image) {
+                image.imageUrl = imageUpdate.imageUrl;
+                await this.imageProductRepository.save(image);
+            } else {
+                throw new NotFoundException(
+                'Image not found in this product',
                 );
-                if (image) {
-                    image.imageUrl = imageUpdate.imageUrl;
-                    await this.imageProductRepository.save(image);
-                } else {
-                    throw new NotFoundException(
-                        'Image not found in this product',
-                    );
                 }
             } else {
                 // Thêm mới ảnh

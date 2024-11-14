@@ -16,6 +16,9 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import {
     ApiBearerAuth,
+    ApiBody,
+    ApiConsumes,
+    ApiOkResponse,
     ApiOperation,
     ApiResponse,
     ApiTags,
@@ -87,7 +90,39 @@ export class UserController {
     }
 
     @Post('/upload')
+    @ApiOperation({ summary: 'Upload image' })
     @UseInterceptors(FileInterceptor('image'))
+    @ApiConsumes('multipart/form-data')
+    @ApiBody({
+        description: 'Image file to upload',
+        schema: {
+            type: 'object',
+            properties: {
+                image: {
+                    type: 'string',
+                    format: 'binary',
+                },
+            },
+        },
+    })
+    @ApiOkResponse({
+        description: 'Image uploaded successfully',
+        schema: {
+            type: 'object',
+            properties: {
+                upload: {
+                    type: 'object',
+                    description: 'Details of the uploaded file',
+                    example: {
+                        url: 'https://storage.service/container/file.jpg',
+                        fileName: 'file.jpg',
+                        size: 1024,
+                    },
+                },
+                message: { type: 'string', example: 'uploaded successfully' },
+            },
+        },
+    })
     async up(@UploadedFile() file: Express.Multer.File) {
         const containerName = 'fileupload';
         const upload = await this.fileService.uploadFile(file, containerName);
