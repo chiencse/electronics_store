@@ -1,4 +1,4 @@
-import { Global, Module } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UserController } from './user.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -7,14 +7,14 @@ import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { FilesAzureService } from 'src/modules/files/files.service';
 
-import { AuthModule } from 'src/auth/auth.module'; 
-import { RedisService } from 'src/modules/redis/redis.service';
+import { AuthModule } from 'src/auth/auth.module';
+import { RedisService } from 'src/common/redis.service';
 import { MailService } from 'src/mail/mail.service';
 
-@Global()
 @Module({
     imports: [
         TypeOrmModule.forFeature([User]),
+
         JwtModule.registerAsync({
             imports: [ConfigModule],
             useFactory: async () => ({
@@ -26,7 +26,7 @@ import { MailService } from 'src/mail/mail.service';
         AuthModule,
     ],
     controllers: [UserController],
-    providers: [UserService],
+    providers: [UserService, FilesAzureService, RedisService, MailService],
     exports: [UserService],
 })
 export class UserModule {}
