@@ -12,6 +12,7 @@ import { PageDto } from 'src/common/paging/page.dto';
 import { UpdateProductVariantsDto } from './dto/update-productVariant.dto';
 import { CreatePropertyProductDto } from './dto/create-property.dto';
 import { UpdateProductImageDto } from './dto/update-productImage.dto';
+import { CategoryService } from 'src/category/category.service';
 
 @Injectable()
 export class ProductService {
@@ -22,10 +23,16 @@ export class ProductService {
         private readonly imageProductRepository: Repository<ImageProduct>,
         @InjectRepository(ProductVariant)
         private readonly productVariantRepository: Repository<ProductVariant>,
+        private readonly categoryService: CategoryService,
     ) {}
 
     async create(createProductDto: CreateProductDto) {
+        const category = await this.categoryService.findOne(
+            createProductDto.categoryId,
+        );
+
         const product = this.productRepository.create(createProductDto);
+        product.category = category;
 
         const savedProduct = await this.productRepository.save(product);
 
@@ -75,12 +82,54 @@ export class ProductService {
             relations: {
                 imageProducts: true,
                 variants: true,
+                category: true,
+            },
+            select: {
+                category: {
+                    id: true,
+                    title: true,
+                },
             },
         });
         if (!product) throw new NotFoundException('Product not found.');
         return product;
     }
 
+    // async updateProductImages(
+    //     id: string,
+    //     imageUpdates: UpdateProductImageDto[],
+    // ) {
+    //     const product = await this.productRepository.findOne({
+    //         where: { id },
+    //         relations: ['imageProducts'],
+    //     });
+    //     if (!product) throw new NotFoundException('Product not found.');
+
+    //     // Xử lý thêm, cập nhật
+    //     for (const imageUpdate of imageUpdates) {
+    //         if (imageUpdate.id) {
+    //             // Cập nhật ảnh
+    //             const image = product.imageProducts.find(
+    //                 (img) => img.id === imageUpdate.id,
+    //             );
+    //             if (image) {
+    //                 image.imageUrl = imageUpdate.imageUrl;
+    //             } else {
+    //                 throw new NotFoundException(
+    //                     'Image not found in this product',
+    //                 );
+    //             }
+    //         } else {
+    //             // Thêm mới ảnh
+    //             const newImage = this.imageProductRepository.create({
+    //                 imageUrl: imageUpdate.imageUrl,
+    //                 product: product,
+    //             });
+    //             product.imageProducts.push(newImage);
+    //         }
+    //     }
+    //     return this.productRepository.save(product);
+    // }
     async updateProductImages(
         id: string,
         imageUpdates: UpdateProductImageDto[],
@@ -90,9 +139,7 @@ export class ProductService {
             relations: ['imageProducts'],
         });
         if (!product) throw new NotFoundException('Product not found.');
-
-        // Xử lý thêm, cập nhật
-        for (const imageUpdate of imageUpdates) {
+        const updatePromises = imageUpdates.map(async (imageUpdate) => {
             if (imageUpdate.id) {
                 // Cập nhật ảnh
                 const image = product.imageProducts.find(
@@ -100,6 +147,7 @@ export class ProductService {
                 );
                 if (image) {
                     image.imageUrl = imageUpdate.imageUrl;
+                    await this.imageProductRepository.save(image);
                 } else {
                     throw new NotFoundException(
                         'Image not found in this product',
@@ -111,12 +159,47 @@ export class ProductService {
                     imageUrl: imageUpdate.imageUrl,
                     product: product,
                 });
+                await this.imageProductRepository.save(newImage);
                 product.imageProducts.push(newImage);
             }
-        }
+        });
+
+        await Promise.all(updatePromises);
         return this.productRepository.save(product);
     }
 
+    // async updateProductVariants(
+    //     id: string,
+    //     variantUpdates: UpdateProductVariantsDto[],
+    // ) {
+    //     const product = await this.productRepository.findOne({
+    //         where: { id: id },
+    //         relations: ['variants'],
+    //     });
+    //     if (!product) throw new NotFoundException('Product not found');
+
+    //     for (const variantUpdate of variantUpdates) {
+    //         if (variantUpdate.id) {
+    //             const variant = product.variants.find(
+    //                 (v) => v.id === variantUpdate.id,
+    //             );
+    //             if (variant) {
+    //                 Object.assign(variant, variantUpdate);
+    //             } else {
+    //                 throw new NotFoundException(
+    //                     'Variant not found in this product',
+    //                 );
+    //             }
+    //         } else {
+    //             const newVariant = this.productVariantRepository.create({
+    //                 ...variantUpdate,
+    //                 product: product,
+    //             });
+    //             product.variants.push(newVariant);
+    //         }
+    //     }
+    //     return this.productRepository.save(product);
+    // }
     async updateProductVariants(
         id: string,
         variantUpdates: UpdateProductVariantsDto[],
@@ -127,13 +210,14 @@ export class ProductService {
         });
         if (!product) throw new NotFoundException('Product not found');
 
-        for (const variantUpdate of variantUpdates) {
+        const updatePromises = variantUpdates.map(async (variantUpdate) => {
             if (variantUpdate.id) {
                 const variant = product.variants.find(
                     (v) => v.id === variantUpdate.id,
                 );
                 if (variant) {
                     Object.assign(variant, variantUpdate);
+                    await this.productVariantRepository.save(variant);
                 } else {
                     throw new NotFoundException(
                         'Variant not found in this product',
@@ -144,10 +228,12 @@ export class ProductService {
                     ...variantUpdate,
                     product: product,
                 });
-                product.variants.push(newVariant);
+                await this.productVariantRepository.save(newVariant);
+                (await product).variants.push(newVariant);
             }
-        }
-        return this.productRepository.save(product);
+        });
+        await Promise.all(updatePromises);
+        return await this.productRepository.save(product);
     }
 
     async updateProductProperties(
@@ -169,7 +255,12 @@ export class ProductService {
         const { imageProducts, variants, properties, ...productUpdates } =
             updateProductDto;
         Object.assign(product, productUpdates);
-
+        if (updateProductDto.categoryId) {
+            const category = await this.categoryService.findOne(
+                updateProductDto.categoryId,
+            );
+            product.category = category;
+        }
         await this.productRepository.save(product);
 
         if (imageProducts) {
