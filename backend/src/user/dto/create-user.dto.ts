@@ -64,7 +64,7 @@ export class CreateUserDto {
         isArray: true,
         type: 'string',
         description: 'The roles of the user',
-        example: [Roles.USER]
+        example: [Roles.USER],
     })
     roles: Roles[];
 }

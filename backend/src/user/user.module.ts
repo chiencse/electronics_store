@@ -7,7 +7,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { FilesAzureService } from 'src/modules/files/files.service';
 
-import { AuthModule } from 'src/auth/auth.module'; 
+import { AuthModule } from 'src/auth/auth.module';
 import { RedisService } from 'src/common/redis.service';
 import { MailService } from 'src/mail/mail.service';
 
