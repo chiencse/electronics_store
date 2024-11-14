@@ -1,16 +1,16 @@
-import { Module } from '@nestjs/common';
+import { Global, Module } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UserController } from './user.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { JwtModule } from '@nestjs/jwt';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import { FilesAzureService } from 'src/modules/files/files.service';
+import { ConfigModule } from '@nestjs/config';
+
 
 import { AuthModule } from 'src/auth/auth.module';
-import { RedisService } from 'src/common/redis.service';
-import { MailService } from 'src/mail/mail.service';
 
+
+@Global()
 @Module({
     imports: [
         TypeOrmModule.forFeature([User]),
@@ -26,7 +26,7 @@ import { MailService } from 'src/mail/mail.service';
         AuthModule,
     ],
     controllers: [UserController],
-    providers: [UserService, FilesAzureService, RedisService, MailService],
+    providers: [UserService],
     exports: [UserService],
 })
 export class UserModule {}

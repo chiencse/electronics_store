@@ -14,12 +14,12 @@ import { FilesAzureService } from './modules/files/files.service';
 import { AuthModule } from './auth/auth.module';
 import { CurrentUserMiddleware } from 'ultility/middleware/current-user.middleware';
 import { ProductModule } from './product/product.module';
-
 import { MailModule } from './mail/mail.module';
-import { OrderModule } from './order/order.module';
-import { RedisModule } from './modules/redis/redis.module';
-import { FilesModule } from './modules/files/file.module';
 import { DiscountModule } from './discount/discount.module';
+import { OrderModule } from './order/order.module';
+import { FilesModule } from './modules/files/file.module';
+import { RedisModule } from './modules/redis/redis.module';
+import { CartModule } from './cart/cart.module';
 
 @Global()
 @Module({
@@ -36,16 +36,17 @@ import { DiscountModule } from './discount/discount.module';
         OrderModule,
         RedisModule,
         FilesModule,
-        DiscountModule
+        DiscountModule,
+        CartModule
     ],
     controllers: [AppController],
     providers: [AppService],
 })
 export class AppModule {
-    configure(consumer: MiddlewareConsumer) {
-        consumer.apply(CurrentUserMiddleware).forRoutes({
-            path: '*',
-            method: RequestMethod.ALL,
-        }); // áp dụng cho tất cả các route trong module
-    }
+    // configure(consumer: MiddlewareConsumer) {
+    //     consumer.apply(CurrentUserMiddleware).forRoutes({
+    //         path: '*',
+    //         method: RequestMethod.ALL,
+    //     }); // áp dụng cho tất cả các route trong module
+    // }
 }

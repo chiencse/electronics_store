@@ -1,7 +1,8 @@
-import { Column, Entity, OneToMany } from 'typeorm';
+import { Column, Entity, ManyToMany, OneToMany } from 'typeorm';
 import { BaseEntity } from '../../common/index';
 import { ImageProduct } from './imageProduct.entity';
 import { ProductVariant } from './productVariants.entity';
+import { Cart } from 'src/cart/entities/cart.entity';
 
 @Entity()
 export class Product extends BaseEntity {
@@ -38,4 +39,7 @@ export class Product extends BaseEntity {
         onDelete: 'CASCADE',
     })
     variants: ProductVariant[];
+
+    @ManyToMany(() => Cart, (carts) => carts.products,  {cascade: true})
+    carts: Cart[];
 }
