@@ -2,6 +2,7 @@ import { ApiProperty } from "@nestjs/swagger";
 import { Order } from "src/order/entities/order.entity";
 import {  Column, Entity, ManyToMany } from "typeorm";
 import { BaseEntity } from "src/common";
+import { Product } from "src/product/entities/product.entity";
 
 export enum DiscountType {
     AMOUNT = 'amount',
@@ -51,7 +52,8 @@ export class Discount extends BaseEntity {
     @ManyToMany(() => Order, order => order.discount, { nullable: true })
     order: Order[];
 
-    
+    @ManyToMany(() => Product, product => product.discounts)
+    products: Product[];
     // @ManyToMany - Product 
 }
 

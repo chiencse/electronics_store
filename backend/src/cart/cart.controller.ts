@@ -1,14 +1,14 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, UseFilters } from '@nestjs/common';
 import { CartService } from './cart.service';
-import { InsertCartDto } from './dto/insert-cart.dto';
-import { UpdateCartDto } from './dto/update-cart.dto';
+
 import { ApiBearerAuth, ApiOperation, ApiProperty, ApiTags } from '@nestjs/swagger';
-import { CurrentUser } from 'src/common';
+import { CurrentUser, TypeORMExceptionFilter } from 'src/common';
 import { AuthPayload } from 'src/user/entities/user.entity';
 import { AuthGuard } from 'src/user/guard/jwt.guard';
 
 @Controller('cart')
 @ApiTags('Cart')
+@UseFilters(TypeORMExceptionFilter)
 export class CartController {
   constructor(private readonly cartService: CartService) {}
 
@@ -16,8 +16,10 @@ export class CartController {
   @UseGuards(AuthGuard)
   @ApiOperation({ summary: 'Retrieve all item in cart' })
   @Get('all')
-  async findAll() {
-    return this.cartService.findAll();
+  async findAll(
+    @CurrentUser() user: AuthPayload
+  ) {
+    return this.cartService.findAll(user);
   }
 
   @ApiOperation({ summary: 'insert item to cart' })
@@ -35,7 +37,9 @@ export class CartController {
   @UseGuards(AuthGuard)
   @ApiOperation({ summary: 'remove item in cart by ID' })
   @Delete(':id')
-  async remove(@Param('id') id: string) {
-    return this.cartService.remove(id);
+  async remove(@Param('id') id: string, 
+      @CurrentUser() user : AuthPayload
+) {
+    return this.cartService.remove(id, user);
   }
 }
