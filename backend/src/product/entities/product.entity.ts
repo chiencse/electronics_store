@@ -1,3 +1,11 @@
+
+import { Column, Entity, JoinTable, ManyToMany, OneToMany } from 'typeorm';
+import { BaseEntity } from '../../common/index';
+import { ImageProduct } from './imageProduct.entity';
+import { ProductVariant } from './productVariants.entity';
+import { Cart } from 'src/cart/entities/cart.entity';
+import { Discount } from 'src/discount/entities/discount.entity';
+import { CartProduct } from 'src/cart/entities/cartProduct.entity';
 import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
 import { BaseEntity } from '../../common/index';
 import { ImageProduct } from './imageProduct.entity';
@@ -40,6 +48,18 @@ export class Product extends BaseEntity {
     })
     variants: ProductVariant[];
 
+
+    @OneToMany(() => CartProduct, (cartProduct) => cartProduct.product, {
+        cascade: true,
+        onDelete: 'CASCADE',
+    })
+    cartProducts: CartProduct[];
+
+    @ManyToMany(() => Discount, (discount) => discount.products)
+    @JoinTable()
+    discounts: Discount[];
+
     @ManyToOne(() => Category, (cat) => cat.products)
     category: Category;
+
 }

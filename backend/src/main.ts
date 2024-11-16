@@ -13,7 +13,11 @@ async function bootstrap() {
             transform: true,
         }),
     );
-
+    app.enableCors({
+        allowedHeaders: '*',
+        origin: '*',
+        credentials: true,
+    });
     const config = new DocumentBuilder()
         .setTitle('NestJS API')
         .setDescription('The NestJS API description')

@@ -1,12 +1,13 @@
-import { forwardRef, Module } from '@nestjs/common';
+import {  Global, Module } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { GoogleStrategy } from './google.strategy';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule } from '@nestjs/config';
 import { UserModule } from 'src/user/user.module';
-import { RedisService } from 'src/common/redis.service';
+import { RedisService } from 'src/modules/redis/redis.service';
 
+@Global()
 @Module({
     imports: [
         JwtModule.registerAsync({
