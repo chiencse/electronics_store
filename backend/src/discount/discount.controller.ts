@@ -5,11 +5,12 @@ import { UpdateDiscountDto } from './dto/update-discount.dto';
 import { AuthGuard } from 'src/auth/guard/jwt.guard';
 import { AuthorizeGuard } from 'src/auth/guard/authorization.guard';
 import { Roles } from 'src/common/user-role.enum';
-import { ApiProperty, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiProperty, ApiTags } from '@nestjs/swagger';
 
 @Controller('discount')
 @ApiTags('Discount')
 @UseGuards(AuthGuard, AuthorizeGuard([Roles.ADMIN]))
+@ApiBearerAuth('JWT-auth')
 export class DiscountController {
   constructor(private readonly discountService: DiscountService) {}
 
