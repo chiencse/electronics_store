@@ -20,6 +20,8 @@ import { OrderModule } from './order/order.module';
 import { FilesModule } from './modules/files/file.module';
 import { RedisModule } from './modules/redis/redis.module';
 import { CartModule } from './cart/cart.module';
+import { CategoryModule } from './category/category.module';
+
 
 @Global()
 @Module({
@@ -33,11 +35,15 @@ import { CartModule } from './cart/cart.module';
         UserModule,
         ProductModule,
         MailModule,
+
         OrderModule,
         RedisModule,
         FilesModule,
         DiscountModule,
         CartModule
+
+        CategoryModule,
+
     ],
     controllers: [AppController],
     providers: [AppService],

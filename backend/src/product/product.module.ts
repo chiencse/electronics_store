@@ -8,6 +8,7 @@ import { ProductVariant } from './entities/productVariants.entity';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from 'src/auth/auth.module';
+import { CategoryModule } from 'src/category/category.module';
 
 @Module({
     imports: [
@@ -21,6 +22,7 @@ import { AuthModule } from 'src/auth/auth.module';
         }),
 
         AuthModule,
+        CategoryModule,
     ],
     controllers: [ProductController],
     providers: [ProductService],

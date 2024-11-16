@@ -74,4 +74,12 @@ export class CreateProductDto {
         description: 'Variants of the product',
     })
     variants?: CreateProductVariantDto[];
+
+    @ApiProperty({
+        type: 'string',
+        description: 'CategoryID of the product',
+    })
+    @IsNotEmpty({ message: 'category should not be empty' })
+    @IsString({ message: 'category id should be a string' })
+    categoryId: string;
 }
