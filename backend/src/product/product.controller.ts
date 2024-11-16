@@ -13,7 +13,12 @@ import { ProductService } from './product.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { PageOptionDto } from 'src/common/paging/pageOption.dto';
-import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+    ApiBearerAuth,
+    ApiOperation,
+    ApiResponse,
+    ApiTags,
+} from '@nestjs/swagger';
 import { AuthGuard } from 'src/auth/guard/jwt.guard';
 import { AuthorizeGuard } from 'src/auth/guard/authorization.guard';
 import { Roles } from 'src/common/user-role.enum';

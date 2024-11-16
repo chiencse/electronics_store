@@ -16,6 +16,7 @@ import { CurrentUserMiddleware } from 'ultility/middleware/current-user.middlewa
 import { ProductModule } from './product/product.module';
 
 import { MailModule } from './mail/mail.module';
+import { CategoryModule } from './category/category.module';
 
 @Global()
 @Module({
@@ -29,6 +30,7 @@ import { MailModule } from './mail/mail.module';
         UserModule,
         ProductModule,
         MailModule,
+        CategoryModule,
     ],
     controllers: [AppController],
     providers: [AppService],
