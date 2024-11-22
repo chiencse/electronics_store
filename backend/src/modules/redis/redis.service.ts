@@ -5,19 +5,17 @@ import { createClient } from 'redis';
 export class RedisService {
     private client: any;
     constructor() {
-        try{
-
+        try {
             this.client = createClient({
                 url: `rediss://${process.env.REDIS_HOST}:${process.env.REDIS_PORT}`,
                 password: process.env.REDIS_PASSWORD,
             });
-            
+
             this.client.on('connect', () => {
                 console.log('Redis connected');
             });
             this.client.connect();
-        }
-        catch(err){
+        } catch (err) {
             console.log(err);
         }
     }

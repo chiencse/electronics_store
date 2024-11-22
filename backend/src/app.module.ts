@@ -21,7 +21,7 @@ import { FilesModule } from './modules/files/file.module';
 import { RedisModule } from './modules/redis/redis.module';
 import { CartModule } from './cart/cart.module';
 import { CategoryModule } from './category/category.module';
-
+import { ReviewModule } from './review/review.module';
 
 @Global()
 @Module({
@@ -40,19 +40,20 @@ import { CategoryModule } from './category/category.module';
         RedisModule,
         FilesModule,
         DiscountModule,
-        CartModule
+        CartModule,
 
         CategoryModule,
 
+        ReviewModule,
     ],
     controllers: [AppController],
     providers: [AppService],
 })
 export class AppModule {
-    // configure(consumer: MiddlewareConsumer) {
-    //     consumer.apply(CurrentUserMiddleware).forRoutes({
-    //         path: '*',
-    //         method: RequestMethod.ALL,
-    //     }); // áp dụng cho tất cả các route trong module
-    // }
+    configure(consumer: MiddlewareConsumer) {
+        consumer.apply(CurrentUserMiddleware).forRoutes({
+            path: '*',
+            method: RequestMethod.ALL,
+        }); // áp dụng cho tất cả các route trong module
+    }
 }

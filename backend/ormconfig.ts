@@ -14,7 +14,7 @@ export const dataSourceOptions: DataSourceOptions = {
     logging: true,
     entities: ['dist/**/*.entity.{ts,js}'],
     migrations: ['dist/database/migrations/*.js'],
-    migrationsRun: true,
+    migrationsRun: false,
 };
 
 // export const dataSourceOptions: DataSourceOptions = {

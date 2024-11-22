@@ -1,10 +1,13 @@
-import { ApiProperty } from "@nestjs/swagger";
+import { ApiProperty } from '@nestjs/swagger';
 
 export class InsertCartDto {
-
-    @ApiProperty({description: 'Time last modified', type: 'string', format: 'date-time' })
+    @ApiProperty({
+        description: 'Time last modified',
+        type: 'string',
+        format: 'date-time',
+    })
     lastModified: Date = new Date();
 
-    @ApiProperty({description: 'User ID', type: 'string' })
+    @ApiProperty({ description: 'User ID', type: 'string' })
     productId: string;
 }

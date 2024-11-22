@@ -1,5 +1,4 @@
-
-import { Column, Entity, JoinTable, ManyToMany, OneToMany } from 'typeorm';
+import { JoinTable, ManyToMany } from 'typeorm';
 import { BaseEntity } from '../../common/index';
 import { ImageProduct } from './imageProduct.entity';
 import { ProductVariant } from './productVariants.entity';
@@ -7,10 +6,8 @@ import { Cart } from 'src/cart/entities/cart.entity';
 import { Discount } from 'src/discount/entities/discount.entity';
 import { CartProduct } from 'src/cart/entities/cartProduct.entity';
 import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
-import { BaseEntity } from '../../common/index';
-import { ImageProduct } from './imageProduct.entity';
-import { ProductVariant } from './productVariants.entity';
 import { Category } from 'src/category/entities/category.entity';
+import { Review } from 'src/review/entities/review.entity';
 
 @Entity()
 export class Product extends BaseEntity {
@@ -36,6 +33,9 @@ export class Product extends BaseEntity {
         camera: string;
     };
 
+    @Column({ type: 'decimal', precision: 3, scale: 1, default: 0 })
+    averageRating: number;
+
     @OneToMany(() => ImageProduct, (imageProduct) => imageProduct.product, {
         cascade: true,
         onDelete: 'CASCADE',
@@ -47,7 +47,6 @@ export class Product extends BaseEntity {
         onDelete: 'CASCADE',
     })
     variants: ProductVariant[];
-
 
     @OneToMany(() => CartProduct, (cartProduct) => cartProduct.product, {
         cascade: true,
@@ -62,4 +61,6 @@ export class Product extends BaseEntity {
     @ManyToOne(() => Category, (cat) => cat.products)
     category: Category;
 
+    @OneToMany(() => Review, (rev) => rev.product)
+    reviews: Review[];
 }

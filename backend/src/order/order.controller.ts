@@ -1,4 +1,14 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, UseFilters } from '@nestjs/common';
+import {
+    Controller,
+    Get,
+    Post,
+    Body,
+    Patch,
+    Param,
+    Delete,
+    UseGuards,
+    UseFilters,
+} from '@nestjs/common';
 import { OrderService } from './order.service';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
@@ -11,48 +21,49 @@ import { CreateInvoiceDto } from './dto/createInvoice.dto';
 @ApiTags('Order')
 @UseGuards(AuthGuard)
 @ApiBearerAuth('JWT-auth')
-@UseFilters(TypeORMExceptionFilter) 
+@UseFilters(TypeORMExceptionFilter)
 export class OrderController {
-  constructor(private readonly orderService: OrderService) {}
+    constructor(private readonly orderService: OrderService) {}
 
-  @ApiProperty({ description: 'Create a new order' })
-  @Post('/create')
-  async  create(
-    @Body() createOrderDto: CreateOrderDto,
-    @CurrentUser() user: any
-) {
-    return this.orderService.create(createOrderDto, user);
-  }
+    @ApiProperty({ description: 'Create a new order' })
+    @Post('/create')
+    async create(
+        @Body() createOrderDto: CreateOrderDto,
+        @CurrentUser() user: any,
+    ) {
+        return this.orderService.create(createOrderDto, user);
+    }
 
-  @Get('/all')
-  @ApiProperty({ description: 'Get all orders' })
-  async findAll(
-    @CurrentUser() user: any
-  ) {
-    return this.orderService.findAll(user);
-  }
+    @Get('/all')
+    @ApiProperty({ description: 'Get all orders' })
+    async findAll(@CurrentUser() user: any) {
+        return this.orderService.findAll(user);
+    }
 
-  @Get(':id')
-  @ApiProperty({ description: 'Get a order by id' })
-  async findOne(@Param('id') id: string) {
-    return this.orderService.findOne(id);
-  }
+    @Get(':id')
+    @ApiProperty({ description: 'Get a order by id' })
+    async findOne(@Param('id') id: string) {
+        return this.orderService.findOne(id);
+    }
 
-  @Patch(':id')
-  @ApiProperty({ description: 'Update a order by id' })
-  async update(@Param('id') id: string, @Body() updateOrderDto: UpdateOrderDto) {
-    return this.orderService.update(id, updateOrderDto);
-  }
+    @Patch(':id')
+    @ApiProperty({ description: 'Update a order by id' })
+    async update(
+        @Param('id') id: string,
+        @Body() updateOrderDto: UpdateOrderDto,
+    ) {
+        return this.orderService.update(id, updateOrderDto);
+    }
 
-  @Delete(':id')
-  @ApiProperty({ description: 'Delete a order by id' })
-  async remove(@Param('id') id: string) {
-    return this.orderService.remove(id);
-  }
+    @Delete(':id')
+    @ApiProperty({ description: 'Delete a order by id' })
+    async remove(@Param('id') id: string) {
+        return this.orderService.remove(id);
+    }
 
-  @Post('/invoice')
-  @ApiProperty({ description: 'Generate invoice' })
-  async generateInvoice(@Body() invoiceDto : CreateInvoiceDto) {
-    return this.orderService.generateInvoice(invoiceDto);
-  }
+    @Post('/invoice')
+    @ApiProperty({ description: 'Generate invoice' })
+    async generateInvoice(@Body() invoiceDto: CreateInvoiceDto) {
+        return this.orderService.generateInvoice(invoiceDto);
+    }
 }
