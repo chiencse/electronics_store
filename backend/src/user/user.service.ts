@@ -12,6 +12,8 @@ import { DataSource, Repository } from 'typeorm';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { SignInDto } from './dto/signIn.dto';
+import { RedisService } from 'src/modules/redis/redis.service';
+import { MailService } from 'src/mail/mail.service';
 
 @Injectable()
 export class UserService {
@@ -20,6 +22,8 @@ export class UserService {
         private userRepository: Repository<User>,
         private readonly jwtService: JwtService,
         private readonly dataSource: DataSource,
+        private readonly redisService: RedisService,
+        private readonly mailService: MailService,
     ) {}
 
     async createUser(createUserDto: CreateUserDto) {
@@ -80,10 +84,11 @@ export class UserService {
             throw new NotFoundException('Invalid password');
         }
 
-        const payload:AuthPayload = { id: user.id, email: user.email };
+        const payload: AuthPayload = { id: user.id, email: user.email };
         return {
             message: 'User logged in successfully',
             token: this.jwtService.sign(payload),
+            user,
         };
     }
 
@@ -108,5 +113,26 @@ export class UserService {
         }
 
         return user;
+    }
+
+    async findAll() {
+        return await this.userRepository.find();
+    }
+
+    async findOne(id: string) {
+        const user = await this.userRepository.findOneBy({ id });
+        if (!user) throw new NotFoundException('User not found');
+        return user;
+    }
+
+    async forgotPassword(email: string) {
+        const user = await this.userRepository.findOneBy({ email });
+        if (!user) {
+            throw new NotFoundException('User not found');
+        }
+        const code = Math.floor(100000 + Math.random() * 900000).toString();
+        this.mailService.sendMail(user.email, code);
+        await this.redisService.set(user.email, code, 300);
+        return code;
     }
 }

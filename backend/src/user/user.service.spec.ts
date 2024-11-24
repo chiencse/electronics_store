@@ -14,44 +14,40 @@ describe('UserService', () => {
         findOneBy: jest.fn(),
         save: jest.fn(),
         create: jest.fn(),
-      };
-      const mockDataSource = {
+    };
+    const mockDataSource = {
         createQueryRunner: jest.fn().mockReturnValue({
-          connect: jest.fn(),
-          startTransaction: jest.fn(),
-          commitTransaction: jest.fn(),
-          rollbackTransaction: jest.fn(),
-          release: jest.fn(),
-          manager: {
-            save: jest.fn(),
-            create: jest.fn(),
-          },
-        }),
-      };
-      const mockJwtService = {
-        sign: jest.fn(),
-      };
-
-      beforeEach(async () => {
-        const module: TestingModule = await Test.createTestingModule({
-          providers: [
-            UserService,
-            {
-              provide: getRepositoryToken(User),
-              useValue: mockUserRepository,
+            connect: jest.fn(),
+            startTransaction: jest.fn(),
+            commitTransaction: jest.fn(),
+            rollbackTransaction: jest.fn(),
+            release: jest.fn(),
+            manager: {
+                save: jest.fn(),
+                create: jest.fn(),
             },
-            { provide: JwtService, useValue: mockJwtService },
-            { provide: DataSource, useValue: mockDataSource },
-          ],
+        }),
+    };
+    const mockJwtService = {
+        sign: jest.fn(),
+    };
+
+    beforeEach(async () => {
+        const module: TestingModule = await Test.createTestingModule({
+            providers: [
+                UserService,
+                {
+                    provide: getRepositoryToken(User),
+                    useValue: mockUserRepository,
+                },
+                { provide: JwtService, useValue: mockJwtService },
+                { provide: DataSource, useValue: mockDataSource },
+            ],
         }).compile();
 
-
         service = module.get<UserService>(UserService);
-
     });
-        it('should be defined', () => {
-            expect(service).toBeDefined();
-        });
-
+    it('should be defined', () => {
+        expect(service).toBeDefined();
+    });
 });
-

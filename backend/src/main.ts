@@ -15,7 +15,11 @@ async function bootstrap() {
             transform: true,
         }),
     );
-
+    app.enableCors({
+        allowedHeaders: '*',
+        origin: '*',
+        credentials: true,
+    });
     const config = new DocumentBuilder()
         .setTitle('NestJS API')
         .setDescription('The NestJS API description')
@@ -35,6 +39,7 @@ async function bootstrap() {
 
     const document = SwaggerModule.createDocument(app, config);
     SwaggerModule.setup('api', app, document);
-    await app.listen(PORT);
+    await app.listen(process.env.PORT || 3001);
+
 }
 bootstrap();

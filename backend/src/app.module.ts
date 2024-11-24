@@ -1,4 +1,9 @@
-import { Global, Module } from '@nestjs/common';
+import {
+    Global,
+    MiddlewareConsumer,
+    Module,
+    RequestMethod,
+} from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -7,6 +12,16 @@ import { ConfigModule } from '@nestjs/config';
 import { UserModule } from './user/user.module';
 import { FilesAzureService } from './modules/files/files.service';
 import { AuthModule } from './auth/auth.module';
+import { CurrentUserMiddleware } from 'ultility/middleware/current-user.middleware';
+import { ProductModule } from './product/product.module';
+import { MailModule } from './mail/mail.module';
+import { DiscountModule } from './discount/discount.module';
+import { OrderModule } from './order/order.module';
+import { FilesModule } from './modules/files/file.module';
+import { RedisModule } from './modules/redis/redis.module';
+import { CartModule } from './cart/cart.module';
+import { CategoryModule } from './category/category.module';
+import { ReviewModule } from './review/review.module';
 
 @Global()
 @Module({
@@ -16,9 +31,31 @@ import { AuthModule } from './auth/auth.module';
             isGlobal: true,
             envFilePath: '.env',
         }),
-        AuthModule, UserModule
+
+        AuthModule,
+        UserModule,
+        ProductModule,
+        MailModule,
+
+        OrderModule,
+        RedisModule,
+        FilesModule,
+        DiscountModule,
+        CartModule,
+
+        CategoryModule,
+
+        ReviewModule,
+
     ],
     controllers: [AppController],
     providers: [AppService],
 })
-export class AppModule {}
+export class AppModule {
+    configure(consumer: MiddlewareConsumer) {
+        consumer.apply(CurrentUserMiddleware).forRoutes({
+            path: '*',
+            method: RequestMethod.ALL,
+        }); // áp dụng cho tất cả các route trong module
+    }
+}

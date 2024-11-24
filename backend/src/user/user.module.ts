@@ -1,15 +1,14 @@
-import { Module } from '@nestjs/common';
+import { Global, Module } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UserController } from './user.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { JwtModule } from '@nestjs/jwt';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import { FilesAzureService } from 'src/modules/files/files.service';
+import { ConfigModule } from '@nestjs/config';
 
 import { AuthModule } from 'src/auth/auth.module';
 
-
+@Global()
 @Module({
     imports: [
         TypeOrmModule.forFeature([User]),
@@ -20,14 +19,12 @@ import { AuthModule } from 'src/auth/auth.module';
                 secret: process.env.JWT_SECRET,
                 signOptions: { expiresIn: process.env.JWT_EXPIRATION },
             }),
-        }), 
+        }),
 
-
-        AuthModule
-
+        AuthModule,
     ],
     controllers: [UserController],
-    providers: [UserService, FilesAzureService],
+    providers: [UserService],
     exports: [UserService],
 })
 export class UserModule {}

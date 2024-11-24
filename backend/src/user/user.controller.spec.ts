@@ -13,46 +13,48 @@ describe('UserController', () => {
 
     const mockJwtService = {
         sign: jest.fn(),
-      };
-      const mockDataSource = {
+    };
+    const mockDataSource = {
         createQueryRunner: jest.fn().mockReturnValue({
-          connect: jest.fn(),
-          startTransaction: jest.fn(),
-          commitTransaction: jest.fn(),
-          rollbackTransaction: jest.fn(),
-          release: jest.fn(),
-          manager: {
-            save: jest.fn(),
-            create: jest.fn(),
-          },
+            connect: jest.fn(),
+            startTransaction: jest.fn(),
+            commitTransaction: jest.fn(),
+            rollbackTransaction: jest.fn(),
+            release: jest.fn(),
+            manager: {
+                save: jest.fn(),
+                create: jest.fn(),
+            },
         }),
-      };
-      const mockUserRepository = {
+    };
+    const mockUserRepository = {
         findOne: jest.fn(),
         findOneBy: jest.fn(),
         save: jest.fn(),
         create: jest.fn(),
-      };
+    };
     beforeEach(async () => {
         const module: TestingModule = await Test.createTestingModule({
             controllers: [UserController],
-            
         })
-        .useMocker((token) => {
-            const result = ['test1', 'test2']
-            if(token === UserService){
-                return {
-                    createUser: jest.fn(() => result),
-                    login: jest.fn(() => result),
+            .useMocker((token) => {
+                const result = ['test1', 'test2'];
+                if (token === UserService) {
+                    return {
+                        createUser: jest.fn(() => result),
+                        login: jest.fn(() => result),
+                    };
                 }
-            }
-            if (typeof token === 'function') {
-                const mockMetadata = moduleMocker.getMetadata(token) as MockFunctionMetadata<any, any>;
-                const Mock = moduleMocker.generateFromMetadata(mockMetadata);
-                return new Mock();
-              }
-        })
-        .compile();
+                if (typeof token === 'function') {
+                    const mockMetadata = moduleMocker.getMetadata(
+                        token,
+                    ) as MockFunctionMetadata<any, any>;
+                    const Mock =
+                        moduleMocker.generateFromMetadata(mockMetadata);
+                    return new Mock();
+                }
+            })
+            .compile();
 
         controller = module.get<UserController>(UserController);
     });
