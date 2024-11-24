@@ -16,9 +16,11 @@ export class TypeORMExceptionFilter implements ExceptionFilter {
                 message: 'Duplicate entry violates unique constraint',
                 error: 'Conflict',
             });
-        } 
+        }
         // Check for PostgreSQL duplicate key constraint
-        else if (message.includes('duplicate key value violates unique constraint')) {
+        else if (
+            message.includes('duplicate key value violates unique constraint')
+        ) {
             response.status(409).json({
                 statusCode: 409,
                 message: 'Duplicate key value violates unique constraint',

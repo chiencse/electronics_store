@@ -5,6 +5,7 @@ import { Column, Entity, JoinColumn, OneToMany, OneToOne } from 'typeorm';
 import { Roles } from 'src/common/user-role.enum';
 import { Order } from 'src/order/entities/order.entity';
 import { Cart } from 'src/cart/entities/cart.entity';
+import { Review } from 'src/review/entities/review.entity';
 
 @Entity()
 export class User extends BaseEntity {
@@ -50,6 +51,9 @@ export class User extends BaseEntity {
     @OneToOne(() => Cart, (cart) => cart.user)
     @JoinColumn()
     cart: Cart;
+
+    @OneToMany(() => Review, (rev) => rev.user)
+    reviews: Review[];
 }
 
 export interface AuthPayload {

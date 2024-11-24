@@ -83,6 +83,7 @@ export class ProductService {
                 imageProducts: true,
                 variants: true,
                 category: true,
+                reviews: true,
             },
             select: {
                 category: {
@@ -91,8 +92,17 @@ export class ProductService {
                 },
             },
         });
-        if (!product) throw new NotFoundException('Product not found.');
+        if (!product) throw new NotFoundException('Product is not found.');
         return product;
+    }
+
+    async findOneProductVariant(id: string) {
+        const productVar = await this.productVariantRepository.findOne({
+            where: { id: id },
+        });
+        if (!productVar)
+            throw new NotFoundException('ProductVariant is not found');
+        return productVar;
     }
 
     // async updateProductImages(
@@ -141,22 +151,20 @@ export class ProductService {
         if (!product) throw new NotFoundException('Product not found.');
 
         const updatePromises = imageUpdates.map(async (imageUpdate) => {
-
-
-        // Xử lý thêm, cập nhật
+            // Xử lý thêm, cập nhật
 
             if (imageUpdate.id) {
-            // Cập nhật ảnh
-            const image = product.imageProducts.find(
-                (img) => img.id === imageUpdate.id,
-            );
-            if (image) {
-                image.imageUrl = imageUpdate.imageUrl;
-                await this.imageProductRepository.save(image);
-            } else {
-                throw new NotFoundException(
-                'Image not found in this product',
+                // Cập nhật ảnh
+                const image = product.imageProducts.find(
+                    (img) => img.id === imageUpdate.id,
                 );
+                if (image) {
+                    image.imageUrl = imageUpdate.imageUrl;
+                    await this.imageProductRepository.save(image);
+                } else {
+                    throw new NotFoundException(
+                        'Image not found in this product',
+                    );
                 }
             } else {
                 // Thêm mới ảnh

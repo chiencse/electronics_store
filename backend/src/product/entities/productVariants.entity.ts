@@ -1,6 +1,7 @@
-import { Column, Entity, ManyToOne } from 'typeorm';
+import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
 import { BaseEntity } from '../../common/index';
 import { Product } from './product.entity';
+import { Review } from 'src/review/entities/review.entity';
 
 @Entity()
 export class ProductVariant extends BaseEntity {
@@ -26,4 +27,7 @@ export class ProductVariant extends BaseEntity {
         onDelete: 'CASCADE',
     })
     product: Product;
+
+    @OneToMany(() => Review, (rev) => rev.productVariant)
+    review: Review[];
 }
