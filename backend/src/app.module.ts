@@ -31,6 +31,7 @@ import { ReviewModule } from './review/review.module';
             isGlobal: true,
             envFilePath: '.env',
         }),
+
         AuthModule,
         UserModule,
         ProductModule,
@@ -45,6 +46,7 @@ import { ReviewModule } from './review/review.module';
         CategoryModule,
 
         ReviewModule,
+
     ],
     controllers: [AppController],
     providers: [AppService],
