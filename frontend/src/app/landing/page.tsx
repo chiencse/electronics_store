@@ -1,9 +1,9 @@
 import React from 'react';
-import Header from './Header';
+import Header from '../../Layouts/Header';
 import HeroSection from './HeroSection';
 import FeaturedCategories from './FeaturedCategories';
 import PopularSection from './PopularSection';
-import Footer from './Footer';
+import Footer from '../../Layouts/Footer';
 
 function App() {
   return (
