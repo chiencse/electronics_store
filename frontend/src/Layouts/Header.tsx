@@ -10,7 +10,7 @@ import { navbarLogin } from '../data/navbar';
 
 const Header = () => {
   return (
-    <div className="Navbar px-20 w-full h-20 flex flex-row items-center gap-3 justify-between bg-white border-b border-[#e4e9ee]">
+    <div className="Navbar px-20 w-full h-16 flex flex-row items-center gap-3 justify-between bg-white border-b border-[#e4e9ee]">
       <div className="Logo pl-10 h-8 justify-start items-center gap-2 inline-flex">
         <div className="Frame162649 w-8 h-8 relative rounded-lg">
           <div className="Rectangle588 w-8 h-8 left-0 top-0 absolute bg-[#1e4c2f]" />
@@ -32,12 +32,13 @@ const Header = () => {
           className="SearchInput w-[90%] h-8 ml-2 bg-[#f5f5f5] text-black outline-none"
         />
         <button className="px-4 py-4 active:scale-90 transition-transform duration-150 cursor-pointer">
-          <FontAwesomeIcon
+          {/* <FontAwesomeIcon
             className="hover:text-blue-500"
             icon={faMagnifyingGlass}
             size="xl"
             color="black"
-          />
+          /> */}
+          🔍
         </button>
       </div>
 
@@ -61,7 +62,7 @@ const Header = () => {
           <div className="Line1 w-6 mr-4 rotate-90 border border-[#75797d]"></div>
           <div className="ProfileAvatar w-10 h-10 rounded-full bg-[#f5f5f5] flex justify-center items-center">
             {/* Check image when authidenicated */}
-            <image></image>
+            {/* <image></image> */}
           </div>
         </div>
       </div>

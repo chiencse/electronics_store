@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Google from '../app/assets/icons/icons8-google.svg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { useAuth } from '@/app/api/AuthProvide';
 
 const RegisterBox = ({ setRegister }: any) => {
   const [formData, setFormData] = useState({
@@ -185,6 +186,7 @@ const LoginBox = ({ setRegister }: any) => {
     password: '',
   });
 
+  const { setSessionToken } = useAuth();
   // Handle input change to update state
   const handleInputChange = (e: any) => {
     const { name, value } = e.target;
@@ -195,12 +197,20 @@ const LoginBox = ({ setRegister }: any) => {
   };
 
   // Handle form submission
-  const handleSubmit = (e: any) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault(); // Prevent page reload on form submission
     console.log('Account:', metadata.account);
     console.log('Password:', metadata.password);
-
-    // Add your logic here (e.g., API call to sign in)
+    const test = { ...metadata, token: 'testkhoknsdpfnohjabsd' };
+    const res = await fetch('/api/auth', {
+      method: 'POST',
+      body: JSON.stringify(test),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }).then((res) => res.json());
+    // console.log('Response:', res);
+    setSessionToken('testkhoknsdpfnohjabsd');
   };
 
   return (
@@ -277,7 +287,6 @@ const LoginBox = ({ setRegister }: any) => {
 };
 
 const AuthLogin = () => {
-  const [isLogin, setIsLogin] = useState(true);
   const [isRegister, setIsRegister] = useState(false);
   return (
     <div>

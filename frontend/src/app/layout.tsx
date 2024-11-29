@@ -4,6 +4,7 @@ import './globals.css';
 
 import { config } from '@fortawesome/fontawesome-svg-core';
 import '@fortawesome/fontawesome-svg-core/styles.css'; // Import CSS
+import AuthProvider from './api/AuthProvide';
 config.autoAddCss = false; // Tắt CSS tự động để tránh xung đột
 
 const geistSans = localFont({
@@ -32,7 +33,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <AuthProvider>{children}</AuthProvider>
       </body>
     </html>
   );
