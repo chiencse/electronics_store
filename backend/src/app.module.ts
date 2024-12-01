@@ -24,6 +24,7 @@ import { CategoryModule } from './category/category.module';
 import { ReviewModule } from './review/review.module';
 import { VnpayModule } from 'nestjs-vnpay';
 import { VNpayModule } from './VNpay/VNpay.module';
+import { SupplyModule } from './supply/supply.module';
 
 @Global()
 @Module({
@@ -47,6 +48,7 @@ import { VNpayModule } from './VNpay/VNpay.module';
         CategoryModule,
         VNpayModule,
         ReviewModule,
+        SupplyModule,
     ],
     controllers: [AppController],
     providers: [AppService],
