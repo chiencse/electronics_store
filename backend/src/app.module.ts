@@ -22,6 +22,8 @@ import { RedisModule } from './modules/redis/redis.module';
 import { CartModule } from './cart/cart.module';
 import { CategoryModule } from './category/category.module';
 import { ReviewModule } from './review/review.module';
+import { VnpayModule } from 'nestjs-vnpay';
+import { VNpayModule } from './VNpay/VNpay.module';
 
 @Global()
 @Module({
@@ -43,7 +45,7 @@ import { ReviewModule } from './review/review.module';
         CartModule,
 
         CategoryModule,
-
+        VNpayModule,
         ReviewModule,
     ],
     controllers: [AppController],
