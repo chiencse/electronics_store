@@ -22,7 +22,7 @@ export default function ProductPage() {
       <Header />
 
       {/* Breadcrumb */}
-      <nav className="container mx-auto px-6 py-4 text-sm text-gray-500">
+      <nav className="container mx-auto w-[82rem]  py-4 text-sm text-gray-500">
         Home &gt; Electronics &gt; Gaming Gear &gt;{' '}
         <span className="text-gray-900">
           G502 X Lightspeed Wireless Gaming Mouse
@@ -30,7 +30,7 @@ export default function ProductPage() {
       </nav>
 
       {/* Product Section */}
-      <div className="container mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div className="container mx-auto w-[82rem] grid grid-cols-1 md:grid-cols-2 gap-8">
         {/* Left: Image Carousel */}
         <div>
           <ProductImageSlider />
@@ -85,7 +85,7 @@ export default function ProductPage() {
       </div>
 
       {/* Tabs Section */}
-      <div className="container mx-auto mt-8 px-6">
+      <div className="container mx-auto w-[82rem] mt-8 ">
         <div className="flex space-x-8 border-b">
           {['Detail Product', 'Merchant', 'Reviews', 'Related Product'].map(
             (tab) => (
