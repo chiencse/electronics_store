@@ -82,4 +82,12 @@ export class CreateProductDto {
     @IsNotEmpty({ message: 'category should not be empty' })
     @IsString({ message: 'category id should be a string' })
     categoryId: string;
+
+    @ApiProperty({
+        type: 'string',
+        description: 'SupplierId of the product',
+    })
+    @IsNotEmpty({ message: 'supplier should not be empty' })
+    @IsString({ message: 'supplierId should be a string' })
+    supplierId: string;
 }

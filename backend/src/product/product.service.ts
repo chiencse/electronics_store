@@ -13,6 +13,7 @@ import { UpdateProductVariantsDto } from './dto/update-productVariant.dto';
 import { CreatePropertyProductDto } from './dto/create-property.dto';
 import { UpdateProductImageDto } from './dto/update-productImage.dto';
 import { CategoryService } from 'src/category/category.service';
+import { SupplyService } from 'src/supply/supply.service';
 
 @Injectable()
 export class ProductService {
@@ -24,6 +25,7 @@ export class ProductService {
         @InjectRepository(ProductVariant)
         private readonly productVariantRepository: Repository<ProductVariant>,
         private readonly categoryService: CategoryService,
+        private readonly supplyService: SupplyService,
     ) {}
 
     async create(createProductDto: CreateProductDto) {
@@ -31,8 +33,13 @@ export class ProductService {
             createProductDto.categoryId,
         );
 
+        const supplier = await this.supplyService.findOne(
+            createProductDto.supplierId,
+        );
+
         const product = this.productRepository.create(createProductDto);
         product.category = category;
+        product.supplier = supplier;
 
         const savedProduct = await this.productRepository.save(product);
 
@@ -84,6 +91,7 @@ export class ProductService {
                 variants: true,
                 category: true,
                 reviews: true,
+                supplier: true,
             },
             select: {
                 category: {
@@ -268,12 +276,21 @@ export class ProductService {
         const { imageProducts, variants, properties, ...productUpdates } =
             updateProductDto;
         Object.assign(product, productUpdates);
+
         if (updateProductDto.categoryId) {
             const category = await this.categoryService.findOne(
                 updateProductDto.categoryId,
             );
             product.category = category;
         }
+
+        if (updateProductDto.supplierId) {
+            const supplier = await this.supplyService.findOne(
+                updateProductDto.supplierId,
+            );
+            product.supplier = supplier;
+        }
+
         await this.productRepository.save(product);
 
         if (imageProducts) {
@@ -287,7 +304,7 @@ export class ProductService {
         }
         const updatedProduct = await this.productRepository.findOne({
             where: { id },
-            relations: ['imageProducts', 'variants'],
+            relations: ['imageProducts', 'variants', 'category', 'supplier'],
         });
         return updatedProduct;
     }

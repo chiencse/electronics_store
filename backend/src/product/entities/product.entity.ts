@@ -8,6 +8,7 @@ import { CartProduct } from 'src/cart/entities/cartProduct.entity';
 import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
 import { Category } from 'src/category/entities/category.entity';
 import { Review } from 'src/review/entities/review.entity';
+import { Supplier } from 'src/supply/entities/supply.entity';
 
 @Entity()
 export class Product extends BaseEntity {
@@ -58,9 +59,18 @@ export class Product extends BaseEntity {
     @JoinTable()
     discounts: Discount[];
 
-    @ManyToOne(() => Category, (cat) => cat.products)
+    @ManyToOne(() => Category, (cat) => cat.products, {
+        nullable: true,
+        onDelete: 'SET NULL',
+    })
     category: Category;
 
     @OneToMany(() => Review, (rev) => rev.product)
     reviews: Review[];
+
+    @ManyToOne(() => Supplier, (sup) => sup.product, {
+        nullable: true,
+        onDelete: 'SET NULL',
+    })
+    supplier: Supplier;
 }
