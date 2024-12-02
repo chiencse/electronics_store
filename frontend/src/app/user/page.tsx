@@ -1,6 +1,21 @@
 'use client';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import { Bounce, toast } from 'react-toastify';
+
+const toastSuccess = () => {
+  toast.success('Successful!', {
+    position: 'top-right',
+    autoClose: 3000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: 'colored',
+    transition: Bounce,
+  });
+};
 
 const UpdateUserForm = () => {
   const [formData, setFormData] = useState({
@@ -71,6 +86,7 @@ const UpdateUserForm = () => {
       );
       setSuccess(true);
       console.log('User updated successfully:', res.data);
+      toastSuccess();
     } catch (error: any) {
       setError(error.response ? error.response.data : error.message);
       console.error(
