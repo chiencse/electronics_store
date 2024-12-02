@@ -144,6 +144,19 @@ export class UserController {
         return this.userService.findAll();
     }
 
+    @Get('/profile')
+    @ApiOperation({ summary: 'Get user profile' })
+    @ApiResponse({
+        status: 200,
+        description: 'Successfully retrieved user profile.',
+    })
+    @ApiResponse({ status: 400, description: 'Bad Request.' })
+    @ApiBearerAuth('JWT-auth')
+    @UseGuards(AuthGuard)
+    async findOne(@CurrentUser() crtUser: AuthPayload) {
+        return this.userService.findOne(crtUser.id);
+    }
+
     @Post('forgot-password')
     async forgotPassword(@Query('email') email: string) {
         return this.userService.forgotPassword(email);

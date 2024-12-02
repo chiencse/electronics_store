@@ -40,7 +40,7 @@ export class PaymentController {
       return res.redirect(`${process.env.FE_HOST}/payment/failed`);
 
     }
-
+  }
     @Post('/vnpay-ipn')
     handleIpn(@Body() query: any) {
         const isVerified = this.paymentService.verifyPayment(query);
@@ -58,3 +58,4 @@ export class PaymentController {
         }
     }
 }
+        
