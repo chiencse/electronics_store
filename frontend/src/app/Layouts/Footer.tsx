@@ -1,4 +1,6 @@
+import Image from 'next/image';
 import React from 'react';
+import LogoBK from '../assets/hcmut.png';
 const Footer = () => {
   return (
     <div className="bg-gray-100 pt-16 pb-8 ">
@@ -9,14 +11,8 @@ const Footer = () => {
             {/* Footer Logo & Description */}
             <div>
               <div className="flex items-center space-x-3 mb-4">
-                <div className="bg-green-600 text-white rounded-full p-3">
-                  <svg
-                    className="w-6 h-6"
-                    fill="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zM10 17.5L5 12l1.414-1.414L10 14.672l7.586-7.586L19 8.5 10 17.5z" />
-                  </svg>
+                <div className=" text-white w-16 h-16 rounded-full p-3">
+                  <Image src={LogoBK} alt="logo" />
                 </div>
                 <span className="text-xl font-semibold text-gray-900">
                   eBKstore

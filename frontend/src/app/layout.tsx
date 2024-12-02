@@ -1,10 +1,12 @@
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import './globals.css';
-
+import 'react-toastify/dist/ReactToastify.css';
 import { config } from '@fortawesome/fontawesome-svg-core';
 import '@fortawesome/fontawesome-svg-core/styles.css'; // Import CSS
-import AuthProvider from './api/AuthProvide';
+import Header from '@/app/Layouts/Header';
+import Footer from '@/app/Layouts/Footer';
+import { ToastContainer } from 'react-toastify';
 config.autoAddCss = false; // Tắt CSS tự động để tránh xung đột
 
 const geistSans = localFont({
@@ -33,7 +35,15 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <AuthProvider>{children}</AuthProvider>
+        <ToastContainer
+          position="top-right"
+          autoClose={3000}
+          style={{ zIndex: 9999 }}
+        />
+        <Header />
+        {children}
+
+        <Footer />
       </body>
     </html>
   );

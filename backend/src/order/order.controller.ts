@@ -15,7 +15,6 @@ import { UpdateOrderDto } from './dto/update-order.dto';
 import { AuthGuard } from 'src/auth/guard/jwt.guard';
 import { ApiBearerAuth, ApiProperty, ApiTags } from '@nestjs/swagger';
 import { CurrentUser, TypeORMExceptionFilter } from 'src/common';
-import { CreateInvoiceDto } from './dto/createInvoice.dto';
 
 @Controller('order')
 @ApiTags('Order')
@@ -59,11 +58,5 @@ export class OrderController {
     @ApiProperty({ description: 'Delete a order by id' })
     async remove(@Param('id') id: string) {
         return this.orderService.remove(id);
-    }
-
-    @Post('/invoice')
-    @ApiProperty({ description: 'Generate invoice' })
-    async generateInvoice(@Body() invoiceDto: CreateInvoiceDto) {
-        return this.orderService.generateInvoice(invoiceDto);
     }
 }

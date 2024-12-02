@@ -8,7 +8,6 @@ import {
     UseInterceptors,
     ClassSerializerInterceptor,
     UploadedFile,
-    Param,
     Query,
 } from '@nestjs/common';
 import { UserService } from './user.service';
@@ -32,7 +31,6 @@ import { FilesAzureService } from 'src/modules/files/files.service';
 import { AuthGuard } from '../auth/guard/jwt.guard';
 import { AuthorizeGuard } from 'src/auth/guard/authorization.guard';
 import { Roles } from 'src/common/user-role.enum';
-import e from 'express';
 
 @Controller('user')
 @UseInterceptors(ClassSerializerInterceptor)

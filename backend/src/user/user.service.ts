@@ -84,7 +84,7 @@ export class UserService {
             throw new NotFoundException('Invalid password');
         }
 
-        const payload: AuthPayload = { id: user.id, email: user.email };
+        const payload: AuthPayload = { id: user.id, email: user.email, FName: user.Fname, username: user.username };
         return {
             message: 'User logged in successfully',
             token: this.jwtService.sign(payload),

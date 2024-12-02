@@ -1,11 +1,53 @@
 'use client';
 import ProductImageSlider from './components/ProductImageSlider';
-import Header from '@/Layouts/Header';
-import { listProduct } from '../../data/products';
-import Footer from '@/Layouts/Footer';
+
 import { useState } from 'react';
 import Review from './components/Review';
-const dataProduct = listProduct[0];
+const dataProduct = {
+  id: 1,
+  name: 'Laptop Pro 15',
+  baseprice: 1299.99,
+  description: 'A professional-grade laptop with top-notch performance.',
+  manufacturer: 'CompTech',
+  properties: {
+    screenSize: 15.6,
+    screenType: 'IPS',
+    refreshRate: 60,
+    cellular: false,
+    battery: 8000,
+    camera: '720p HD',
+  },
+  averageRating: 4.5,
+  imageProducts: [
+    { id: 1, url: 'https://example.com/images/laptop1_main.jpg' },
+    { id: 2, url: 'https://example.com/images/laptop1_alt.jpg' },
+  ],
+  variants: [
+    {
+      id: 1,
+      ram: 16,
+      rom: 512,
+      cpu: 'Intel Core i7',
+      color: 'Silver',
+      quantity: 20,
+      price: 1299.99,
+      reviews: [
+        {
+          id: 1,
+          userId: 101,
+          rating: 5,
+          comment: 'Amazing performance and build quality.',
+        },
+        {
+          id: 2,
+          userId: 202,
+          rating: 4,
+          comment: 'Great laptop but could use more ports.',
+        },
+      ],
+    },
+  ],
+};
 
 export default function ProductPage() {
   const [selectedVariant, setSelectedVariant] = useState(
@@ -18,9 +60,6 @@ export default function ProductPage() {
 
   return (
     <div className="min-h-screen bg-gray-100">
-      {/* Header */}
-      <Header />
-
       {/* Breadcrumb */}
       <nav className="container mx-auto w-[82rem]  py-4 text-sm text-gray-500">
         Home &gt; Electronics &gt; Gaming Gear &gt;{' '}
@@ -219,8 +258,6 @@ export default function ProductPage() {
 
       {/* Reviews Section */}
       <Review />
-      {/* Footer */}
-      <Footer />
     </div>
   );
 }

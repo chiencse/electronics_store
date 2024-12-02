@@ -15,9 +15,6 @@ export class AuthService {
     ) {}
 
     async googleLogin(req) {
-        if (!req.user) {
-            return 'No user from google';
-        }
         const user = await this.dataSource
             .getRepository(User)
             .findOneBy({ email: req.user.email });
@@ -38,12 +35,16 @@ export class AuthService {
                 token: this.jwtService.sign({
                     id: newUser.id,
                     email: newUser.email,
+                    FName: newUser.Fname,
+                    username: newUser.username,
                 }),
             };
         }
         const payload: AuthPayload = {
             id: user.id,
             email: user.email,
+            FName: user.Fname,
+            username: user.username
         };
         return {
             message: 'User logged in successfully',
@@ -65,7 +66,7 @@ export class AuthService {
             .findOneBy({ email });
         return {
             message: 'Code verified successfully',
-            token: this.jwtService.sign({ id: user.id, email: user.email }),
+            token: this.jwtService.sign({ id: user.id, email: user.email, FName: user.Fname, username: user.username }),
         };
     }
 }

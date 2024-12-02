@@ -117,9 +117,7 @@ const Review = () => {
                 </span>
               </div>
             </div>
-            <p className="text-gray-500 text-sm">
-              from {totalReviews.toLocaleString()} reviews
-            </p>
+            <p className="text-gray-500 text-sm">from {totalReviews} reviews</p>
           </div>
 
           {/* Ratings Breakdown */}
