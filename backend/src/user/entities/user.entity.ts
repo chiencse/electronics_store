@@ -59,4 +59,6 @@ export class User extends BaseEntity {
 export interface AuthPayload {
     id: string;
     email: string;
+    FName: string;
+    username: string;
 }

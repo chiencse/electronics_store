@@ -1,6 +1,7 @@
-import { Controller, Get, Post, Query, Body } from '@nestjs/common';
+import { Controller, Get, Post, Query, Body, Res } from '@nestjs/common';
 import { PaymentService } from './VNpay.Service';
 import { ApiProperty, ApiTags } from '@nestjs/swagger';
+import { Response } from 'express';
 
 @Controller('payment')
 @ApiTags('payment')
@@ -17,12 +18,14 @@ export class PaymentController {
   }
 
   @Get('/vnpay-return')
-  handleReturnUrl(@Query() query: any) {
+  handleReturnUrl(@Query() query: any, @Res() res: Response) {
     const isVerified = this.paymentService.verifyPayment(query);
     if (isVerified && query.vnp_ResponseCode === '00') {
-      return { status: 'success', message: 'Payment successful!' };
+      // Thanh toán thành công, chuyển hướng tới trang thông báo
+      return res.redirect(`${process.env.FE_HOST}/payment/success?orderId=${query.vnp_TxnRef}`);
     } else {
-      return { status: 'failed', message: 'Payment verification failed!' };
+      // Thanh toán thất bại, chuyển hướng tới trang lỗi
+      return res.redirect(`${process.env.FE_HOST}/payment/failed`);
     }
   }
 

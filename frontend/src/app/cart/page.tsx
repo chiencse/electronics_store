@@ -1,12 +1,10 @@
 'use client';
-import Header from '@/Layouts/Header';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState } from 'react';
 import ContainProduct from '../landing/components/containProduct';
 import { listProduct } from '@/data/products';
-import Footer from '@/Layouts/Footer';
-
+import axios from 'axios';
 const initialCart = [
   {
     id: 1,
@@ -70,6 +68,29 @@ const PageCart = () => {
 
     setCart(filteredCart);
     setCheckout(true); // Chuyển sang chế độ thanh toán
+  };
+  const createPayment = async () => {
+    try {
+      // Tạo orderId duy nhất với số ngẫu nhiên 4 chữ số
+      const randomNumber = Math.floor(1000 + Math.random() * 9000); // Số ngẫu nhiên 4 chữ số
+      const orderId = Number(`${Date.now()}${randomNumber}`);
+
+      // Thực hiện request đến API
+      const response = await axios.post('http://localhost:3001/payment/vnpay', {
+        orderId: orderId,
+        amount: 100000,
+        orderDescription: 'Thanh toán đơn hàng 123',
+      });
+
+      // Lấy paymentUrl từ response
+      const { paymentUrl } = response.data;
+
+      // Chuyển hướng đến VNPay
+      window.location.href = paymentUrl;
+    } catch (error) {
+      console.error('Error creating payment:', error);
+      alert('Đã xảy ra lỗi khi tạo thanh toán. Vui lòng thử lại!');
+    }
   };
 
   // Toggle chọn sản phẩm
@@ -146,7 +167,6 @@ const PageCart = () => {
 
   return (
     <>
-      <Header />
       <div className="max-w-6xl mx-auto px-4 py-8 font-[Roboto]">
         <h1 className="text-3xl font-bold">Shopping Cart</h1>{' '}
         <p className="text-gray-600 text-base mb-4">
@@ -295,7 +315,9 @@ const PageCart = () => {
                 </button>
               ) : (
                 <button
-                  onClick={() => {}}
+                  onClick={() => {
+                    createPayment();
+                  }}
                   className="w-full py-3 px-4 bg-gray-600 text-white rounded-lg hover:bg-gray-700 text-lg"
                 >
                   Checkout
@@ -318,9 +340,64 @@ const PageCart = () => {
           </div>
         </div>
       ) : (
-        ''
+        <div className="max-w-6xl mx-auto px-4 py-8 font-[Roboto]">
+          <div className="mt-6">
+            <h3 className="text-lg font-semibold mb-4">Shipping Address</h3>
+            <div className="mb-4">
+              <label htmlFor="address" className="block text-sm text-gray-600">
+                Full Address:
+              </label>
+              <input
+                type="text"
+                id="address"
+                className="w-full mt-1 px-4 py-2 border rounded-lg"
+                placeholder="Enter your full address"
+              />
+            </div>
+            <div className="mb-4">
+              <label htmlFor="phone" className="block text-sm text-gray-600">
+                Phone Number:
+              </label>
+              <input
+                type="text"
+                id="phone"
+                className="w-full mt-1 px-4 py-2 border rounded-lg"
+                placeholder="Enter your phone number"
+              />
+            </div>
+          </div>
+
+          {/* Ô chọn phương thức thanh toán */}
+
+          <div className="mt-6">
+            <h3 className="text-lg font-semibold mb-4">Payment Method</h3>
+            <div className="flex items-center gap-4">
+              <input
+                type="radio"
+                id="vnpay"
+                name="payment"
+                className="cursor-pointer"
+                onClick={() => console.log('VNPay selected')}
+              />
+              <label htmlFor="vnpay" className="cursor-pointer">
+                VNPay
+              </label>
+            </div>
+            <div className="flex items-center gap-4 mt-2">
+              <input
+                type="radio"
+                id="cod"
+                name="payment"
+                className="cursor-pointer"
+                onClick={() => console.log('Cash on Delivery selected')}
+              />
+              <label htmlFor="cod" className="cursor-pointer">
+                Cash on Delivery (COD)
+              </label>
+            </div>
+          </div>
+        </div>
       )}
-      <Footer />
     </>
   );
 };

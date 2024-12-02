@@ -8,8 +8,8 @@ import {
     ManyToOne,
     OneToMany,
     OneToOne,
+    PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Invoice } from './invoice.entity';
 import { Discount } from 'src/discount/entities/discount.entity';
 
 @Entity()
@@ -46,11 +46,20 @@ export class Order extends BaseEntity {
     @Column()
     comments: string;
 
+    @ApiProperty({ description: 'total price', type: 'number' })
+    @Column()
+    totalPrice: number;
+
     @ManyToOne(() => User, (customer) => customer.orders)
     customer: User;
 
-    @OneToOne(() => Invoice, (invoice) => invoice.order)
-    invoice: Invoice;
+    @ApiProperty({ description: 'Address of Customer', type: 'string' })
+    @Column()
+    address: string;
+
+    @ApiProperty({ description: 'Order Id', type: 'number' })
+    @Column()
+    orderIdd : number;
 
     @ManyToMany(() => Discount, (discount) => discount.order, {
         nullable: true,
