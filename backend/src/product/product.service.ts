@@ -10,7 +10,6 @@ import { PageOptionDto } from 'src/common/paging/pageOption.dto';
 import { PageMetaDto } from 'src/common/paging/pageMeta.dto';
 import { PageDto } from 'src/common/paging/page.dto';
 import { UpdateProductVariantsDto } from './dto/update-productVariant.dto';
-import { CreatePropertyProductDto } from './dto/create-property.dto';
 import { UpdateProductImageDto } from './dto/update-productImage.dto';
 import { CategoryService } from 'src/category/category.service';
 import { SupplyService } from 'src/supply/supply.service';
@@ -257,24 +256,10 @@ export class ProductService {
         return await this.productRepository.save(product);
     }
 
-    async updateProductProperties(
-        id: string,
-        propertiesUpdates: Partial<CreatePropertyProductDto>,
-    ) {
-        const product = await this.productRepository.findOne({
-            where: { id },
-        });
-        if (!product) throw new NotFoundException('Product not found.');
-
-        Object.assign(product.properties, propertiesUpdates);
-
-        return this.productRepository.save(product);
-    }
     async update(id: string, updateProductDto: UpdateProductDto) {
         const product = await this.findOne(id);
         if (!product) throw new NotFoundException('Product not found');
-        const { imageProducts, variants, properties, ...productUpdates } =
-            updateProductDto;
+        const { imageProducts, variants, ...productUpdates } = updateProductDto;
         Object.assign(product, productUpdates);
 
         if (updateProductDto.categoryId) {
@@ -298,9 +283,6 @@ export class ProductService {
         }
         if (variants) {
             await this.updateProductVariants(id, variants);
-        }
-        if (properties) {
-            await this.updateProductProperties(id, properties);
         }
         const updatedProduct = await this.productRepository.findOne({
             where: { id },

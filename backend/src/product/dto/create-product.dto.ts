@@ -1,5 +1,6 @@
 import {
     IsArray,
+    IsBoolean,
     IsNotEmpty,
     IsNumber,
     IsOptional,
@@ -7,7 +8,6 @@ import {
     IsString,
     ValidateNested,
 } from 'class-validator';
-import { CreatePropertyProductDto } from './create-property.dto';
 import { Type } from 'class-transformer';
 import { CreateImageProductDto } from './create-image.dto';
 import { CreateProductVariantDto } from './create-productVariant.dto';
@@ -46,14 +46,62 @@ export class CreateProductDto {
     })
     manufacturer: string;
 
+    // @IsOptional()
+    // @ValidateNested()
+    // @Type(() => CreatePropertyProductDto)
+    // @ApiPropertyOptional({
+    //     type: CreatePropertyProductDto,
+    //     description: 'Properties of the product',
+    // })
+    // properties?: CreatePropertyProductDto;
+
     @IsOptional()
-    @ValidateNested()
-    @Type(() => CreatePropertyProductDto)
+    @IsNumber({}, { message: 'screenSize must be a number' })
     @ApiPropertyOptional({
-        type: CreatePropertyProductDto,
-        description: 'Properties of the product',
+        type: 'number',
+        description: 'The screen size of the product',
     })
-    properties?: CreatePropertyProductDto;
+    screenSize?: number;
+
+    @IsOptional()
+    @IsString({ message: 'screenType must be a string' })
+    @ApiPropertyOptional({
+        type: 'string',
+        description: 'The screen type of the product',
+    })
+    screenType?: string;
+
+    @IsOptional()
+    @IsNumber({}, { message: 'refreshRate must be a number' })
+    @ApiPropertyOptional({
+        type: 'number',
+        description: 'The refresh rate of the product',
+    })
+    refreshRate?: number;
+
+    @IsOptional()
+    @IsBoolean({ message: 'cellular must be a boolean' })
+    @ApiPropertyOptional({
+        type: 'boolean',
+        description: 'the cellular of the product',
+    })
+    cellular?: boolean;
+
+    @IsOptional()
+    @IsNumber({}, { message: 'battery must be a number' })
+    @ApiPropertyOptional({
+        type: 'number',
+        description: 'The battery capacity of the product',
+    })
+    battery?: number;
+
+    @IsOptional()
+    @IsString({ message: 'camera must be a string' })
+    @ApiPropertyOptional({
+        type: 'string',
+        description: 'The camera details of the product',
+    })
+    camera?: string;
 
     @IsOptional()
     @IsArray()
