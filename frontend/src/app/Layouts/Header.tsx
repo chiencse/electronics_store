@@ -137,7 +137,10 @@ const Header = () => {
           </div>
           {showPopup && isLoggedIn && (
             <div className="absolute top-14 right-0 w-96 bg-white shadow-lg rounded-lg p-6 z-50">
-              <div className="flex items-center mb-4">
+              <Link
+                href="/user"
+                className="flex items-center mb-4  cursor-pointer"
+              >
                 <img
                   src="https://via.placeholder.com/50"
                   alt="Profile"
@@ -149,7 +152,7 @@ const Header = () => {
                   </h3>
                   <p className="text-sm text-gray-500">Platinum Member</p>
                 </div>
-              </div>
+              </Link>
 
               <div className="border-b mb-4"></div>
 

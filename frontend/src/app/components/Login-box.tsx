@@ -54,14 +54,14 @@ const setCookie = async (token: any) => {
 const RegisterBox = ({ setRegister, handleIsLogin }: any) => {
   const [formData, setFormData] = useState({
     username: '',
-    email: '',
+    phoneNumber: '',
     password: '',
     confirmPassword: '',
   });
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({
     username: '',
-    email: '',
+    phoneNumber: '',
     password: '',
     confirmPassword: '',
   });
@@ -74,23 +74,12 @@ const RegisterBox = ({ setRegister, handleIsLogin }: any) => {
     }));
   };
 
-  const validateEmail = (email: any) => {
-    const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-    return regex.test(email);
-  };
-
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     let validationErrors: any = {};
 
     if (!formData.username) {
       validationErrors.username = 'Username is required';
-    }
-
-    if (!formData.email) {
-      validationErrors.email = 'Email is required';
-    } else if (!validateEmail(formData.email)) {
-      validationErrors.email = 'Invalid email format';
     }
 
     if (!formData.password) {
@@ -111,11 +100,11 @@ const RegisterBox = ({ setRegister, handleIsLogin }: any) => {
           `${process.env.NEXT_PUBLIC_API_URL}/user/signup`,
           {
             username: formData.username,
-            email: formData.email,
+            email: '',
             password: formData.password,
             Fname: 'Your First Name',
             LName: 'Your Last Name',
-            phone_number: '0',
+            phone_number: formData.phoneNumber,
             address: 'string',
             roles: ['user'],
           }
@@ -191,19 +180,19 @@ const RegisterBox = ({ setRegister, handleIsLogin }: any) => {
         </div>
         <div className="user-box w-96 h-20 flex-col justify-center items-start gap-2 inline-flex relative">
           <label className="text-[#0b0f0e] text-base font-semibold leading-snug">
-            Email
-            {errors.email && (
+            PhoneNumber
+            {errors.phoneNumber && (
               <p className="absolute text-red-500 text-sm left-0">
-                {errors.email}
+                {errors.phoneNumber}
               </p>
             )}
           </label>
           <input
-            type="email"
-            name="email"
-            value={formData.email}
+            type="text"
+            name="phoneNumber"
+            value={formData.phoneNumber}
             onChange={handleInputChange}
-            placeholder="Enter your email"
+            placeholder="Enter your phoneNumber"
             className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none hover:border-blue-300"
           />
         </div>
@@ -374,7 +363,7 @@ const LoginBox = ({ setRegister, handleIsLogin }: any) => {
               name="account" // Bind this input to "account"
               value={metadata.account}
               onChange={handleInputChange} // Update state on input change
-              placeholder="Enter your phone number or email"
+              placeholder="Enter your username or email"
               className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none hover:border-blue-300"
             />
           </div>
