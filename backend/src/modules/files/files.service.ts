@@ -20,7 +20,7 @@ export class FilesAzureService {
     private async getBlobClient(imageName: string): Promise<BlockBlobClient> {
         const blobService = await this.getBlobServiceInstance();
         const containerName = this.containerName;
-        const containerClient = blobService.getContainerClient(containerName);
+        const containerClient = blobService.getContainerClient(containerName); 
         const blockBlobClient = containerClient.getBlockBlobClient(imageName);
         return blockBlobClient;
     }
@@ -31,7 +31,7 @@ export class FilesAzureService {
         const file_name = uuid() + '.' + extension;
         console.log(file_name);
         const blockBlobClient = await this.getBlobClient(file_name);
-        const fileUrl = blockBlobClient.url;
+        const fileUrl = blockBlobClient.url; 
         await blockBlobClient.uploadData(file.buffer);
         return fileUrl;
     }

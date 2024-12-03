@@ -52,9 +52,10 @@ export class UserService {
 
             await queryRunner.manager.save(newUser);
             await queryRunner.commitTransaction();
+            const payload: AuthPayload = { id: newUser.id, email: newUser.email, FName: newUser.Fname, username: newUser.username };
             return {
-                message: 'User created successfully',
-                data: newUser,
+                message: 'User sign up  successfully',
+                token: this.jwtService.sign(payload),
             };
         } catch (error) {
             await queryRunner.rollbackTransaction();
