@@ -1,10 +1,22 @@
 'use client';
 import {
+  faBars,
   faCartShopping,
   faCarTunnel,
+  faHamburger,
   faMagnifyingGlass,
   faPerson,
   faUser,
+  faMobileAlt,
+  faLaptop,
+  faHeadphones,
+  faClock,
+  faHome,
+  faKeyboard,
+  faTv,
+  faRecycle,
+  faTags,
+  faNewspaper,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Link from 'next/link';
@@ -15,6 +27,23 @@ import { Bounce, toast } from 'react-toastify';
 import { decodeJWT } from '../utils/decodeJwt';
 import logoBK from '../assets/hcmut.png';
 import Image from 'next/image';
+
+const categories = [
+  { name: "Phone, Tablet", icon: faMobileAlt },
+  { name: "Laptop", icon: faLaptop },
+  { name: "Audio", icon: faHeadphones },
+  { name: "Watches, Camera", icon: faClock },
+  { name: "Home Appliances", icon: faHome },
+  { name: "Accessories", icon: faKeyboard },
+  { name: "PC, Monitors, Printers", icon: faLaptop },
+  { name: "TV", icon: faTv },
+  { name: "Trade-In Deals", icon: faRecycle },
+  { name: "Used Goods", icon: faTags },
+  { name: "Promotions", icon: faTags },
+  { name: "Tech News", icon: faNewspaper },
+];
+
+
 const toastSuccess = () => {
   toast.success('Successful!', {
     position: 'top-right',
@@ -69,7 +98,7 @@ const Header = () => {
   };
   return (
     <>
-      <div className="Navbar px-20 w-full h-16 flex flex-row items-center gap-3 justify-between font-[Roboto] bg-white border-b border-[#e4e9ee]">
+      <div className="Navbar  px-20 w-full h-16 flex flex-row items-center gap-3 justify-between font-[Roboto] bg-white border-b border-[#e4e9ee]">
         <Link
           href="/"
           className="Logo pl-10 h-8 justify-start items-center gap-2 inline-flex"
@@ -85,22 +114,43 @@ const Header = () => {
           </div>
         </Link>
 
-        <div className="SearchBar w-[50%] h-11 flex flex-row justify-center items-center bg-[#f5f5f5] rounded-lg">
-          <div className="SearchIcon w-4 h-4 ml-2" />
-          <input
-            type="text"
-            placeholder="Search for products..."
-            className="SearchInput w-[90%] h-8 ml-2 bg-[#f5f5f5] text-black outline-none"
-          />
-          <button className="px-4 py-4 active:scale-90 transition-transform duration-150 cursor-pointer">
+        <div className="form-control flex flex-row w-full max-w-lg gap-1">
+          <div className="dropdown">
+            <label
+              tabIndex={0}
+              className="btn btn-sm bg-white text-black border border-gray-300 flex items-center gap-2"
+            >
+              All Categories{' '}
+              <FontAwesomeIcon icon={faBars} size="sm" color="grey" />
+            </label>
+            <ul
+        tabIndex={0}
+        className="fixed top-12 dropdown-content menu p-2 shadow bg-white border border-gray-300 rounded-md w-60 text-sm"
+      >
+        {categories.map((category, index) => (
+          <li key={index} className="flex flex-row items-center gap-1 hover:bg-gray-100 rounded-md">
+            <FontAwesomeIcon icon={category.icon} className="text-gray-500 w-4 h-4" />
+            <span>{category.name}</span>
+            
+            
+          </li>
+        ))}
+      </ul>
+          </div>
+          <label className="input input-bordered input-sm flex items-center gap-2 flex-grow">
+            <input
+              type="text"
+              placeholder="Search for products..."
+              className=" w-full bg-white text-black"
+            />
+
             <FontAwesomeIcon
               className="hover:text-blue-500"
               icon={faMagnifyingGlass}
-              size="lg"
-              color="black"
+              size="sm"
             />
             {/* 🔍 */}
-          </button>
+          </label>
         </div>
 
         <div className="NavbarLinks flex flex-row gap-5 justify-end items-center mr-5">

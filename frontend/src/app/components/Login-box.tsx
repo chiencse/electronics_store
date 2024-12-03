@@ -100,7 +100,7 @@ const RegisterBox = ({ setRegister, handleIsLogin }: any) => {
           `${process.env.NEXT_PUBLIC_API_URL}/user/signup`,
           {
             username: formData.username,
-            email: '',
+            email: 'userTest@gmail.com',
             password: formData.password,
             Fname: 'Your First Name',
             LName: 'Your Last Name',
