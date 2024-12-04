@@ -61,10 +61,9 @@ export class CreateUserDto {
     @IsEnum(Roles, { each: true })
     @ApiProperty({
         enum: Roles,
-        isArray: true,
         type: 'string',
         description: 'The roles of the user',
-        example: [Roles.USER],
+        example: Roles.USER,
     })
-    roles: Roles[];
+    roles: string;
 }

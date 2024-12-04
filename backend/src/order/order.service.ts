@@ -9,8 +9,6 @@ import { DataSource, DeleteResult, Repository } from 'typeorm';
 import { Order } from './entities/order.entity';
 import { User } from 'src/user/entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Invoice } from './entities/invoice.entity';
-import { CreateInvoiceDto } from './dto/createInvoice.dto';
 import { ExceptionEntityNotFound } from 'src/common';
 
 @Injectable()
@@ -113,38 +111,4 @@ export class OrderService {
         return deleteResult;
     }
 
-    async generateInvoice(data: CreateInvoiceDto) {
-        const queryRunner = this.dataSource.createQueryRunner();
-        await queryRunner.connect();
-        await queryRunner.startTransaction();
-
-        try {
-            const order = await queryRunner.manager.findOneBy(Order, {
-                id: data.orderId,
-            });
-            if (!order) {
-                throw new NotFoundException('Order not found');
-            }
-
-            // Create and save invoice
-            const invoice = queryRunner.manager.create(Invoice, {
-                total: data.total,
-                order: order,
-            });
-            await queryRunner.manager.save(invoice);
-
-            await queryRunner.commitTransaction();
-            return {
-                message: 'Invoice generated successfully',
-                data: invoice,
-            };
-        } catch (error) {
-            await queryRunner.rollbackTransaction();
-            throw new InternalServerErrorException(
-                'Failed to generate invoice',
-            );
-        } finally {
-            await queryRunner.release();
-        }
-    }
 }

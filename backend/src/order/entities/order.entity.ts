@@ -9,7 +9,6 @@ import {
     OneToMany,
     OneToOne,
 } from 'typeorm';
-import { Invoice } from './invoice.entity';
 import { Discount } from 'src/discount/entities/discount.entity';
 
 @Entity()
@@ -48,9 +47,6 @@ export class Order extends BaseEntity {
 
     @ManyToOne(() => User, (customer) => customer.orders)
     customer: User;
-
-    @OneToOne(() => Invoice, (invoice) => invoice.order)
-    invoice: Invoice;
 
     @ManyToMany(() => Discount, (discount) => discount.order, {
         nullable: true,
