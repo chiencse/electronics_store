@@ -42,8 +42,8 @@ export class User extends BaseEntity {
     @ApiProperty({ type: 'string', description: 'The address of the user' })
     address: string;
 
-    @Column({ type: 'set', enum: Roles, default: [Roles.USER] })
-    roles: Roles[];
+    @Column({ type: 'nvarchar', enum: Roles, default: [Roles.USER] })
+    roles: string;
 
     @OneToMany(() => Order, (order) => order.customer, { nullable: true })
     orders: Order[];

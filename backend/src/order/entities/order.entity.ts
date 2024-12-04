@@ -53,14 +53,6 @@ export class Order extends BaseEntity {
     @ManyToOne(() => User, (customer) => customer.orders)
     customer: User;
 
-    @ApiProperty({ description: 'Address of Customer', type: 'string' })
-    @Column()
-    address: string;
-
-    @ApiProperty({ description: 'Order Id', type: 'number' })
-    @Column()
-    orderIdd : number;
-
     @ManyToMany(() => Discount, (discount) => discount.order, {
         nullable: true,
     })
