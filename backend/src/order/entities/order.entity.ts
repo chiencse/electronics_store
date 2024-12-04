@@ -8,6 +8,7 @@ import {
     ManyToOne,
     OneToMany,
     OneToOne,
+    PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Discount } from 'src/discount/entities/discount.entity';
 
@@ -44,6 +45,10 @@ export class Order extends BaseEntity {
     @ApiProperty({ description: 'Order comments', type: 'string' })
     @Column()
     comments: string;
+
+    @ApiProperty({ description: 'total price', type: 'number' })
+    @Column()
+    totalPrice: number;
 
     @ManyToOne(() => User, (customer) => customer.orders)
     customer: User;

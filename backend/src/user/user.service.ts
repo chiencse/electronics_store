@@ -84,7 +84,7 @@ export class UserService {
             throw new NotFoundException('Invalid password');
         }
 
-        const payload: AuthPayload = { id: user.id, email: user.email };
+        const payload: AuthPayload = { id: user.id, email: user.email, FName: user.Fname, username: user.username };
         return {
             message: 'User logged in successfully',
             token: this.jwtService.sign(payload),
@@ -135,4 +135,32 @@ export class UserService {
         await this.redisService.set(user.email, code, 300);
         return code;
     }
+
+   async changePassword( newPassword: string, OldPassword: string, current_user: AuthPayload) {
+        const user = await this.userRepository.findOneBy({ id: current_user.id });
+        if (!user) {
+            throw new NotFoundException('User not found');
+        }
+
+        const hash_p = await bcrypt.hash(OldPassword, user.salt);
+
+        if (hash_p !== user.hash_password) {
+            throw new NotFoundException('Invalid password');
+        }
+
+        const salt = await bcrypt.genSaltSync(10);
+        const hash = await bcrypt.hashSync(newPassword, salt);
+
+        user.salt = salt;
+        user.hash_password = hash;
+
+        try {
+            await this.userRepository.save(user);
+        } catch (error) {
+            throw new BadRequestException('Failed to change password');
+        }
+        return {
+            message: 'Password changed successfully',
+        }
+   }
 }

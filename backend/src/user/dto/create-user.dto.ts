@@ -13,7 +13,7 @@ export class CreateUserDto {
     @ApiProperty({
         type: 'string',
         description: 'The Fname of the user',
-        required: true,
+        default: 'Your First Name',
     })
     Fname: string;
 
@@ -21,7 +21,7 @@ export class CreateUserDto {
     @ApiProperty({
         type: 'string',
         description: 'The LName of the user',
-        required: true,
+        default: 'Your Last Name',
     })
     LName: string;
 
