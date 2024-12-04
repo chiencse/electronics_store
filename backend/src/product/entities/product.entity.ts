@@ -24,15 +24,23 @@ export class Product extends BaseEntity {
     @Column()
     manufacturer: string;
 
-    @Column('json', { nullable: true })
-    properties: {
-        screenSize: number;
-        screenType: string;
-        refreshRate: number;
-        cellular: boolean;
-        battery: number;
-        camera: string;
-    };
+    @Column({ type: 'float', nullable: true })
+    screenSize: number;
+
+    @Column({ type: 'varchar', nullable: true })
+    screenType: string;
+
+    @Column({ type: 'float', nullable: true })
+    refreshRate: number;
+
+    @Column({ type: 'boolean', nullable: true })
+    cellular: boolean;
+
+    @Column({ type: 'float', nullable: true })
+    battery: number;
+
+    @Column({ type: 'varchar', nullable: true })
+    camera: string;
 
     @Column({ type: 'decimal', precision: 3, scale: 1, default: 0 })
     averageRating: number;
