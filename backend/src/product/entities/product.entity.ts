@@ -33,7 +33,6 @@ export class Product extends BaseEntity {
     @Column({ type: 'float', nullable: true })
     refreshRate: number;
 
-
     @Column({ type: 'float', nullable: true })
     battery: number;
 

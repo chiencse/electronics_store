@@ -6,9 +6,12 @@ import { config } from '@fortawesome/fontawesome-svg-core';
 import '@fortawesome/fontawesome-svg-core/styles.css'; // Import CSS
 import Header from '@/app/Layouts/Header';
 import Footer from '@/app/Layouts/Footer';
+import Sidebar from '@/app/Layouts/SideBar';
 import { ToastContainer } from 'react-toastify';
 import { decodeJWT } from './utils/decodeJwt';
 import React from 'react';
+import { cookies } from 'next/headers';
+
 config.autoAddCss = false; // Tắt CSS tự động để tránh xung đột
 
 const geistSans = localFont({
@@ -32,7 +35,9 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  
+  const cookieStore = cookies(); // Get the cookies object
+  const token = cookieStore.get('token')?.value; // Access a specific cookie
+  const decode = decodeJWT(token);
   
   return (
     <html lang="en">
@@ -45,7 +50,7 @@ export default function RootLayout({
           style={{ zIndex: 9999 }}
         />
         <Header />
-        {children}
+        {decode?.role === 'admin' ? <Sidebar>{children}</Sidebar> : children}
 
         <Footer />
       </body>

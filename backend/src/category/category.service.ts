@@ -10,7 +10,7 @@ export class CategoryService implements OnModuleInit {
     constructor(
         @InjectRepository(Category)
         private readonly categoryRepository: Repository<Category>,
-    ) { }
+    ) {}
     async onModuleInit() {
         console.log('Checking predefined categories...');
         for (const predefinedCategory of categories) {
@@ -19,9 +19,7 @@ export class CategoryService implements OnModuleInit {
             });
 
             if (!existingCategory) {
-
                 // console.log(`Inserting category:`, predefinedCategory);
-
 
                 await this.categoryRepository.save(predefinedCategory);
                 // console.log(`Category "${predefinedCategory.title}" added.`);

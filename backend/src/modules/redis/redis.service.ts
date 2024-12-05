@@ -10,7 +10,6 @@ export class RedisService {
         //         url: `rediss://${process.env.REDIS_HOST}:${process.env.REDIS_PORT}`,
         //         password: process.env.REDIS_PASSWORD,
         //     });
-
         //     this.client.on('connect', () => {
         //         console.log('Redis connected');
         //     });

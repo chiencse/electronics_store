@@ -54,6 +54,9 @@ export class User extends BaseEntity {
 
     @OneToMany(() => Review, (rev) => rev.user)
     reviews: Review[];
+
+    @Column({ type: 'nvarchar', length: 500, nullable: true })
+    avatar: string | null;
 }
 
 export interface AuthPayload {
@@ -61,4 +64,5 @@ export interface AuthPayload {
     email: string;
     FName: string;
     username: string;
+    role: string;
 }

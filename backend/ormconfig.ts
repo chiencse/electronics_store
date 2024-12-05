@@ -33,9 +33,9 @@ export const dataSourceOptions: DataSourceOptions = {
     migrationsRun: true,
     extra: {
         ssl: {
-          rejectUnauthorized: false, // Optional; required if Azure uses self-signed certificates
+            rejectUnauthorized: false, // Optional; required if Azure uses self-signed certificates
         },
-      },
+    },
 };
 
 const dataSource = new DataSource(dataSourceOptions);

@@ -44,7 +44,8 @@ export class AuthService {
             id: user.id,
             email: user.email,
             FName: user.Fname,
-            username: user.username
+            username: user.username,
+            role: user.roles,
         };
         return {
             message: 'User logged in successfully',
@@ -66,7 +67,13 @@ export class AuthService {
             .findOneBy({ email });
         return {
             message: 'Code verified successfully',
-            token: this.jwtService.sign({ id: user.id, email: user.email, FName: user.Fname, username: user.username }),
+            token: this.jwtService.sign({
+                id: user.id,
+                email: user.email,
+                FName: user.Fname,
+                username: user.username,
+                role: user.roles,
+            }),
         };
     }
 }
