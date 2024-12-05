@@ -7,6 +7,8 @@ import '@fortawesome/fontawesome-svg-core/styles.css'; // Import CSS
 import Header from '@/app/Layouts/Header';
 import Footer from '@/app/Layouts/Footer';
 import { ToastContainer } from 'react-toastify';
+import { decodeJWT } from './utils/decodeJwt';
+import React from 'react';
 config.autoAddCss = false; // Tắt CSS tự động để tránh xung đột
 
 const geistSans = localFont({
@@ -30,13 +32,15 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  
+  
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <ToastContainer
-          position="top-right"
+          position="bottom-right"
           autoClose={3000}
           style={{ zIndex: 9999 }}
         />

@@ -10,13 +10,14 @@ import {
   faMobileAlt,
   faLaptop,
   faHeadphones,
-  faClock,
+  faStopwatch,
   faHome,
   faKeyboard,
   faTv,
   faRecycle,
   faTags,
   faNewspaper,
+  faCamera,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Link from 'next/link';
@@ -27,22 +28,22 @@ import { Bounce, toast } from 'react-toastify';
 import { decodeJWT } from '../utils/decodeJwt';
 import logoBK from '../assets/hcmut.png';
 import Image from 'next/image';
-
+import Cookies from 'js-cookie';
+import { useRouter } from 'next/navigation';
 const categories = [
-  { name: "Phone, Tablet", icon: faMobileAlt },
-  { name: "Laptop", icon: faLaptop },
-  { name: "Audio", icon: faHeadphones },
-  { name: "Watches, Camera", icon: faClock },
-  { name: "Home Appliances", icon: faHome },
-  { name: "Accessories", icon: faKeyboard },
-  { name: "PC, Monitors, Printers", icon: faLaptop },
-  { name: "TV", icon: faTv },
-  { name: "Trade-In Deals", icon: faRecycle },
-  { name: "Used Goods", icon: faTags },
-  { name: "Promotions", icon: faTags },
-  { name: "Tech News", icon: faNewspaper },
+  { name: 'Phone, Tablet', icon: faMobileAlt },
+  { name: 'Laptop', icon: faLaptop },
+  { name: 'Audio', icon: faHeadphones },
+  { name: 'Watches, Camera', icon: faCamera },
+  { name: 'Home Appliances', icon: faHome },
+  { name: 'Accessories', icon: faKeyboard },
+  { name: 'PC, Monitors, Printers', icon: faLaptop },
+  { name: 'TV', icon: faTv },
+  { name: 'Trade-In Deals', icon: faRecycle },
+  { name: 'Used Goods', icon: faTags },
+  { name: 'Promotions', icon: faTags },
+  { name: 'Tech News', icon: faNewspaper },
 ];
-
 
 const toastSuccess = () => {
   toast.success('Successful!', {
@@ -66,11 +67,15 @@ const Header = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [dataUser, setDataUser] = useState<any>({});
+  const router = useRouter();
   const togglePopup = () => {
     setShowPopup(!showPopup);
   };
   useEffect(() => {
     const check = checkLoggedIn();
+    if (check?.role === 'admin') {
+      router.push('/admin');
+    }
     if (check) {
       setIsLoggedIn(true);
       setDataUser(check);
@@ -95,6 +100,7 @@ const Header = () => {
     setDataUser({});
     toastSuccess();
     localStorage.removeItem('token');
+    Cookies.remove('token');
   };
   return (
     <>
@@ -115,27 +121,36 @@ const Header = () => {
         </Link>
 
         <div className="form-control flex flex-row w-full max-w-lg gap-1">
-          <div className="dropdown">
+          <div className="dropdown dropdown-hover ">
             <label
               tabIndex={0}
               className="btn btn-sm bg-white text-black border border-gray-300 flex items-center gap-2"
             >
-              All Categories{' '}
+              <span className="hidden sm:inline">All Categories</span>
               <FontAwesomeIcon icon={faBars} size="sm" color="grey" />
             </label>
+
             <ul
-        tabIndex={0}
-        className="fixed top-12 dropdown-content menu p-2 shadow bg-white border border-gray-300 rounded-md w-60 text-sm"
-      >
-        {categories.map((category, index) => (
-          <li key={index} className="flex flex-row items-center gap-1 hover:bg-gray-100 rounded-md">
-            <FontAwesomeIcon icon={category.icon} className="text-gray-500 w-4 h-4" />
-            <span>{category.name}</span>
-            
-            
-          </li>
-        ))}
-      </ul>
+              tabIndex={0}
+              className="dropdown-content menu shadow bg-white border border-gray-300 rounded-md text-sm"
+            >
+              {categories.map((category, index) => (
+                <li
+                  key={index}
+                  className="flex flex-row items-center hover:text-black cursor-pointer"
+                >
+                  <div className="w-full flex items-center">
+                    <FontAwesomeIcon
+                      icon={category.icon}
+                      className="w-5 h-5 mr-2 flex-shrink-0"
+                    />
+                    <span className="inline whitespace-nowrap">
+                      {category.name}
+                    </span>
+                  </div>
+                </li>
+              ))}
+            </ul>
           </div>
           <label className="input input-bordered input-sm flex items-center gap-2 flex-grow">
             <input
