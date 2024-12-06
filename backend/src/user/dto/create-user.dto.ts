@@ -1,3 +1,4 @@
+import { Optional } from '@nestjs/common';
 import { ApiProperty } from '@nestjs/swagger';
 import {
     IsEmail,
@@ -57,6 +58,15 @@ export class CreateUserDto {
     })
     @Length(6, 30)
     password: string;
+
+    @Optional()
+    @IsString()
+    @ApiProperty({
+        type: 'string',
+        description: 'Image User',
+        default: 'default.jpg',
+    })
+    image: string;
 
     @IsEnum(Roles, { each: true })
     @ApiProperty({

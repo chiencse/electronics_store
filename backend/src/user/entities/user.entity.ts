@@ -38,6 +38,11 @@ export class User extends BaseEntity {
     @ApiProperty({ description: 'The phone_number of the user' })
     phone_number: Number;
 
+    
+    @Column({nullable: true})
+    @ApiProperty({ type: 'string', description: 'Image User' ,  nullable: true})
+    avatar: string;
+
     @Column()
     @ApiProperty({ type: 'string', description: 'The address of the user' })
     address: string;
