@@ -73,6 +73,7 @@ export class ProductService {
             this.productRepository.createQueryBuilder('product');
         queryBuilder
             .orderBy('product.id', pageOption.orderBy)
+            .leftJoinAndSelect('product.imageProducts', 'imageProducts')
             .skip(pageOption.skip)
             .take(pageOption.take);
 

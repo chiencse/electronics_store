@@ -52,7 +52,7 @@ export class UserService {
 
             await queryRunner.manager.save(newUser);
             await queryRunner.commitTransaction();
-            const payload: AuthPayload = { id: newUser.id, email: newUser.email, FName: newUser.Fname, username: newUser.username, roles: newUser.roles };
+            const payload: AuthPayload = { id: newUser.id, email: newUser.email, FName: newUser.Fname, username: newUser.username, role: newUser.roles };
             return {
                 message: 'User Sign up successfully',
                 token: this.jwtService.sign(payload),
@@ -86,7 +86,7 @@ export class UserService {
             throw new NotFoundException('Invalid password');
         }
 
-        const payload: AuthPayload = { id: user.id, email: user.email, FName: user.Fname, username: user.username, roles: user.roles };
+        const payload: AuthPayload = { id: user.id, email: user.email, FName: user.Fname, username: user.username, role: user.roles };
         return {
             message: 'User logged in successfully',
             token: this.jwtService.sign(payload),

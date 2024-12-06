@@ -1,7 +1,8 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ContainProduct from './components/containProduct';
+import axios from 'axios';
 
 const products = [
   {
@@ -177,7 +178,6 @@ const FilterPanel = ({ filters, handleFilterPress, onFilterChange }: any) => {
     </div>
   );
 };
-
 const FeaturedProduct = ({ product }: any) => {
   return (
     <div className="mt-12 bg-gray-50 p-8 rounded-lg flex flex-col lg:flex-row items-center shadow-md">
@@ -204,43 +204,61 @@ const FeaturedProduct = ({ product }: any) => {
     </div>
   );
 };
-
 const PopularSection = () => {
   const [filters, setFilters] = useState({
     category: '',
-    priceRange: [0, 1000],
+    priceRange: [0, 100000000],
     rating: 0,
     brand: '',
   });
-  const [listFilteredProducts, setListFilteredProducts] = useState(products);
+  const [products, setProducts] = useState([]); // Dữ liệu sản phẩm gốc
+  const [listFilteredProducts, setListFilteredProducts] = useState([]); // Dữ liệu đã lọc
+
+  // Lấy dữ liệu sản phẩm từ API khi component mount
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const res = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_URL}/product/getAllProduct`
+        );
+        if (res.status === 200) {
+          setProducts(res.data.data); // Lưu sản phẩm gốc
+          setListFilteredProducts(res.data.data); // Hiển thị mặc định
+        }
+      } catch (error) {
+        console.error('Error fetching products:', error);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
+  // Xử lý thay đổi bộ lọc
   const handleFilterChange = (filterType, value) => {
     setFilters((prev) => ({ ...prev, [filterType]: value }));
   };
 
+  // Lọc sản phẩm khi nhấn nút "Filter"
   const handleFilterPress = () => {
-    console.log('Filter Pressed');
-    const filteredProducts = products.filter((product) => {
+    const filteredProducts = products.filter((product: any) => {
       const isWithinPriceRange =
-        Number(product.price) >= filters.priceRange[0] &&
-        Number(product.price) <= filters.priceRange[1];
-      const matchesRating = product.rating >= filters.rating;
+        Number(product.baseprice) >= filters.priceRange[0] &&
+        Number(product.baseprice) <= filters.priceRange[1];
+      const matchesRating = product.averageRating >= filters.rating; // Phù hợp với đánh giá
       const matchesCategory =
         !filters.category || product.category === filters.category;
       const matchesBrand =
         !filters.brand ||
         product.brand?.toLowerCase() === filters.brand.toLowerCase();
-      if (
-        isWithinPriceRange &&
-        matchesRating &&
-        matchesCategory &&
-        matchesBrand
-      ) {
-        return product;
-      }
+
+      return (
+        isWithinPriceRange && matchesRating && matchesCategory && matchesBrand
+      );
     });
 
     setListFilteredProducts(filteredProducts);
   };
+
   return (
     <div className="px-6 py-12 bg-white mx-auto max-w-7xl">
       {/* Section Heading */}
@@ -252,6 +270,8 @@ const PopularSection = () => {
           Discover the most trending products this season
         </p>
       </div>
+
+      {/* Bộ lọc */}
       <div>
         <FilterPanel
           filters={filters}
@@ -259,9 +279,10 @@ const PopularSection = () => {
           onFilterChange={handleFilterChange}
         />
       </div>
+
       {/* Product Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        {listFilteredProducts.map((product) => (
+        {listFilteredProducts.map((product: any) => (
           <ContainProduct key={product.id} product={product} />
         ))}
       </div>

@@ -37,6 +37,7 @@ export class AuthService {
                     email: newUser.email,
                     FName: newUser.Fname,
                     username: newUser.username,
+                    role: newUser.roles,
                 }),
             };
         }
@@ -45,7 +46,7 @@ export class AuthService {
             email: user.email,
             FName: user.Fname,
             username: user.username,
-            roles : user.roles
+            role : user.roles
         };
         return {
             message: 'User logged in successfully',
