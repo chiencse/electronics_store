@@ -177,4 +177,82 @@ export class UserController {
             return this.userService.changePassword(body.Newpassword, body.OldPassword, crtUser);
 
     }
+    @Post(':id/avatar')
+    @ApiOperation({ summary: 'Upload user avatar' })
+    @ApiParam({
+        name: 'id',
+        description: 'User ID to associate the avatar with',
+        type: String,
+    })
+    @ApiConsumes('multipart/form-data')
+    @ApiBody({
+        schema: {
+            type: 'object',
+            properties: {
+                file: {
+                    type: 'string',
+                    format: 'binary',
+                },
+            },
+        },
+    })
+    @ApiResponse({ status: 201, description: 'Avatar uploaded successfully' })
+    @ApiResponse({ status: 400, description: 'Invalid file or user ID' })
+    @UseInterceptors(FileInterceptor('file'))
+    async uploadAvatar(
+        @Param('id') userId: string,
+        @UploadedFile() file: Express.Multer.File,
+    ): Promise<{ avatarUrl: string }> {
+        if (!file) {
+            throw new HttpException('File not provided', HttpStatus.BAD_REQUEST);
+        }
+
+        const avatarUrl = await this.userService.uploadAvatar(userId, file);
+        return { avatarUrl };
+    }
+
+    @Get(':id/avatar')
+    @ApiOperation({ summary: 'Retrieve user avatar URL' })
+    @ApiParam({
+        name: 'id',
+        description: 'User ID to retrieve the avatar for',
+        type: String,
+    })
+    @ApiResponse({
+        status: 200,
+        description: 'Avatar URL retrieved successfully',
+        schema: {
+            type: 'object',
+            properties: {
+                avatarUrl: {
+                    type: 'string',
+                    description: 'URL of the user avatar',
+                    example: 'https://your-storage-account.blob.core.windows.net/fileupload/example-avatar.png',
+                },
+            },
+        },
+    })
+    @ApiResponse({ status: 404, description: 'User or avatar not found' })
+    async getAvatar(@Param('id') userId: string): Promise<{ avatarUrl: string | null }> {
+        const avatarUrl = await this.userService.getAvatarUrl(userId);
+        if (!avatarUrl) {
+            throw new HttpException('Avatar not found', HttpStatus.NOT_FOUND);
+        }
+
+        return { avatarUrl };
+    }
+
+    @Delete(':id/avatar')
+    @ApiOperation({ summary: 'Delete user avatar' })
+    @ApiParam({
+        name: 'id',
+        description: 'User ID to delete the avatar for',
+        type: String,
+    })
+    @ApiResponse({ status: 200, description: 'Avatar deleted successfully' })
+    @ApiResponse({ status: 404, description: 'User or avatar not found' })
+    async deleteAvatar(@Param('id') userId: string): Promise<{ message: string }> {
+        await this.userService.deleteAvatar(userId);
+        return { message: 'Avatar deleted successfully' };
+    }
 }

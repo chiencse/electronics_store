@@ -37,9 +37,10 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const cookieStore = cookies(); // Get the cookies object
-  const token = cookieStore.get('token')?.value; // Access a specific cookie
+  const cookieStore = cookies(); 
+  const token = cookieStore.get('token')?.value; 
   const decode = decodeJWT(token);
+  
   
   return (
     <html lang="en">

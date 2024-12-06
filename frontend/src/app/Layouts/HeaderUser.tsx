@@ -60,7 +60,7 @@ const toastSuccess = () => {
   });
 };
 const checkLoggedIn = () => {
-  const token = Cookies.getItem('token');
+  const token = localStorage.getItem('token');
   const decode = decodeJWT(token);
   return decode;
 };
