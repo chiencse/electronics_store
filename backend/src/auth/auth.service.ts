@@ -44,7 +44,8 @@ export class AuthService {
             id: user.id,
             email: user.email,
             FName: user.Fname,
-            username: user.username
+            username: user.username,
+            roles : user.roles
         };
         return {
             message: 'User logged in successfully',

@@ -106,7 +106,7 @@ const RegisterBox = ({ setRegister, handleIsLogin }: any) => {
             LName: 'Your Last Name',
             phone_number: formData.phoneNumber,
             address: 'string',
-            roles: ['user'],
+            roles: 'user',
           }
         );
         console.log('response:', response.status);

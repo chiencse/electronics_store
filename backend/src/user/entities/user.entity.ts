@@ -61,4 +61,5 @@ export interface AuthPayload {
     email: string;
     FName: string;
     username: string;
+    roles: string;
 }
