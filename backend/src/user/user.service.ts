@@ -14,7 +14,7 @@ import * as bcrypt from 'bcrypt';
 import { SignInDto } from './dto/signIn.dto';
 import { RedisService } from 'src/modules/redis/redis.service';
 import { MailService } from 'src/mail/mail.service';
-
+import { FilesAzureService } from 'src/modules/files/files.service';
 @Injectable()
 export class UserService {
     constructor(
@@ -24,6 +24,7 @@ export class UserService {
         private readonly dataSource: DataSource,
         private readonly redisService: RedisService,
         private readonly mailService: MailService,
+        private readonly fileService: FilesAzureService,
     ) { }
 
     async createUser(createUserDto: CreateUserDto) {

@@ -201,7 +201,13 @@ const HeaderUser = () => {
               onClick={togglePopup}
               className="ProfileAvatar w-10 h-10 rounded-full bg-[#f5f5f5] flex justify-center items-center cursor-pointer"
             >
-              <FontAwesomeIcon icon={faUser} size="lg" color="grey" />
+              <Image
+                src={dataUser.avatarUrl}
+                alt="Profile"
+                className="w-12 h-12 rounded-full"
+                width={150}
+                height={150}
+              />
             </div>
             {dataUser && (
               <p className="pl-4 text-base">
@@ -215,11 +221,14 @@ const HeaderUser = () => {
                 href="/user"
                 className="flex items-center mb-4  cursor-pointer"
               >
-                <img
-                  src="https://via.placeholder.com/50"
+               <Image
+                  src={dataUser.avatarUrl}
                   alt="Profile"
                   className="w-12 h-12 rounded-full mr-4"
+                  width={150}
+                  height={150}
                 />
+                
                 <div>
                   <h3 className="text-lg font-semibold">
                     {dataUser.username ? dataUser.username : dataUser.FName}
