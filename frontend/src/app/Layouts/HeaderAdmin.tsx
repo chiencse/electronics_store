@@ -29,6 +29,8 @@ import { decodeJWT } from '../utils/decodeJwt';
 import logoBK from '../assets/hcmut.png';
 import Image from 'next/image';
 import Cookies from 'js-cookie';
+import { fetchAvatar } from '@/app/api/user/userFetch';
+
 import { useRouter } from 'next/navigation';
 const categories = [
   { name: 'Phone, Tablet', icon: faMobileAlt },
@@ -79,13 +81,20 @@ const HeaderAdmin = () => {
     if (check) {
       setIsLoggedIn(true);
       setDataUser(check);
+      fetchAvatar(check?.id).then((url: string) => {
+        console.log(url);
+        setDataUser((prev: any) => ({ ...prev, avatarUrl: url }));
+      });
     }
   }, []);
 
-  const handleIsLogin = (value: any) => {
+  const handleIsLogin = (value: boolean) => {
     if (value) {
       setIsLoggedIn(true);
       toastSuccess();
+      fetchAvatar(check?.id).then((url: string) => {
+        setDataUser((prev: any) => ({ ...prev, avatarUrl: url }));
+      });
     }
   };
 
@@ -101,6 +110,7 @@ const HeaderAdmin = () => {
     toastSuccess();
     localStorage.removeItem('token');
     Cookies.remove('token');
+    router.push('/');
   };
   return (
     <>
@@ -152,7 +162,13 @@ const HeaderAdmin = () => {
               onClick={togglePopup}
               className="ProfileAvatar w-10 h-10 rounded-full bg-[#f5f5f5] flex justify-center items-center cursor-pointer"
             >
-              <FontAwesomeIcon icon={faUser} size="lg" color="grey" />
+              <Image
+                src={dataUser.avatarUrl}
+                alt="Profile"
+                className="w-12 h-12 rounded-full"
+                width={150}
+                height={150}
+              />
             </div>
             {dataUser && (
               <p className="pl-4 text-base">
@@ -166,10 +182,12 @@ const HeaderAdmin = () => {
                 href="/user"
                 className="flex items-center mb-4  cursor-pointer"
               >
-                <img
-                  src="https://via.placeholder.com/50"
+                <Image
+                  src={dataUser.avatarUrl}
                   alt="Profile"
                   className="w-12 h-12 rounded-full mr-4"
+                  width={150}
+                  height={150}
                 />
                 <div>
                   <h3 className="text-lg font-semibold">

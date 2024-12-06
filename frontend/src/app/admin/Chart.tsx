@@ -86,7 +86,7 @@ const AdminPage: React.FC = () => {
       <div className="grid grid-cols-1  lg:grid-cols-12 gap-8">
         {/* Line Chart */}
         <div className="lg:col-span-8 bg-white shadow rounded-lg">
-          <div className="p-2  flex flex-row items-center justify-center border-b-2">
+          <div className="p-2 h-14  flex flex-row items-center justify-center border-b-2">
             <h2 className=" flex-grow ml-2   text-lg font-bold text-gray-600 ">
               Overview
             </h2>
@@ -161,69 +161,74 @@ const AdminPage: React.FC = () => {
         </div>
 
         {/* Pie Chart */}
-        <div className="lg:col-span-4 bg-white p-4 shadow rounded-lg">
-          <h2 className="text-lg text-gray-800 font-bold mb-4">
+        <div className="lg:col-span-4 bg-white  shadow rounded-lg">
+        <div className="p-2 h-14  flex flex-row items-center justify-start border-b-2">
+          <h2 className="text-lg text-gray-800 font-bold ml-2 ">
             Sales by Category
           </h2>
-          <ResponsiveContainer width="100%" height={300}>
-            <PieChart>
-              <Pie
-                data={pieData}
-                dataKey="value"
-                nameKey="name"
-                cx="50%"
-                cy="50%"
-                innerRadius={60}
-                outerRadius={80}
-                fill="#8884d8"
-                label
-                paddingAngle={5}
-              >
-                {pieData.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={entry.color} />
-                ))}
-              </Pie>
-            </PieChart>
-          </ResponsiveContainer>
-          <div className="overflow-x-auto">
-            <table className="table table-sm">
-              <thead className="text-xs text-gray-700 uppercase bg-gray-100">
-                <tr>
-                  <th scope="col" className="">
-                    Category
-                  </th>
-                  <th scope="col" className="">
-                    Orders
-                  </th>
-                  <th scope="col" className="">
-                    Perc.
-                  </th>
-                  <th scope="col" className="">
-                    Change
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {tableData.map((row, index) => (
-                  <tr key={index} className="bg-white ">
-                    <td className=" font-medium text-gray-900">
-                      {row.category}
-                    </td>
-                    <td className="">{row.orders}</td>
-                    <td className="">{row.perc}</td>
-                    <td className="">
-                      <span
-                        className={`badge rounded-lg text-xs font-semibold ${row.changeColor}`}
-                      >
-                        {row.change}
-                      </span>
-                    </td>
+          </div>
+          <div className='p-4'>
+            <ResponsiveContainer width="100%" height={300}>
+              <PieChart>
+                <Pie
+                  data={pieData}
+                  dataKey="value"
+                  nameKey="name"
+                  cx="50%"
+                  cy="50%"
+                  innerRadius={60}
+                  outerRadius={80}
+                  fill="#8884d8"
+                  label
+                  paddingAngle={5}
+                >
+                  {pieData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={entry.color} />
+                  ))}
+                </Pie>
+              </PieChart>
+            </ResponsiveContainer>
+            <div className="overflow-x-auto">
+              <table className="table table-sm">
+                <thead className="text-xs text-gray-700 uppercase bg-gray-100">
+                  <tr>
+                    <th scope="col" className="">
+                      Category
+                    </th>
+                    <th scope="col" className="">
+                      Orders
+                    </th>
+                    <th scope="col" className="">
+                      Perc.
+                    </th>
+                    <th scope="col" className="">
+                      Change
+                    </th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {tableData.map((row, index) => (
+                    <tr key={index} className="bg-white ">
+                      <td className=" font-medium text-gray-900">
+                        {row.category}
+                      </td>
+                      <td className="">{row.orders}</td>
+                      <td className="">{row.perc}</td>
+                      <td className="">
+                        <span
+                          className={`badge rounded-lg text-xs font-semibold ${row.changeColor}`}
+                        >
+                          {row.change}
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
+        
       </div>
     </div>
   );

@@ -6,7 +6,7 @@ import LogoBK from '../assets/hcmut.png';
 
 const Footer = () => {
   return (
-    <footer className="footer footer-center bg-white border-2 ">
+    <footer className="footer footer-center bg-white shadow-xl ">
       
         {/* Footer Section */}
 

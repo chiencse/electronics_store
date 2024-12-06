@@ -1,5 +1,5 @@
 import React from 'react';
-import HeaderUSer from './HeaderUser';
+import HeaderUser from './HeaderUser';
 import HeaderAdmin from './HeaderAdmin';
 import { decodeJWT } from '../utils/decodeJwt';
 import { cookies } from 'next/headers';
@@ -8,6 +8,6 @@ const Header = () => {
   const token = cookieStore.get('token')?.value;
   const decode = decodeJWT(token);
 
-  return <>{decode?.role === 'user' ? <HeaderUSer /> : <HeaderAdmin />}</>;
+  return <>{decode?.role === 'admin' ? <HeaderAdmin /> : <HeaderUser/>}</>;
 };
 export default Header;

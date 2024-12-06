@@ -114,23 +114,29 @@ const DashboardCards: React.FC = () => {
           key={index}
           className="relative flex flex-col gap-1 bg-white shadow-md rounded-lg py-4 px-8 border border-gray-100 overflow-hidden"
         >
-          {/* Icon Section */}
-          <div className=" flex items-center justify-between z-0 ">
-            <div className=" p-2">{card.icon}</div>
+          {/* Background Icon */}
+          <div className="absolute z-0 h-16 w-16 text-gray-100 bottom-0 right-0">
+            {card.backgroundIcon}
           </div>
-          {/* Amount and Title */}
-          <h2 className="text-xl font-bold z-0">{card.amount}</h2>
           
-          <p className="text-gray-500 z-0">{card.title}</p>
+          {/* Icon Section */}
+          <div className="relative z-10 flex items-center justify-between">
+            <div className="p-2">{card.icon}</div>
+          </div>
+          
+          {/* Amount and Title */}
+          <h2 className="relative z-10 text-xl font-bold">{card.amount}</h2>
+          <p className="relative z-10 text-gray-500">{card.title}</p>
+          
           {/* Percentage */}
           <span
-            className={` ${card.percentageColor} badge rounded-md bg-gray-100 px-3 py-2 font-semibold z-0`}
+            className={`relative z-10 ${card.percentageColor} badge rounded-md bg-gray-100 px-3 py-2 font-semibold`}
           >
             {card.percentage}
           </span>
-          {card.backgroundIcon}
         </div>
       ))}
+
       {/* Keyframes */}
       <style>
         {`

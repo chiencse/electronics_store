@@ -30,6 +30,7 @@ import logoBK from '../assets/hcmut.png';
 import Image from 'next/image';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
+import { fetchAvatar } from '@/app/api/user/userFetch';
 const categories = [
   { name: 'Phone, Tablet', icon: faMobileAlt },
   { name: 'Laptop', icon: faLaptop },
@@ -59,7 +60,7 @@ const toastSuccess = () => {
   });
 };
 const checkLoggedIn = () => {
-  const token = localStorage.getItem('token');
+  const token = Cookies.getItem('token');
   const decode = decodeJWT(token);
   return decode;
 };
@@ -79,6 +80,10 @@ const HeaderUser = () => {
     if (check) {
       setIsLoggedIn(true);
       setDataUser(check);
+      fetchAvatar(check?.id).then((url: string) => {
+        console.log(url);
+        setDataUser((prev: any) => ({ ...prev, avatarUrl: url }));
+      });
     }
   }, []);
 
@@ -86,6 +91,10 @@ const HeaderUser = () => {
     if (value) {
       setIsLoggedIn(true);
       toastSuccess();
+      fetchAvatar(check?.id).then((url: string) => {
+        console.log(url);
+        setDataUser((prev: any) => ({ ...prev, avatarUrl: url }));
+      });
     }
   };
 

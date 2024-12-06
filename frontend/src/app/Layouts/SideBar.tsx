@@ -4,7 +4,7 @@ import React, { useState, useEffect, ReactNode } from 'react';
 import { decodeJWT } from '../utils/decodeJwt';
 import Link from 'next/link';
 import { FiGrid, FiSettings } from 'react-icons/fi';
-import { AiOutlineProduct } from 'react-icons/ai';
+import { AiOutlineProduct,AiOutlineUser } from 'react-icons/ai';
 import Image from 'next/image';
 import logoBK from '../assets/hcmut.png';
 
@@ -60,14 +60,21 @@ const SideBar: React.FC<SideBarProps> = ({ children }) => {
         <div className="flex flex-col gap-1  w-full">
           <Link
             href="/dashboard"
-            className="p-2 flex items-center justify-center  text-gray-600 hover:text-blue-500 hover:bg-gray-100  transition-all duration-500"
+            className="p-3 flex items-center justify-center  text-gray-600 hover:text-blue-500 hover:bg-gray-100  transition-all duration-500"
           >
             <AiOutlineProduct className="w-6 h-6 text-lg" />
             {!isCollapsed && <span className="ml-2 flex-grow text-left font-semibold  ">Product</span>}
           </Link>
           <Link
+            href="/accounts"
+            className="p-3 flex items-center justify-center  text-gray-600 hover:text-blue-500 hover:bg-gray-100  transition-all duration-500"
+          >
+            <AiOutlineUser className="w-6 h-6 text-lg" />
+            {!isCollapsed && <span className="ml-2 flex-grow text-left font-semibold  ">User Management</span>}
+          </Link>
+          <Link
             href="/settings"
-            className="p-2 flex items-center justify-center  text-gray-600 hover:text-blue-500 hover:bg-gray-100  transition-all duration-500"
+            className="p-3 flex items-center justify-center  text-gray-600 hover:text-blue-500 hover:bg-gray-100  transition-all duration-500"
           >
             <FiSettings className=" w-6 h-6 text-lg" />
             {!isCollapsed && <span className="ml-2 flex-grow text-left font-semibold  ">Settings</span>}
