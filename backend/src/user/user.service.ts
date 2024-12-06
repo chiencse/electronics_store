@@ -123,7 +123,15 @@ export class UserService {
     }
 
     async findAll() {
-        return await this.userRepository.find();
+        const users = await this.userRepository.find({
+            relations: ['orders'], 
+        });
+        
+        return await users.map((user) => {
+            delete user.hash_password;
+            delete user.salt;
+            return user;
+    });
     }
 
     async findOne(id: string) {
