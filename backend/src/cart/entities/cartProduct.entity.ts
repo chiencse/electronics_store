@@ -18,6 +18,9 @@ export class CartProduct {
     productId: number;
 
     @Column()
+    variantId:string;
+
+    @Column()
     cartId: number;
 
     @ManyToOne(() => Product, (product) => product.cartProducts)

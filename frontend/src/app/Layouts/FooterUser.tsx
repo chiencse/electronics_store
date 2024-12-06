@@ -15,13 +15,10 @@ const FooterUser = () => {
                 <div className="w-16 h-16 bg-gray-200 rounded-full flex justify-center items-center">
                   <Image src={LogoBK} alt="logo" className="w-12 h-12" />
                 </div>
-                <span className="text-2xl font-bold text-gray-900">
-                  eBKstore
-                </span>
+                <span className="text-2xl font-bold text-gray-900">eBKstore</span>
               </div>
               <p className="text-gray-600 text-sm leading-relaxed">
-                Your go-to e-commerce platform for all your needs. Experience
-                seamless shopping and exceptional service.
+                Your go-to e-commerce platform for all your needs. Experience seamless shopping and exceptional service.
               </p>
             </div>
 
@@ -29,60 +26,34 @@ const FooterUser = () => {
             <div>
               <h4 className="font-semibold text-gray-900 mb-4">About Us</h4>
               <ul className="space-y-3 text-sm">
-                <li className="hover:text-gray-800 cursor-pointer">
-                  Information
-                </li>
-                <li className="hover:text-gray-800 cursor-pointer">
-                  Store Locator
-                </li>
-                <li className="hover:text-gray-800 cursor-pointer">
-                  Bulk Purchase
-                </li>
-                <li className="hover:text-gray-800 cursor-pointer">
-                  Alteration Services
-                </li>
-                <li className="hover:text-gray-800 cursor-pointer">
-                  Gift Delivery Service
-                </li>
-                <li className="hover:text-gray-800 cursor-pointer">
-                  Live Station
-                </li>
+                <li className="hover:text-gray-800 cursor-pointer">Information</li>
+                <li className="hover:text-gray-800 cursor-pointer">Store Locator</li>
+                <li className="hover:text-gray-800 cursor-pointer">Bulk Purchase</li>
+                <li className="hover:text-gray-800 cursor-pointer">Alteration Services</li>
+                <li className="hover:text-gray-800 cursor-pointer">Gift Delivery Service</li>
+                <li className="hover:text-gray-800 cursor-pointer">Live Station</li>
               </ul>
             </div>
 
             <div>
-              <h4 className="font-semibold text-gray-900 mb-4">
-                Customer Support
-              </h4>
+              <h4 className="font-semibold text-gray-900 mb-4">Customer Support</h4>
               <ul className="space-y-3 text-sm">
                 <li className="hover:text-gray-800 cursor-pointer">FAQ</li>
-                <li className="hover:text-gray-800 cursor-pointer">
-                  Return Policy
-                </li>
-                <li className="hover:text-gray-800 cursor-pointer">
-                  Privacy Policy
-                </li>
-                <li className="hover:text-gray-800 cursor-pointer">
-                  Accessibility
-                </li>
-                <li className="hover:text-gray-800 cursor-pointer">
-                  Contact Us
-                </li>
+                <li className="hover:text-gray-800 cursor-pointer">Return Policy</li>
+                <li className="hover:text-gray-800 cursor-pointer">Privacy Policy</li>
+                <li className="hover:text-gray-800 cursor-pointer">Accessibility</li>
+                <li className="hover:text-gray-800 cursor-pointer">Contact Us</li>
               </ul>
             </div>
 
             <div>
               <h4 className="font-semibold text-gray-900 mb-4">Account</h4>
               <ul className="space-y-3 text-sm">
-                <li className="hover:text-gray-800 cursor-pointer">
-                  Membership
-                </li>
+                <li className="hover:text-gray-800 cursor-pointer">Membership</li>
                 <li className="hover:text-gray-800 cursor-pointer">Address</li>
                 <li className="hover:text-gray-800 cursor-pointer">Coupons</li>
               </ul>
-              <h4 className="font-semibold text-gray-900 mt-8 mb-4">
-                Contact Us
-              </h4>
+              <h4 className="font-semibold text-gray-900 mt-8 mb-4">Contact Us</h4>
               <ul className="space-y-3 text-sm">
                 <li className="hover:text-gray-800 cursor-pointer">
                   Consumer Complaint Service
@@ -90,9 +61,7 @@ const FooterUser = () => {
                 <li className="text-gray-600">
                   268 Ly Thuong Kiet, District 10, Ho Chi Minh
                 </li>
-                <li className="hover:text-gray-800 cursor-pointer">
-                  CSE Faculty
-                </li>
+                <li className="hover:text-gray-800 cursor-pointer">CSE Faculty</li>
                 <li className="hover:text-gray-800 cursor-pointer">1234567</li>
               </ul>
             </div>

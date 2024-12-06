@@ -28,19 +28,19 @@ export class PaymentController {
         return { paymentUrl };
     }
 
-    @Get('/vnpay-return')
-    handleReturnUrl(@Query() query: any, @Res() res: Response) {
-        const isVerified = this.paymentService.verifyPayment(query);
-        if (isVerified && query.vnp_ResponseCode === '00') {
-            // Thanh toán thành công, chuyển hướng tới trang thông báo
-            return res.redirect(
-                `${process.env.FE_HOST}/payment/success?orderId=${query.vnp_TxnRef}`,
-            );
-        } else {
-            // Thanh toán thất bại, chuyển hướng tới trang lỗi
-            return res.redirect(`${process.env.FE_HOST}/payment/failed`);
-        }
+
+  @Get('/vnpay-return')
+  handleReturnUrl(@Query() query: any, @Res() res: Response) {
+    const isVerified = this.paymentService.verifyPayment(query);
+    if (isVerified && query.vnp_ResponseCode === '00') {
+      // Thanh toán thành công, chuyển hướng tới trang thông báo
+      return res.redirect(`${process.env.FE_HOST}/payment/success?orderId=${query.vnp_TxnRef}`);
+    } else {
+      // Thanh toán thất bại, chuyển hướng tới trang lỗi
+      return res.redirect(`${process.env.FE_HOST}/payment/failed`);
+
     }
+  }
     @Post('/vnpay-ipn')
     handleIpn(@Body() query: any) {
         const isVerified = this.paymentService.verifyPayment(query);
@@ -58,3 +58,4 @@ export class PaymentController {
         }
     }
 }
+        

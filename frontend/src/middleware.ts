@@ -4,10 +4,10 @@ import { decodeJWT } from './app/utils/decodeJwt';
 export function middleware(request: NextRequest) {
   const url = request.nextUrl.pathname;
   const token = request.cookies.get('token'); // Lấy token từ cookies
-
+  
   const payload = decodeJWT(token?.value); // Giải mã token để lấy thông tin user
   console.log('Payload:', payload);
-
+  
   // Kiểm tra nếu không có token
   if (!token) {
     // Redirect tới trang đăng nhập hoặc trả lỗi
@@ -22,7 +22,7 @@ export function middleware(request: NextRequest) {
 
       return NextResponse.redirect(new URL('/', request.url));
     }
-
+    
     return NextResponse.next();
   }
   // Nếu token tồn tại, tiếp tục request
@@ -31,5 +31,5 @@ export function middleware(request: NextRequest) {
 
 // Cấu hình matcher để áp dụng middleware cho các route cụ thể
 export const config = {
-  matcher: ['/', '/admin', '/order', '/cart'], // Thêm các route cần middleware kiểm tra
+  matcher: ['/','/admin','/order', '/cart'], // Thêm các route cần middleware kiểm tra
 };

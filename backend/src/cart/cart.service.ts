@@ -11,6 +11,7 @@ import { ProductService } from 'src/product/product.service';
 import { AuthPayload } from 'src/user/entities/user.entity';
 import { UserService } from 'src/user/user.service';
 import { CartProduct } from './entities/cartProduct.entity';
+import { InsertCartDto } from './dto/insert-cart.dto';
 
 @Injectable()
 export class CartService {
@@ -24,12 +25,12 @@ export class CartService {
         private readonly userService: UserService,
     ) {}
 
-    async insert(id: string, user: AuthPayload) {
+    async insert(cartdto: InsertCartDto, user: AuthPayload) {
         const queryRunner = this.dataSource.createQueryRunner();
         await queryRunner.connect();
         await queryRunner.startTransaction();
         try {
-            const pd = await this.productService.findOne(id);
+            const pd = await this.productService.findOne(cartdto.productId);
 
             if (!pd) {
                 throw new NotFoundException('Product not found');
@@ -47,6 +48,7 @@ export class CartService {
                         where: {
                             cart: { id: existingCart.id },
                             product: { id: pd.id },
+                            variantId: cartdto.variantId,
                         },
                     });
 
@@ -60,6 +62,7 @@ export class CartService {
                     newCartProduct.cart = existingCart;
                     newCartProduct.product = pd;
                     newCartProduct.quantity = 1;
+                    newCartProduct.variantId = cartdto.variantId;
                     await this.cartProductRepository.save(newCartProduct);
                 }
             } else {
@@ -74,6 +77,7 @@ export class CartService {
                 newCartProduct.cart = newCart;
                 newCartProduct.product = pd;
                 newCartProduct.quantity = 1; // Hoặc giá trị mặc định khác
+                newCartProduct.variantId = cartdto.variantId;
                 await this.cartProductRepository.save(newCartProduct);
             }
             await queryRunner.commitTransaction();

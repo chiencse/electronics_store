@@ -22,7 +22,7 @@ const Footer = () => {
             </span>
           </div>
         </div>
-      
+     
     </footer>
   );
 };

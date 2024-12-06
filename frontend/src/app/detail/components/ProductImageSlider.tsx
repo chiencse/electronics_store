@@ -2,16 +2,9 @@
 
 import { useState } from 'react';
 
-export default function ProductImageSlider() {
+export default function ProductImageSlider({ ListImages }: any) {
   // Placeholder images
-  const images = [
-    '/placeholder1.jpg',
-    '/placeholder2.jpg',
-    '/placeholder3.jpg',
-    '/placeholder4.jpg',
-    '/placeholder5.jpg',
-  ];
-
+  const images = ListImages || [];
   // State to track the currently selected image
   const [selectedImage, setSelectedImage] = useState(images[0]);
 
@@ -20,9 +13,9 @@ export default function ProductImageSlider() {
       {/* Main Image */}
       <div className="w-full h-96 bg-gray-200 rounded-lg flex items-center justify-center mb-4">
         <img
-          src={selectedImage}
+          src={selectedImage?.imageUrl}
           alt="Product Image"
-          className="w-full h-full object-cover rounded-lg"
+          className=" object-cover rounded-lg"
         />
       </div>
 
@@ -37,9 +30,9 @@ export default function ProductImageSlider() {
             }`}
           >
             <img
-              src={image}
+              src={image?.imageUrl}
               alt={`Thumbnail ${index + 1}`}
-              className="w-full h-full object-cover"
+              className=" object-cover"
             />
           </button>
         ))}

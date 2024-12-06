@@ -10,6 +10,7 @@ export const AuthorizeGuard = (allowedRoles: string[]) => {
         canActivate(context: ExecutionContext): boolean {
 
             const request = context.switchToHttp().getRequest();
+            const result = allowedRoles.includes(request.user.role);
 
             const result = allowedRoles.includes(request.user.role);
 

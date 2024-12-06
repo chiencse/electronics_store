@@ -36,6 +36,7 @@ export class OrderController {
     @Get('/all')
     @ApiProperty({ description: 'Get all orders' })
     async findAll(@CurrentUser() user: any) {
+        
         return this.orderService.findAll(user);
     }
 

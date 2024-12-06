@@ -1,61 +1,62 @@
 'use client';
 import ProductImageSlider from './components/ProductImageSlider';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Review from './components/Review';
-const dataProduct = {
-  id: 1,
-  name: 'Laptop Pro 15',
-  baseprice: 1299.99,
-  description: 'A professional-grade laptop with top-notch performance.',
-  manufacturer: 'CompTech',
-  properties: {
-    screenSize: 15.6,
-    screenType: 'IPS',
-    refreshRate: 60,
-    cellular: false,
-    battery: 8000,
-    camera: '720p HD',
-  },
-  averageRating: 4.5,
-  imageProducts: [
-    { id: 1, url: 'https://example.com/images/laptop1_main.jpg' },
-    { id: 2, url: 'https://example.com/images/laptop1_alt.jpg' },
-  ],
-  variants: [
-    {
-      id: 1,
-      ram: 16,
-      rom: 512,
-      cpu: 'Intel Core i7',
-      color: 'Silver',
-      quantity: 20,
-      price: 1299.99,
-      reviews: [
-        {
-          id: 1,
-          userId: 101,
-          rating: 5,
-          comment: 'Amazing performance and build quality.',
-        },
-        {
-          id: 2,
-          userId: 202,
-          rating: 4,
-          comment: 'Great laptop but could use more ports.',
-        },
-      ],
-    },
-  ],
-};
+import axios from 'axios';
 
 export default function ProductPage() {
-  const [selectedVariant, setSelectedVariant] = useState(
-    dataProduct.variants[0]
-  ); // Biến thể mặc định
+  const [detailProduct, setDetailProduct] = useState<any>(null);
+  const [selectedVariant, setSelectedVariant] = useState(); // Biến thể mặc định
+
+  useEffect(() => {
+    const getDetailProduct = async () => {
+      try {
+        const query = window.location.search;
+        const urlParams = new URLSearchParams(query);
+        const id = urlParams.get('id');
+        const res = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_URL}/product/getDetailProduct/${id}`
+        );
+        console.log(res.data);
+        if (res.status === 200) {
+          setDetailProduct(res.data);
+          setSelectedVariant(res.data.variants[0]); // Chọn biến thể đầu tiên
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getDetailProduct();
+  }, []);
 
   const handleVariantClick = (variant: any) => {
     setSelectedVariant(variant); // Cập nhật biến thể được chọn
+  };
+  if (!detailProduct)
+    <div className="text-center text-gray-600">Loading...</div>;
+  const handleAddToCart = async () => {
+    try {
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/cart`,
+        {
+          productId: detailProduct.id,
+          variantId: selectedVariant?.id,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+      console.log(res.data);
+    } catch (error) {
+      console.error(
+        'Error adding to cart:',
+        error.response?.data || error.message
+      );
+    }
   };
 
   return (
@@ -72,40 +73,51 @@ export default function ProductPage() {
       <div className="container mx-auto w-[82rem] grid grid-cols-1 md:grid-cols-2 gap-8">
         {/* Left: Image Carousel */}
         <div>
-          <ProductImageSlider />
+          <ProductImageSlider ListImages={detailProduct?.imageProducts} />
         </div>
 
         {/* Right: Product Details */}
         <div>
-          <h1 className="text-2xl font-bold mb-4">{dataProduct.name}</h1>
+          <h1 className="text-2xl font-bold mb-4">{detailProduct?.name}</h1>
           <div className="flex items-center space-x-2 mb-4">
             <span className="text-yellow-500">
-              ⭐ {dataProduct.averageRating}
+              ⭐ {detailProduct?.averageRating}
             </span>
             <span className="text-gray-500">(1,238 Sold)</span>
           </div>
           {/* Giá tiền của biến thể được chọn */}
           <div className="text-3xl font-semibold text-green-700 mb-4">
-            ${selectedVariant.price}
+            {new Intl.NumberFormat('en-US', {
+              style: 'currency',
+              currency: 'VND',
+            }).format(selectedVariant?.price)}
           </div>
-          <p className="text-gray-700 mb-6 h-24">{dataProduct.description}</p>
+          <p className="text-gray-700 mb-6 h-24">
+            {detailProduct?.description}
+          </p>
 
           {/* Product Variants */}
           <div className="mb-6 flex gap-4 items-center ">
-            {dataProduct.variants.map((variant) => (
+            {detailProduct?.variants.map((variant: any) => (
               <button
                 key={variant.id}
                 onClick={() => handleVariantClick(variant)} // Xử lý khi chọn
                 className={`w-28 h-12 rounded-md border-2 flex flex-col items-center justify-center font-[poppins] transition duration-300 ease-in-out transform hover:scale-105 active:scale-95 ${
-                  selectedVariant.id === variant.id
+                  selectedVariant?.id === variant.id
                     ? 'border-green-700 bg-green-100' // Biến thể được chọn
                     : 'border-gray-200 bg-white'
                 }`}
               >
                 <p>{variant.rom}GB</p>
-                <p>${variant.price}</p>
+                <p>
+                  {' '}
+                  {new Intl.NumberFormat('en-US', {
+                    style: 'currency',
+                    currency: 'VND',
+                  }).format(variant?.price)}
+                </p>
                 <span
-                  className={`block w-8 h-8 rounded-full bg-${variant.color.toLowerCase()}-500`}
+                  className={`block w-8 h-8 rounded-full bg-${variant?.color.toLowerCase()}-500`}
                 />
               </button>
             ))}
@@ -116,7 +128,10 @@ export default function ProductPage() {
             <button className="bg-green-700 text-white py-2 px-6 rounded-lg transition duration-300 ease-in-out transform hover:scale-105 hover:bg-green-800 active:scale-95">
               Buy Now
             </button>
-            <button className="border border-green-700 text-green-700 py-2 px-6 rounded-lg transition duration-300 ease-in-out transform hover:scale-105 hover:bg-green-700 hover:text-white active:scale-95">
+            <button
+              onClick={handleAddToCart}
+              className="border border-green-700 text-green-700 py-2 px-6 rounded-lg transition duration-300 ease-in-out transform hover:scale-105 hover:bg-green-700 hover:text-white active:scale-95"
+            >
               Add to Cart
             </button>
           </div>
@@ -155,26 +170,23 @@ export default function ProductPage() {
                 <strong>Brand:</strong> Logitech
               </li>
               <li>
-                <strong>Battery:</strong> {dataProduct.properties.battery}
+                <strong>Battery:</strong> {detailProduct?.battery}
               </li>
               <li>
-                <strong>Camera:</strong> {dataProduct.properties.camera}
+                <strong>Camera:</strong> {detailProduct?.camera}
               </li>
               <li>
                 <strong>Cellular:</strong>{' '}
-                {dataProduct.properties.cellular ? 'Yes' : 'No'}
+                {detailProduct?.cellular ? 'Yes' : 'No'}
               </li>
               <li>
-                <strong>Refresh Rate:</strong>{' '}
-                {dataProduct.properties.refreshRate} Hz
+                <strong>Refresh Rate:</strong> {detailProduct?.refreshRate} Hz
               </li>
               <li>
-                <strong>Screen Size:</strong>{' '}
-                {dataProduct.properties.screenSize}"
+                <strong>Screen Size:</strong> {detailProduct?.screenSize}"
               </li>
               <li>
-                <strong>Screen Type:</strong>{' '}
-                {dataProduct.properties.screenType}
+                <strong>Screen Type:</strong> {detailProduct?.screenType}
               </li>
             </ul>
           </div>
@@ -185,7 +197,7 @@ export default function ProductPage() {
               Variant Specifications
             </h3>
             <div className="space-y-4">
-              {dataProduct.variants.map((variant, index) => (
+              {detailProduct?.variants?.map((variant, index) => (
                 <div key={variant.id} className="border-t pt-4">
                   <h4 className="text-md font-semibold text-gray-800">
                     Variant {index + 1}: {variant.color}

@@ -23,13 +23,13 @@ export class AuthController {
 
     @Get('google/redirect')
     @UseGuards(AuthGuard('google'))
-    async googleAuthRedirect(@Req() req, @Res() res: Response) {
+    async googleAuthRedirect(@Req() req, @Res() res : Response) {
         const token = await this.authService.googleLogin(req).then((data) => {
             return data.token;
         });
-        res.redirect(`http://localhost:3000/api/success?token=${token}`);
+        res.redirect(`http://localhost:3000/api/success?token=${token}`) 
     }
-
+ 
     @Post('veryfy-code')
     @ApiProperty({ type: verifyDto, description: 'Verify code' })
     async verifyCode(@Body() veryfyDto: verifyDto) {

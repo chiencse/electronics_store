@@ -1,114 +1,63 @@
 'use client';
 import ContainProduct from '@/app/landing/components/containProduct';
-import { useState } from 'react';
-const product = [
-  {
-    id: 1,
-    name: 'Spy x Family Tshirt',
-    price: '26',
-    rating: 4.8,
-    sold: 1238,
-    location: 'North Purwokerto',
-    image:
-      'https://monngonmoingay.com/wp-content/smush-webp/2024/10/Salad-ca-hoi-sot-tom-kho.png.webp',
-  },
-  {
-    id: 2,
-    name: 'Green Man Jacket',
-    price: '49',
-    rating: 4.8,
-    sold: 1238,
-    location: 'North Purwokerto',
-    image:
-      'https://monngonmoingay.com/wp-content/smush-webp/2024/10/Salad-ca-hoi-sot-tom-kho.png.webp',
-  },
-  {
-    id: 3,
-    name: 'Iphone 14 Pro Max',
-    price: '1200',
-    rating: 4.8,
-    sold: 1238,
-    location: 'North Purwokerto',
-    image:
-      'https://monngonmoingay.com/wp-content/smush-webp/2024/10/Salad-ca-hoi-sot-tom-kho.png.webp',
-  },
-  {
-    id: 4,
-    name: 'Oversized Tshirt',
-    price: '48',
-    rating: 4.8,
-    sold: 1238,
-    location: 'North Purwokerto',
-    image:
-      'https://monngonmoingay.com/wp-content/smush-webp/2024/10/Salad-ca-hoi-sot-tom-kho.png.webp',
-  },
-  {
-    id: 5,
-    name: 'Brown Woman Hoodie',
-    price: '49',
-    rating: 4.8,
-    sold: 1238,
-    location: 'North Purwokerto',
-    image:
-      'https://monngonmoingay.com/wp-content/smush-webp/2024/10/Salad-ca-hoi-sot-tom-kho.png.webp',
-  },
-  {
-    id: 6,
-    name: 'Airpod Pro 2022',
-    price: '459',
-    rating: 4.8,
-    sold: 1238,
-    location: 'North Purwokerto',
-    image:
-      'https://monngonmoingay.com/wp-content/smush-webp/2024/10/Salad-ca-hoi-sot-tom-kho.png.webp',
-  },
-  {
-    id: 7,
-    name: 'DJI Mini 3 Pro',
-    price: '842',
-    rating: 4.8,
-    sold: 1238,
-    location: 'North Purwokerto',
-    image:
-      'https://monngonmoingay.com/wp-content/smush-webp/2024/10/Salad-ca-hoi-sot-tom-kho.png.webp',
-  },
-  {
-    id: 8,
-    name: 'Ipad Pro Gen 3',
-    price: '338',
-    rating: 4.8,
-    sold: 1238,
-    location: 'North Purwokerto',
-    image:
-      'https://monngonmoingay.com/wp-content/smush-webp/2024/10/Salad-ca-hoi-sot-tom-kho.png.webp',
-  },
-];
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+
 const SearchLayout = () => {
   const [filters, setFilters] = useState({
     rating: '',
     delivery: false,
     discount: false,
-    label: '',
+    manufacturer: '',
     category: '',
     priceRange: { min: '', max: '' },
     sortBy: 'relevant',
   });
 
-  const [products, setProducts] = useState(product); // Sản phẩm từ API
+  const [products, setProducts] = useState([]); // Sản phẩm từ API
 
   // Xử lý khi filter thay đổi
   const handleFilterChange = (field: any, value: any) => {
-    console.log(filters);
     setFilters((prev) => ({ ...prev, [field]: value }));
   };
 
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const res = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_URL}/product/getAllProduct`
+        );
+        if (res.status === 200) {
+          setProducts(res.data.data); // Lưu sản phẩm gốc
+        }
+      } catch (error) {
+        console.error('Error fetching products:', error);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+  const sortProducts = (sortBy: any) => {
+    const sortedProducts = products.sort((a: any, b: any) => {
+      if (sortBy === 'priceLow') {
+        return a.baseprice - b.baseprice; // Sort by price low to high
+      } else if (sortBy === 'priceHigh') {
+        return b.baseprice - a.baseprice; // Sort by price high to low
+      }
+      return 0; // Default case
+    });
+
+    console.log(sortedProducts);
+    setProducts(sortedProducts);
+  };
   // Fetch data dựa trên filters
   const fetchProducts = async () => {
     // Ví dụ fetch giả lập
     const filteredProducts = product.filter((product) => {
       return (
         (!filters.rating || product.rating >= Number(filters.rating)) &&
-        (!filters.location || product.location === filters.location) &&
+        (!filters.manufacturer ||
+          product.manufacturer === filters.manufacturer) &&
         (!filters.category || product.category === filters.category) &&
         (filters.priceRange.min === '' ||
           Number(product.price) >= parseFloat(filters.priceRange.min)) &&
@@ -116,7 +65,6 @@ const SearchLayout = () => {
           Number(product.price) <= parseFloat(filters.priceRange.max))
       );
     });
-    console.log(filteredProducts);
     setProducts(filteredProducts);
   };
 
@@ -236,7 +184,10 @@ const SearchLayout = () => {
           </p>
           <select
             value={filters.sortBy}
-            onChange={(e) => handleFilterChange('sortBy', e.target.value)}
+            onChange={(e) => {
+              handleFilterChange('sortBy', e.target.value);
+              sortProducts(e.target.value);
+            }}
             className="border rounded-md px-2 py-1"
           >
             <option value="relevant">Relevant Products</option>
@@ -247,14 +198,12 @@ const SearchLayout = () => {
 
         <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
           {products.map((product) => (
-            <ContainProduct product={product} />
+            <ContainProduct key={product.id} product={product} />
           ))}
         </div>
       </main>
     </div>
   );
 };
-
-// Fake product data
 
 export default SearchLayout;
