@@ -6,29 +6,29 @@ import { Category } from './entities/category.entity';
 import { Repository } from 'typeorm';
 import { categories } from './categories.data';
 @Injectable()
-export class CategoryService implements OnModuleInit {
+export class CategoryService  {
     constructor(
         @InjectRepository(Category)
         private readonly categoryRepository: Repository<Category>,
     ) { }
-    async onModuleInit() {
-        console.log('Checking predefined categories...');
-        for (const predefinedCategory of categories) {
-            const existingCategory = await this.categoryRepository.findOne({
-                where: { title: predefinedCategory.title },
-            });
+    // async onModuleInit() {
+    //     console.log('Checking predefined categories...');
+    //     for (const predefinedCategory of categories) {
+    //         const existingCategory = await this.categoryRepository.findOne({
+    //             where: { title: predefinedCategory.title },
+    //         });
 
-            if (!existingCategory) {
+    //         if (!existingCategory) {
 
-                // console.log(`Inserting category:`, predefinedCategory);
+    //             // console.log(`Inserting category:`, predefinedCategory);
 
 
-                await this.categoryRepository.save(predefinedCategory);
-                // console.log(`Category "${predefinedCategory.title}" added.`);
-            }
-        }
-        console.log('Predefined categories initialized.');
-    }
+    //             await this.categoryRepository.save(predefinedCategory);
+    //             // console.log(`Category "${predefinedCategory.title}" added.`);
+    //         }
+    //     }
+    //     console.log('Predefined categories initialized.');
+    // }
 
     async create(createCategoryDto: CreateCategoryDto) {
         const category = this.categoryRepository.create(createCategoryDto);

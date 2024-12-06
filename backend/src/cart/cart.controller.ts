@@ -20,6 +20,7 @@ import {
 import { CurrentUser, TypeORMExceptionFilter } from 'src/common';
 import { AuthPayload } from 'src/user/entities/user.entity';
 import { AuthGuard } from 'src/user/guard/jwt.guard';
+import { InsertCartDto } from './dto/insert-cart.dto';
 
 @Controller('cart')
 @ApiTags('Cart')
@@ -38,12 +39,13 @@ export class CartController {
     @ApiOperation({ summary: 'insert item to cart' })
     @ApiBearerAuth('JWT-auth')
     @UseGuards(AuthGuard)
-    @Post(':id')
+    @Post('')
     async insertCart(
-        @Param('id') id: string,
+        @Body() CartDTo: InsertCartDto,
         @CurrentUser() user: AuthPayload,
     ) {
-        return this.cartService.insert(id, user);
+        console.log(CartDTo);
+        return this.cartService.insert(CartDTo, user);
     }
 
     @ApiBearerAuth('JWT-auth')

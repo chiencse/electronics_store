@@ -1,13 +1,14 @@
+import { Optional } from '@nestjs/common';
 import { ApiProperty } from '@nestjs/swagger';
+import { IsString } from 'class-validator';
 
 export class InsertCartDto {
-    @ApiProperty({
-        description: 'Time last modified',
-        type: 'string',
-        format: 'date-time',
-    })
-    lastModified: Date = new Date();
 
-    @ApiProperty({ description: 'User ID', type: 'string' })
+    @IsString()
+    @ApiProperty({ description: 'ID Of product', type: 'string' })
     productId: string;
+
+    @IsString()
+    @ApiProperty({ description: 'ID of variant Product', type: 'string' })
+    variantId: string;
 }

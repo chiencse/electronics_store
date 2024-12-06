@@ -35,6 +35,30 @@ export default function ProductPage() {
   };
   if (!detailProduct)
     <div className="text-center text-gray-600">Loading...</div>;
+  const handleAddToCart = async () => {
+    try {
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/cart`,
+        {
+          productId: detailProduct.id,
+          variantId: selectedVariant?.id,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+      console.log(res.data);
+    } catch (error) {
+      console.error(
+        'Error adding to cart:',
+        error.response?.data || error.message
+      );
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-100">
       {/* Breadcrumb */}
@@ -104,7 +128,10 @@ export default function ProductPage() {
             <button className="bg-green-700 text-white py-2 px-6 rounded-lg transition duration-300 ease-in-out transform hover:scale-105 hover:bg-green-800 active:scale-95">
               Buy Now
             </button>
-            <button className="border border-green-700 text-green-700 py-2 px-6 rounded-lg transition duration-300 ease-in-out transform hover:scale-105 hover:bg-green-700 hover:text-white active:scale-95">
+            <button
+              onClick={handleAddToCart}
+              className="border border-green-700 text-green-700 py-2 px-6 rounded-lg transition duration-300 ease-in-out transform hover:scale-105 hover:bg-green-700 hover:text-white active:scale-95"
+            >
               Add to Cart
             </button>
           </div>
