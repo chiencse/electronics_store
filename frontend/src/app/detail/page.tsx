@@ -4,6 +4,21 @@ import ProductImageSlider from './components/ProductImageSlider';
 import { useEffect, useState } from 'react';
 import Review from './components/Review';
 import axios from 'axios';
+import { Bounce, toast } from 'react-toastify';
+
+const toastSuccess = () => {
+  toast.success('Successful!', {
+    position: 'top-right',
+    autoClose: 3000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: 'colored',
+    transition: Bounce,
+  });
+};
 
 export default function ProductPage() {
   const [detailProduct, setDetailProduct] = useState<any>(null);
@@ -50,7 +65,9 @@ export default function ProductPage() {
           },
         }
       );
-      console.log(res.data);
+      if (res.status === 201) {
+        toastSuccess();
+      }
     } catch (error) {
       console.error(
         'Error adding to cart:',

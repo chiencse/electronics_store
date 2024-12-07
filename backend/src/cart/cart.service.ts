@@ -97,24 +97,41 @@ export class CartService {
             .createQueryBuilder('cart')
             .leftJoin('cart.cartProducts', 'cartProduct')
             .leftJoin('cartProduct.product', 'product')
+            .leftJoin('product.variants', 'ProductVariant')
+            .leftJoin('product.imageProducts', 'ImageProduct')
             .leftJoin('product.discounts', 'discount')
             .leftJoin('cart.user', 'user')
             .where('user.id = :id', { id: user.id })
+            .where('cartProduct.variantId = productVariant.id')
             .select([
                 'product.id',
                 'product.name',
-                'product.baseprice',
                 'discount.id',
                 'discount.amountDiscount',
                 'discount.discountPercentage',
                 'cartProduct.quantity',
+                'cartProduct.variantId',
+                'ProductVariant.ram',
+                'ProductVariant.rom',
+                'ProductVariant.cpu',
+                'ProductVariant.color',
+                'ProductVariant.price',
+                'ImageProduct.imageUrl',
             ])
             .getRawMany();
+            
+            const filteredCart = listProduct.reduce((acc, item) => {
+                const existingProduct = acc.find(p => p.cartProduct_variantId === item.cartProduct_variantId);
+                if (!existingProduct) {
+                  acc.push(item);
+                }
+                return acc;
+              }, []);
 
-        return listProduct;
+        return filteredCart;
     }
 
-    async remove(id: string, user: AuthPayload) {
+    async remove(deleteDto: InsertCartDto, user: AuthPayload) {
         const queryRunner = this.dataSource.createQueryRunner();
         await queryRunner.connect();
         await queryRunner.startTransaction();
@@ -128,17 +145,58 @@ export class CartService {
                 await this.cartProductRepository.findOne({
                     where: {
                         cart: { id: existingCart.id },
-                        product: { id: id },
+                        product: { id: deleteDto.productId },
+                        variantId: deleteDto.variantId,
                     },
                 });
 
             if (existingCartProduct) {
+                console.log(existingCartProduct.quantity);
                 existingCartProduct.quantity -= 1;
                 if (existingCartProduct.quantity == 0) {
                     await this.cartProductRepository.delete(
                         existingCartProduct.id,
                     );
                 }
+                else {
+                    await this.cartProductRepository.save(existingCartProduct);
+                }
+            }
+            await queryRunner.commitTransaction();
+            return {
+                message: 'delete Successfully',
+            };
+        } catch (error) {
+            await queryRunner.rollbackTransaction();
+            throw new BadRequestException(error.message);
+        } finally {
+            await queryRunner.release();
+        }
+    }
+
+    async removeAll(deleteDto: InsertCartDto, user: AuthPayload) {
+        const queryRunner = this.dataSource.createQueryRunner();
+        await queryRunner.connect();
+        await queryRunner.startTransaction();
+        try {
+            // Kiểm tra nếu đã có giỏ hàng của user
+            const existingCart = await this.cartRepository.findOne({
+                where: { user: { id: user.id } },
+            });
+
+            const existingCartProduct =
+                await this.cartProductRepository.findOne({
+                    where: {
+                        cart: { id: existingCart.id },
+                        product: { id: deleteDto.productId },
+                        variantId: deleteDto.variantId,
+                    },
+                });
+
+            if (existingCartProduct) {
+                    await this.cartProductRepository.delete(
+                        existingCartProduct.id,
+                    );
             }
             await queryRunner.commitTransaction();
             return {

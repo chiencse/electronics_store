@@ -11,7 +11,7 @@ export function middleware(request: NextRequest) {
   // Kiểm tra nếu không có token
   if (!token) {
     // Redirect tới trang đăng nhập hoặc trả lỗi
-    // return NextResponse.redirect(new URL('/login', request.url));
+    return NextResponse.redirect(new URL('/', request.url));
   }
   if (['/admin', '/admin/dashboard'].some((route) => url.startsWith(route))) {
     const token = request.cookies.get('token');
@@ -31,5 +31,5 @@ export function middleware(request: NextRequest) {
 
 // Cấu hình matcher để áp dụng middleware cho các route cụ thể
 export const config = {
-  matcher: ['/','/admin','/order', '/cart'], // Thêm các route cần middleware kiểm tra
+  matcher: ['/admin','/order',], // Thêm các route cần middleware kiểm tra
 };

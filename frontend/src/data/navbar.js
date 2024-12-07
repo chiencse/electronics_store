@@ -14,12 +14,16 @@ export const navbarLogin = [
   {
     icon: faCartShopping,
     iconImg: '🛒',
+    key: 'cart',
   },
   {
     icon: faBell,
     iconImg: '🔔',
+    key: 'notification',
   },
   {
     icon: faEnvelope,
+    iconImg: '✉️',
+    key: 'message',
   },
 ];

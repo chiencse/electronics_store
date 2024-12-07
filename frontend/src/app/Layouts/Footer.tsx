@@ -8,6 +8,6 @@ const Footer = () => {
   const token = cookieStore.get('token')?.value; // Access a specific cookie
   const decode = decodeJWT(token);
 
-  return <>{decode?.role === 'user' ? <FooterUSer /> : <FooterAdmin />}</>;
+  return <>{decode?.role === 'admin' ? <FooterAdmin /> : <FooterUSer />}</>;
 };
 export default Footer;

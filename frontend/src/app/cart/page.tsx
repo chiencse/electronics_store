@@ -1,74 +1,42 @@
 'use client';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ContainProduct from '../landing/components/containProduct';
 import { listProduct } from '@/data/products';
 import axios from 'axios';
-const initialCart = [
-  {
-    id: 1,
-    label: 'Apple',
-
-    products: [
-      {
-        id: 101,
-        name: 'Logitech G435 Gaming Headset',
-        price: 250,
-        quantity: 1,
-        imageUrl: 'https://picsum.photos/id/1/200/300',
-      },
-      {
-        id: 102,
-        name: 'Logitech G502 Hero',
-        price: 89,
-        quantity: 1,
-        imageUrl: 'https://picsum.photos/id/1/200/300',
-      },
-      {
-        id: 103,
-        name: 'Logitech G303 Shroud Edition',
-        price: 46,
-        quantity: 1,
-        imageUrl: 'https://picsum.photos/id/1/200/300',
-      },
-    ],
-  },
-  {
-    id: 2,
-    label: 'Samsung',
-    products: [
-      {
-        id: 201,
-        name: 'Green Man Jacket',
-        price: 49,
-        quantity: 1,
-        imageUrl: 'https://picsum.photos/id/1/200/300',
-      },
-    ],
-  },
-];
 
 const PageCart = () => {
-  const [cart, setCart] = useState(initialCart);
+  const [cart, setCart] = useState([]);
   const [selectedProducts, setSelectedProducts] = useState([]);
   const [checkout, setCheckout] = useState(false);
+  const [Loading, setLoading] = useState(false);
   const HandleCheckout = () => {
-    const filteredCart = cart
-      .map((store) => ({
-        ...store,
-        products: store.products.filter((product) =>
-          selectedProducts.some(
-            (item: any) =>
-              item.storeId === store.id && item.productId === product.id
-          )
-        ),
-      }))
-      .filter((store) => store.products.length > 0); // Loại bỏ các store không có sản phẩm
-
+    const filteredCart = cart.filter((product) =>
+      selectedProducts.includes(product.cartProduct_variantId)
+    );
     setCart(filteredCart);
-    setCheckout(true); // Chuyển sang chế độ thanh toán
+    setCheckout(true);
   };
+
+  useEffect(() => {
+    const fetchCart = async () => {
+      try {
+        // Gọi API để lấy giỏ hàng từ server
+        const response = await axios.get('http://localhost:3001/cart/all', {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+            'Content-Type': 'application/json',
+          },
+        });
+        console.log('response:', response.data);
+        if (response.status === 200) setCart(response.data);
+      } catch (error) {
+        console.error('Error fetching cart:', error);
+      }
+    };
+    fetchCart();
+  }, []);
   const createPayment = async () => {
     try {
       // Tạo orderId duy nhất với số ngẫu nhiên 4 chữ số
@@ -78,8 +46,8 @@ const PageCart = () => {
       // Thực hiện request đến API
       const response = await axios.post('http://localhost:3001/payment/vnpay', {
         orderId: orderId,
-        amount: 100000,
-        orderDescription: 'Thanh toán đơn hàng 123',
+        amount: calculateTotal(),
+        orderDescription: `Thanh toán đơn hàng ${orderId}`,
       });
 
       // Lấy paymentUrl từ response
@@ -94,74 +62,134 @@ const PageCart = () => {
   };
 
   // Toggle chọn sản phẩm
-  const toggleProductSelection = (storeId: any, productId: any) => {
+  const toggleProductSelection = (variantId: string) => {
     const selected = [...selectedProducts];
-    const exists = selected.find(
-      (item: any) => item.storeId === storeId && item.productId === productId
-    );
+    const exists = selected.includes(variantId);
 
     if (exists) {
-      setSelectedProducts(
-        selected.filter(
-          (item: any) =>
-            item.storeId !== storeId || item.productId !== productId
-        )
-      );
+      setSelectedProducts(selected.filter((id) => id !== variantId));
     } else {
-      setSelectedProducts([...selected, { storeId, productId }]);
+      setSelectedProducts([...selected, variantId]);
     }
   };
 
+  const apiDeleteCart = async (variantId: string, product_id: string) => {
+    try {
+      // Gọi API để xóa sản phẩm khỏi giỏ hàng
+      const response = await axios.delete('http://localhost:3001/cart/delete', {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+          'Content-Type': 'application/json',
+        },
+        data: {
+          variantId: variantId,
+          productId: product_id,
+        },
+      });
+      console.log('response:', response.data);
+    } catch (error) {
+      console.error('Error fetching cart:', error);
+    }
+  };
+  const apiInsertCart = async (variantId: string, product_id: string) => {
+    try {
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/cart`,
+        {
+          productId: product_id,
+          variantId: variantId,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+    } catch (error) {
+      console.error(
+        'Error adding to cart:',
+        error.response?.data || error.message
+      );
+    }
+  };
+  const handleRemove = async (variantId: string, product_id: string) => {
+    try {
+      // Gọi API để xóa sản phẩm khỏi giỏ hàng
+      const response = await axios.delete(
+        'http://localhost:3001/cart/deleteAll',
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+            'Content-Type': 'application/json',
+          },
+          data: {
+            variantId: variantId,
+            productId: product_id,
+          },
+        }
+      );
+      console.log('response:', response.data);
+    } catch (error) {
+      console.error('Error fetching cart:', error);
+    }
+  };
   // Cập nhật số lượng sản phẩm
-  const updateProductQuantity = (storeId: any, productId: any, change: any) => {
-    const updatedCart = cart.map((store) => {
-      if (store.id === storeId) {
-        const updatedProducts = store.products.map((product) => {
-          if (product.id === productId) {
-            const newQuantity = product.quantity + change;
-            return {
-              ...product,
-              quantity: newQuantity > 0 ? newQuantity : 1,
-            };
+  const updateProductQuantity = async (variantId: string, change: number) => {
+    setLoading(true);
+
+    // Sử dụng Promise.all để chờ tất cả các tác vụ bất đồng bộ hoàn thành
+    const updatedCart = await Promise.all(
+      cart.map(async (product: any) => {
+        if (product.cartProduct_variantId === variantId) {
+          const newQuantity = product.cartProduct_quantity + change;
+
+          // Thực hiện hành động thêm/xóa giỏ hàng
+          if (change === -1 && newQuantity > 0) {
+            await apiDeleteCart(variantId, product.product_id);
           }
-          return product;
-        });
-        return { ...store, products: updatedProducts };
-      }
-      return store;
-    });
+          if (change === 1) {
+            await apiInsertCart(variantId, product.product_id);
+          }
+
+          // Cập nhật số lượng
+          return {
+            ...product,
+            cartProduct_quantity: newQuantity > 0 ? newQuantity : 1,
+          };
+        }
+        return product;
+      })
+    );
+
+    // Sau khi xử lý xong, cập nhật lại trạng thái giỏ hàng
+    console.log('updatedCart:', updatedCart);
     setCart(updatedCart);
+    setLoading(false);
   };
 
-  const removeProduct = (storeId: any, productId: any) => {
-    const updatedCart = cart.map((store) => {
-      if (store.id === storeId) {
-        const updatedProducts = store.products.filter(
-          (product) => product.id !== productId
-        );
-        return { ...store, products: updatedProducts };
+  const removeProduct = async (variantId: string) => {
+    await cart.map(async (product: any) => {
+      if (product.cartProduct_variantId === variantId) {
+        await handleRemove(variantId, product.product_id);
       }
-      return store;
     });
-    setCart(updatedCart.filter((store) => store.products.length > 0));
+
+    const updatedCart = cart.filter(
+      (product) => product.cartProduct_variantId !== variantId
+    );
+    setCart(updatedCart);
   };
 
   // Tính tổng tiền
   const calculateTotal = () => {
-    return cart.reduce((total, store) => {
-      return (
-        total +
-        store.products.reduce(
-          (storeTotal, product) =>
-            selectedProducts.find(
-              (item: any) =>
-                item.storeId === store.id && item.productId === product.id
-            )
-              ? storeTotal + product.price * product.quantity
-              : storeTotal,
-          0
-        )
-      );
+    return cart?.reduce((total, product) => {
+      if (selectedProducts.includes(product.cartProduct_variantId)) {
+        return (
+          total + product.ProductVariant_price * product.cartProduct_quantity
+        );
+      }
+      return total;
     }, 0);
   };
 
@@ -188,90 +216,87 @@ const PageCart = () => {
             ) : (
               ''
             )}
-            {cart.map((store) => (
-              <div
-                key={store.id}
-                className="mb-6 bg-white shadow rounded-lg p-6"
-              >
-                <h2 className="text-xl font-semibold">{store.label}</h2>
-                <div className="mt-4">
-                  {store.products.map((product) => (
-                    <div
-                      key={product.id}
-                      className="flex items-center justify-between border-b py-5"
-                    >
-                      <div className="flex items-center">
-                        {!checkout ? (
-                          <input
-                            type="checkbox"
-                            className="mr-4"
-                            checked={selectedProducts.some(
-                              (item: any) =>
-                                item.storeId === store.id &&
-                                item.productId === product.id
-                            )}
-                            onChange={() =>
-                              toggleProductSelection(store.id, product.id)
-                            }
-                          />
-                        ) : (
-                          ''
+            {cart &&
+              cart.map((product) => (
+                <div
+                  key={product.cartProduct_variantId}
+                  className="flex items-center justify-between border-b py-5"
+                >
+                  <div className="flex items-center">
+                    {!checkout ? (
+                      <input
+                        type="checkbox"
+                        className="mr-4"
+                        checked={selectedProducts.includes(
+                          product.cartProduct_variantId
                         )}
-                        <div className="flex">
-                          <img
-                            src={product.imageUrl}
-                            className="w-16 h-16 object-cover rounded-lg"
-                          />
-                          <div className="pl-6">
-                            <h3 className="text-lg font-medium">
-                              {product.name}
-                            </h3>
-                            <p className="text-base text-green-600 font-semibold">
-                              ${product.price}
-                            </p>
-                          </div>
-                        </div>
+                        onChange={() =>
+                          toggleProductSelection(product.cartProduct_variantId)
+                        }
+                      />
+                    ) : null}
+                    <div className="flex">
+                      <img
+                        src={product.ImageProduct_imageUrl} // Thay bằng URL thực
+                        alt={product.product_name}
+                        className="w-16 h-16 object-cover rounded-lg"
+                      />
+                      <div className="pl-6">
+                        <h3 className="text-lg font-medium">
+                          {product.product_name}
+                        </h3>
+                        <p className="text-base text-gray-600">
+                          {product?.ProductVariant_color},{' '}
+                          {product?.ProductVariant_ram}GB RAM,{' '}
+                          {product?.ProductVariant_rom}GB ROM
+                        </p>
+                        <p className="text-base text-green-600 font-semibold">
+                          {product?.ProductVariant_price?.toLocaleString()}₫
+                        </p>
                       </div>
-                      {!checkout ? (
-                        <div className="flex items-center">
-                          <div className="border-2 justify-center flex items-center rounded-md h-12 w-28">
-                            {' '}
-                            {/* Tăng từ h-11 w-24 lên h-12 w-28 */}
-                            <button
-                              className="px-2 py-1 text-gray-600 text-xl hover:text-red-500"
-                              onClick={() =>
-                                updateProductQuantity(store.id, product.id, -1)
-                              }
-                            >
-                              −
-                            </button>
-                            <span className="mx-2 text-lg">
-                              {product.quantity}
-                            </span>{' '}
-                            <button
-                              className="px-2 py-1 text-gray-600 text-xl hover:text-green-600"
-                              onClick={() =>
-                                updateProductQuantity(store.id, product.id, 1)
-                              }
-                            >
-                              +
-                            </button>
-                          </div>
-                          <button
-                            className="ml-4 text-red-500 text-base hover:text-red-700"
-                            onClick={() => removeProduct(store.id, product.id)}
-                          >
-                            <FontAwesomeIcon icon={faTrash} />
-                          </button>
-                        </div>
-                      ) : (
-                        ''
-                      )}
                     </div>
-                  ))}
+                  </div>
+                  {!checkout ? (
+                    <div className="flex items-center">
+                      <div className="border-2 justify-center flex items-center rounded-md h-12 w-28">
+                        <button
+                          className="px-2 py-1 text-gray-600 text-xl hover:text-red-500"
+                          onClick={() =>
+                            updateProductQuantity(
+                              product.cartProduct_variantId,
+                              -1
+                            )
+                          }
+                        >
+                          −
+                        </button>
+                        <span className="mx-2 text-lg">
+                          {product.cartProduct_quantity}
+                        </span>
+                        <button
+                          className="px-2 py-1 text-gray-600 text-xl hover:text-green-600"
+                          onClick={() =>
+                            updateProductQuantity(
+                              product.cartProduct_variantId,
+                              1
+                            )
+                          }
+                        >
+                          +
+                        </button>
+                      </div>
+                      <button
+                        className="ml-4 text-red-500 text-base hover:text-red-700"
+                        onClick={() =>
+                          removeProduct(product.cartProduct_variantId)
+                        }
+                      >
+                        <FontAwesomeIcon icon={faTrash} />
+                      </button>
+                    </div>
+                  ) : null}
                 </div>
-              </div>
-            ))}
+              ))}
           </div>
 
           {/* Summary Section */}
@@ -301,7 +326,10 @@ const PageCart = () => {
                   Total Price
                 </div>
                 <div className="0 text-right text-[#0b0f0e] text-xl font-semibold font-['Clash Grotesk'] leading-7">
-                  ${calculateTotal()}
+                  {new Intl.NumberFormat('vi-VN', {
+                    style: 'currency',
+                    currency: 'VND',
+                  }).format(calculateTotal())}
                 </div>
               </div>
             </div>

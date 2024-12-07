@@ -10,7 +10,8 @@ const HeroSection = () => {
         </h1>
 
         <p className="text-gray-600 mb-6 text-base leading-relaxed max-w-md mx-auto lg:mx-0">
-          Egst neque senectus vivamus aliquam tortor diam nunc. Dis pellentesque lectus quis velit fusc...
+          Egst neque senectus vivamus aliquam tortor diam nunc. Dis pellentesque
+          lectus quis velit fusc...
         </p>
         <div className="flex justify-center lg:justify-start space-x-4">
           <button className="bg-green-700 text-white px-6 py-2 rounded-md font-semibold">
@@ -23,8 +24,7 @@ const HeroSection = () => {
       </div>
       <div className="lg:w-1/2 flex justify-start">
         {/* Placeholder for the image */}
-        <div className="w-64 h-64 bg-gray-200 rounded-lg flex items-center justify-center shadow-lg grow bg-[url('./assets/generic1.png')]">
-        </div>
+        <div className="w-64 h-64 bg-gray-200 rounded-lg flex items-center justify-center shadow-lg grow bg-[url('./assets/generic1.jpg')]"></div>
       </div>
     </section>
   );

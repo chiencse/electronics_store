@@ -170,8 +170,9 @@ const Header = () => {
 
         <div className="NavbarLinks flex flex-row gap-5 justify-end items-center mr-5">
           {navbarLogin.map((item, index) => (
-            <button
+            <Link
               id="index"
+              href={item.key}
               onClick={handleCheckLogin}
               key={index}
               className="active:scale-90 transition-transform duration-150 cursor-pointer"
@@ -184,7 +185,7 @@ const Header = () => {
                   color="grey"
                 />
               </span>
-            </button>
+            </Link>
           ))}
           <div className="ProfileLink text-[#0b0f0e] flex flex-row items-center justify-between text-sm font-medium">
             <div className="Line1 w-6 mr-4 rotate-90 border border-[#75797d]"></div>

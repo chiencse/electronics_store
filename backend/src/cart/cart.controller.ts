@@ -44,15 +44,22 @@ export class CartController {
         @Body() CartDTo: InsertCartDto,
         @CurrentUser() user: AuthPayload,
     ) {
-        console.log(CartDTo);
         return this.cartService.insert(CartDTo, user);
     }
 
     @ApiBearerAuth('JWT-auth')
     @UseGuards(AuthGuard)
     @ApiOperation({ summary: 'remove item in cart by ID' })
-    @Delete(':id')
-    async remove(@Param('id') id: string, @CurrentUser() user: AuthPayload) {
-        return this.cartService.remove(id, user);
+    @Delete('delete')
+    async remove(@Body() deleteDto : InsertCartDto, @CurrentUser() user: AuthPayload) {
+        return this.cartService.remove(deleteDto, user);
+    }
+
+    @ApiBearerAuth('JWT-auth')
+    @UseGuards(AuthGuard)
+    @ApiOperation({ summary: 'remove item in cart by ID' })
+    @Delete('deleteAll')
+    async removeAll(@Body() deleteDto : InsertCartDto, @CurrentUser() user: AuthPayload) {
+        return this.cartService.removeAll(deleteDto, user);
     }
 }
