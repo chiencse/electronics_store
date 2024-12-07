@@ -1,14 +1,13 @@
-import React from 'react';
-import DashboardCards1 from './DashBoardCard1';
-import DashboardCards2 from './DashBoardCard2';
-import Chart from './Chart';  
-const AdminPage = () => {
+
+import React from "react";
+import AccountsTable from "./AccountTable";
+const Page = () => {
   return (
     <div className="bg-zinc-50">
       <div className="flex flex-col item-centers gap-2 py-4 pl-60 pr-20 min-h-[100vh]">
         {/* Side and Breadcumps */}
         <div className="  flex flex-row items-baseline justify-center ">
-          <div className="flex-grow font-semibold">Dashboard</div>
+          <div className="flex-grow font-semibold">Customer</div>
           <div className=" breadcrumbs max-w-xs text-sm text-gray-600">
             <ul>
               <li>
@@ -17,16 +16,12 @@ const AdminPage = () => {
               <li>
                 <a href="/admin">Admin</a>
               </li>
-              <li>Dashboard</li>
+              <li>Account</li>
             </ul>
           </div>
         </div>
         {/* Main Content */}
-        <div className='flex flex-col gap-4'>
-        <DashboardCards1/>
-        <Chart />
-        <DashboardCards2/>
-        </div>
+       <AccountsTable />
         
        
       </div>
@@ -34,4 +29,4 @@ const AdminPage = () => {
   );
 };
 
-export default AdminPage;
+export default Page;

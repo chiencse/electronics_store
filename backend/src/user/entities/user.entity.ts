@@ -23,7 +23,7 @@ export class User extends BaseEntity {
 
     @Column()
     @ApiProperty({ type: 'string', description: 'The username of the user' })
-    @Exclude()
+    
     username: string;
 
     @Column()

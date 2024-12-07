@@ -20,7 +20,7 @@ export function middleware(request: NextRequest) {
     if (!payload?.role || payload.role !== 'admin') {
       // Redirect to login if not an admin
 
-      return NextResponse.redirect(new URL('/login', request.url));
+      return NextResponse.redirect(new URL('/', request.url));
     }
     
     return NextResponse.next();
