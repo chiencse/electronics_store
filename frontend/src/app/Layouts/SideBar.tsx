@@ -59,7 +59,7 @@ const SideBar: React.FC<SideBarProps> = ({ children }) => {
         {/* Navigation Links */}
         <div className="flex flex-col gap-1  w-full">
           <Link
-            href="/dashboard"
+            href="/product"
             className="p-3 flex items-center justify-center  text-gray-600 hover:text-blue-500 hover:bg-gray-100  transition-all duration-500"
           >
             <AiOutlineProduct className="w-6 h-6 text-lg" />
