@@ -11,6 +11,7 @@ import {
     PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Discount } from 'src/discount/entities/discount.entity';
+import { OrderProduct } from './OrderProduct.entity';
 
 @Entity()
 export class Order extends BaseEntity {
@@ -57,6 +58,9 @@ export class Order extends BaseEntity {
         nullable: true,
     })
     discount: Discount[];
+
+    @OneToMany(() => OrderProduct, (orderProduct) => orderProduct.order, {})
+    orderProducts: OrderProduct[];
     // @ApiProperty({description: 'Customer number', type: 'number' })
     // ProductId: number;
 

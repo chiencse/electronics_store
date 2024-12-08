@@ -10,12 +10,16 @@ import { Order } from './entities/order.entity';
 import { User } from 'src/user/entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ExceptionEntityNotFound } from 'src/common';
+import { Product } from 'src/product/entities/product.entity';
+import { OrderProduct } from './entities/OrderProduct.entity';
 
 @Injectable()
 export class OrderService {
     constructor(
         @InjectRepository(Order)
         private orderRepo: Repository<Order>,
+        @InjectRepository(OrderProduct)
+        private readonly orderProductRepo: Repository<OrderProduct>,
         private readonly dataSource: DataSource,
     ) {}
 
@@ -23,38 +27,77 @@ export class OrderService {
         const queryRunner = this.dataSource.createQueryRunner();
         await queryRunner.connect();
         await queryRunner.startTransaction();
-
+    
         try {
             // Find customer
-            const customer = await queryRunner.manager.findOneBy(User, {
-                id: user.id,
+            const customer = await queryRunner.manager.findOne(User, {
+                where: { id: user.id },
             });
-            const { hash_password, username, salt, roles, ...safeCustomer } =
-                customer;
-            if (!customer)
-                throw new NotFoundException(
-                    `User with ID ${user.id} not found`,
-                );
-
-            // Create and save order
+            if (!customer) {
+                throw new NotFoundException(`User with ID ${user.id} not found`);
+            }
+    
+            // Create the order
             const order = queryRunner.manager.create(Order, {
                 ...createOrderDto,
-                customer: safeCustomer,
+                customer,
             });
-            await queryRunner.manager.save(order);
-
+    
+            // Insert the order instead of save (to avoid potential update)
+            await queryRunner.manager.insert(Order, order);
+    
+            // Handle products with better error handling
+            const orderProducts = await Promise.all(
+                createOrderDto.listProduct.map(async (item) => {
+                    try {
+                        const product = await queryRunner.manager.findOne(Product, {
+                            where: { id: item.productId },
+                        });
+    
+                        if (!product) {
+                            console.error(`Product with ID ${item.productId} not found`);
+                            throw new NotFoundException(
+                                `Product with ID ${item.productId} not found`
+                            );
+                        }
+    
+                        const orderProduct = queryRunner.manager.create(OrderProduct, {
+                            quantity: item.quantity,
+                            product,
+                            variantId: item.variantId,
+                            order,
+                        });
+    
+                        // Insert orderProduct into the database instead of save
+                        await queryRunner.manager.insert(OrderProduct, orderProduct);
+                        return orderProduct; // Return orderProduct to attach later
+                    } catch (error) {
+                        console.error(`Error processing product with ID ${item.productId}:`, error);
+                        throw error; // Re-throw to trigger rollback
+                    }
+                })
+            );
+    
+            // Attach order products to the order
+            order.orderProducts = orderProducts;
+    
+            // Commit transaction
             await queryRunner.commitTransaction();
+    
             return {
                 message: 'Order created successfully',
                 data: order,
             };
         } catch (error) {
+            console.error('Error during order creation transaction:', error);
             await queryRunner.rollbackTransaction();
             throw new InternalServerErrorException('Failed to create order');
         } finally {
             await queryRunner.release();
         }
     }
+    
+    
 
     async findAll(user: any) {
         try {

@@ -9,6 +9,9 @@ import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
 import { Category } from 'src/category/entities/category.entity';
 import { Review } from 'src/review/entities/review.entity';
 import { Supplier } from 'src/supply/entities/supply.entity';
+import { OrderProduct } from 'src/order/entities/OrderProduct.entity';
+
+
 
 @Entity()
 export class Product extends BaseEntity {
@@ -79,4 +82,11 @@ export class Product extends BaseEntity {
         onDelete: 'SET NULL',
     })
     supplier: Supplier;
+
+    @OneToMany(() => OrderProduct, (orderProduct) => orderProduct.product, {
+        cascade: true,
+        onDelete: 'CASCADE',
+        nullable: true,
+    })
+    orderProducts: OrderProduct[];
 }

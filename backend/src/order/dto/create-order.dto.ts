@@ -1,6 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNumber, IsString } from 'class-validator';
+import { IsArray, IsNumber, IsString } from 'class-validator';
 export class CreateOrderDto {
+
+    @IsArray()
+    @ApiProperty({ description: 'List of product IDs', type: 'array', items: { type: 'string' } })
+    listProduct: { productId: string, variantId: string, quantity: number }[];
+
     @IsString()
     @ApiProperty({
         description: 'Required date',
