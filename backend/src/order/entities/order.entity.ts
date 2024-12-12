@@ -7,8 +7,6 @@ import {
     ManyToMany,
     ManyToOne,
     OneToMany,
-    OneToOne,
-    PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Discount } from 'src/discount/entities/discount.entity';
 import { OrderProduct } from './OrderProduct.entity';
@@ -24,19 +22,11 @@ export class Order extends BaseEntity {
     orderDate: Date = new Date();
 
     @ApiProperty({
-        description: 'Required date',
-        type: 'string',
-        format: 'date-time',
-    })
-    @Column()
-    requiredDate: Date;
-
-    @ApiProperty({
         description: 'Shipped date',
         type: 'string',
         format: 'date-time',
     })
-    @Column()
+    @Column({ nullable: true })
     shippedDate: Date;
 
     @ApiProperty({ description: 'Order status', type: 'string' })
@@ -44,7 +34,7 @@ export class Order extends BaseEntity {
     status: string;
 
     @ApiProperty({ description: 'Order comments', type: 'string' })
-    @Column()
+    @Column({ nullable: true })
     comments: string;
 
     @ApiProperty({ description: 'total price', type: 'number' })
@@ -61,8 +51,11 @@ export class Order extends BaseEntity {
 
     @OneToMany(() => OrderProduct, (orderProduct) => orderProduct.order, {})
     orderProducts: OrderProduct[];
-    // @ApiProperty({description: 'Customer number', type: 'number' })
-    // ProductId: number;
 
+    @Column({ type: 'int', nullable: true })
+    orderIdd: number;
+
+    @Column({nullable: true})
+    address: string;
     // DiscountId: number;
 }

@@ -179,7 +179,8 @@ const HeaderUser = () => {
 
         <div className="NavbarLinks flex flex-row gap-5 justify-end items-center mr-5">
           {navbarLogin.map((item, index) => (
-            <button
+            <Link
+              href={item.link}
               id="index"
               onClick={handleCheckLogin}
               key={index}
@@ -193,7 +194,7 @@ const HeaderUser = () => {
                   color="grey"
                 />
               </span>
-            </button>
+            </Link>
           ))}
           <div className="ProfileLink text-[#0b0f0e] flex flex-row items-center justify-between text-sm font-medium">
             <div className="Line1 w-6 mr-4 rotate-90 border border-[#75797d]"></div>
@@ -201,13 +202,17 @@ const HeaderUser = () => {
               onClick={togglePopup}
               className="ProfileAvatar w-10 h-10 rounded-full bg-[#f5f5f5] flex justify-center items-center cursor-pointer"
             >
-              <Image
-                src={dataUser.avatarUrl}
-                alt="Profile"
-                className="w-12 h-12 rounded-full"
-                width={150}
-                height={150}
-              />
+              {dataUser.role === 'admin' ? (
+                <Image
+                  src={dataUser.avatarUrl}
+                  alt="Profile"
+                  className="w-12 h-12 rounded-full"
+                  width={150}
+                  height={150}
+                />
+              ) : (
+                <FontAwesomeIcon icon={faUser} size="lg" color="grey" />
+              )}
             </div>
             {dataUser && (
               <p className="pl-4 text-base">
@@ -221,14 +226,20 @@ const HeaderUser = () => {
                 href="/user"
                 className="flex items-center mb-4  cursor-pointer"
               >
-               <Image
-                  src={dataUser.avatarUrl}
-                  alt="Profile"
-                  className="w-12 h-12 rounded-full mr-4"
-                  width={150}
-                  height={150}
-                />
-                
+                {dataUser.role === 'admin' ? (
+                  <Image
+                    src={dataUser.avatarUrl}
+                    alt="Profile"
+                    className="w-12 h-12 rounded-full"
+                    width={150}
+                    height={150}
+                  />
+                ) : (
+                  <div className="ProfileAvatar w-10 h-10 mr-6 rounded-full bg-[#f5f5f5] flex justify-center items-center cursor-pointer">
+                    <FontAwesomeIcon icon={faUser} size="lg" color="grey" />
+                  </div>
+                )}
+
                 <div>
                   <h3 className="text-lg font-semibold">
                     {dataUser.username ? dataUser.username : dataUser.FName}

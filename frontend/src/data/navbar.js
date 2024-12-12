@@ -15,15 +15,18 @@ export const navbarLogin = [
     icon: faCartShopping,
     iconImg: '🛒',
     key: 'cart',
+    link: '/cart',
   },
   {
     icon: faBell,
     iconImg: '🔔',
     key: 'notification',
+    link: '/notification',
   },
   {
     icon: faEnvelope,
     iconImg: '✉️',
     key: 'message',
+    link: '/message',
   },
 ];

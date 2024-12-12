@@ -15,13 +15,13 @@ export class CartProduct {
     quantity: number;
 
     @Column()
-    productId: number;
+    productId: string;
 
     @Column()
     variantId:string;
 
     @Column()
-    cartId: number;
+    cartId: string;
 
     @ManyToOne(() => Product, (product) => product.cartProducts)
     product: Product;

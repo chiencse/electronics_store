@@ -59,10 +59,10 @@ import { SupplyModule } from './supply/supply.module';
     providers: [AppService],
 })
 export class AppModule {
-    configure(consumer: MiddlewareConsumer) {
-        consumer.apply(CurrentUserMiddleware).forRoutes({
-            path: '*',
-            method: RequestMethod.ALL,
-        }); // áp dụng cho tất cả các route trong module
-    }
+    // configure(consumer: MiddlewareConsumer) {
+    //     consumer.apply(CurrentUserMiddleware).forRoutes({
+    //         path: '*',
+    //         method: RequestMethod.ALL,
+    //     }); // áp dụng cho tất cả các route trong module
+    // }
 }

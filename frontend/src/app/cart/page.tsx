@@ -3,20 +3,97 @@ import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useEffect, useState } from 'react';
 import ContainProduct from '../landing/components/containProduct';
-import { listProduct } from '@/data/products';
 import axios from 'axios';
+import { Bounce, toast } from 'react-toastify';
+import Swal from 'sweetalert2';
+
+const showAlertorder = () => {
+  Swal.fire({
+    title: 'Success!',
+    text: 'Your Order Successfully!',
+    icon: 'success',
+    confirmButtonText: 'OK',
+  }).then((result) => {
+    if (result.isConfirmed) {
+      window.location.reload();
+    }
+  });
+};
+
+const toastSuccess = (message: string) => {
+  toast.success(message, {
+    position: 'top-right',
+    autoClose: 3000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: 'colored',
+    transition: Bounce,
+  });
+};
+const toastError = (message: string) => {
+  toast.error(message, {
+    position: 'top-right',
+    autoClose: 3000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: 'colored',
+    transition: Bounce,
+  });
+};
 
 const PageCart = () => {
   const [cart, setCart] = useState([]);
+  const [initialCart, setInitialCart] = useState([]);
   const [selectedProducts, setSelectedProducts] = useState([]);
   const [checkout, setCheckout] = useState(false);
   const [Loading, setLoading] = useState(false);
+  const [relateProduct, setRelateProduct] = useState([]);
+  const [optionOrder, setOptionOrder] = useState({
+    status: 'pending',
+    comments: '',
+    totalPrice: 0,
+    address: '',
+    orderIdd: 0,
+    payment: '',
+  });
+
+  const handleOptionOrder = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target; // Truy xuất name và value
+    setOptionOrder((prevDate) => ({
+      ...prevDate,
+      [name]: value, // Cập nhật theo name và value
+    }));
+  };
+
   const HandleCheckout = () => {
     const filteredCart = cart.filter((product) =>
       selectedProducts.includes(product.cartProduct_variantId)
     );
     setCart(filteredCart);
     setCheckout(true);
+  };
+
+  const getRelateProduct = async () => {
+    try {
+      const response = await axios.get(
+        'http://localhost:3001/product/getAllProduct?page=1&take=5',
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+      setRelateProduct(response.data.data);
+    } catch (error) {
+      console.error('Error fetching cart:', error);
+    }
   };
 
   useEffect(() => {
@@ -30,24 +107,25 @@ const PageCart = () => {
           },
         });
         console.log('response:', response.data);
-        if (response.status === 200) setCart(response.data);
+        if (response.status === 200) {
+          setCart(response.data);
+          setInitialCart(response.data);
+        }
       } catch (error) {
         console.error('Error fetching cart:', error);
       }
     };
+    getRelateProduct();
     fetchCart();
   }, []);
-  const createPayment = async () => {
-    try {
-      // Tạo orderId duy nhất với số ngẫu nhiên 4 chữ số
-      const randomNumber = Math.floor(1000 + Math.random() * 9000); // Số ngẫu nhiên 4 chữ số
-      const orderId = Number(`${Date.now()}${randomNumber}`);
 
+  const VNpay = async (orderIdd: any) => {
+    try {
       // Thực hiện request đến API
       const response = await axios.post('http://localhost:3001/payment/vnpay', {
-        orderId: orderId,
+        orderId: orderIdd,
         amount: calculateTotal(),
-        orderDescription: `Thanh toán đơn hàng ${orderId}`,
+        orderDescription: `Thanh toán đơn hàng ${orderIdd}`,
       });
 
       // Lấy paymentUrl từ response
@@ -58,6 +136,73 @@ const PageCart = () => {
     } catch (error) {
       console.error('Error creating payment:', error);
       alert('Đã xảy ra lỗi khi tạo thanh toán. Vui lòng thử lại!');
+    }
+  };
+
+  const createPayment = async () => {
+    if (!optionOrder.address) {
+      toastError('Please enter your address!');
+      return;
+    }
+    if (!optionOrder.payment) {
+      toastError('Please select payment method!');
+      return;
+    }
+
+    setLoading(true);
+    const selectedAttributes = cart.map(
+      ({ cartProduct_quantity, cartProduct_variantId, product_id }) => ({
+        quantity: cartProduct_quantity,
+        variantId: cartProduct_variantId,
+        productId: product_id,
+      })
+    );
+    console.log('selectedAttributes:', selectedAttributes);
+    try {
+      // Tính tổng tiền
+      const totalPrice = calculateTotal();
+      const orderIdd = await axios.get(
+        'http://localhost:3001/order/maxOrderIdd',
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+      console.log('orderIdd:', orderIdd.data.data);
+      // Gọi API để tạo thanh toán
+      const response = await axios.post(
+        'http://localhost:3001/order/create',
+        {
+          listProduct: selectedAttributes,
+          totalPrice: totalPrice,
+          status: 'pending',
+          comments: optionOrder.comments,
+          address: optionOrder.address,
+          orderIdd: orderIdd.data.data,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+
+      console.log('response:', response.data);
+      toastSuccess('Đã tạo đơn hàng thành công!');
+      if (optionOrder.payment === 'VNPay') {
+        await VNpay(orderIdd.data.data);
+        setLoading(false);
+      } else {
+        showAlertorder();
+      }
+    } catch (error) {
+      console.error('Error creating payment:', error);
+      toastError('Đã xảy ra lỗi khi tạo thanh toán. Vui lòng thử lại!');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -294,7 +439,11 @@ const PageCart = () => {
                         <FontAwesomeIcon icon={faTrash} />
                       </button>
                     </div>
-                  ) : null}
+                  ) : (
+                    <span className="mx-2 text-lg">
+                      SL: {product.cartProduct_quantity}
+                    </span>
+                  )}
                 </div>
               ))}
           </div>
@@ -362,7 +511,7 @@ const PageCart = () => {
           <h2 className="text-2xl font-bold ml-36 mb-6">Related Products</h2>
 
           <div className="grid grid-cols-1 mx-auto sm:grid-cols-2 lg:grid-cols-4 gap-6 w-[78rem]">
-            {listProduct.slice(0, 4).map((product) => (
+            {relateProduct.slice(0, 4).map((product) => (
               <ContainProduct key={product.id} product={product} />
             ))}
           </div>
@@ -377,26 +526,26 @@ const PageCart = () => {
               </label>
               <input
                 type="text"
-                id="address"
+                name="address"
+                onChange={handleOptionOrder}
                 className="w-full mt-1 px-4 py-2 border rounded-lg"
                 placeholder="Enter your full address"
               />
             </div>
             <div className="mb-4">
               <label htmlFor="phone" className="block text-sm text-gray-600">
-                Phone Number:
+                Note:
               </label>
               <input
                 type="text"
-                id="phone"
+                name="comments"
+                onChange={handleOptionOrder}
                 className="w-full mt-1 px-4 py-2 border rounded-lg"
-                placeholder="Enter your phone number"
+                placeholder="Enter your Notice"
               />
             </div>
           </div>
-
           {/* Ô chọn phương thức thanh toán */}
-
           <div className="mt-6">
             <h3 className="text-lg font-semibold mb-4">Payment Method</h3>
             <div className="flex items-center gap-4">
@@ -405,7 +554,9 @@ const PageCart = () => {
                 id="vnpay"
                 name="payment"
                 className="cursor-pointer"
-                onClick={() => console.log('VNPay selected')}
+                checked={optionOrder.payment === 'VNPay'}
+                onChange={handleOptionOrder} // Không cần bọc thêm function
+                value="VNPay"
               />
               <label htmlFor="vnpay" className="cursor-pointer">
                 VNPay
@@ -417,7 +568,9 @@ const PageCart = () => {
                 id="cod"
                 name="payment"
                 className="cursor-pointer"
-                onClick={() => console.log('Cash on Delivery selected')}
+                checked={optionOrder.payment === 'COD'}
+                onChange={handleOptionOrder}
+                value="COD"
               />
               <label htmlFor="cod" className="cursor-pointer">
                 Cash on Delivery (COD)

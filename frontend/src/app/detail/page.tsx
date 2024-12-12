@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import Review from './components/Review';
 import axios from 'axios';
 import { Bounce, toast } from 'react-toastify';
+import Swal from 'sweetalert2';
 
 const toastSuccess = () => {
   toast.success('Successful!', {
@@ -17,6 +18,14 @@ const toastSuccess = () => {
     progress: undefined,
     theme: 'colored',
     transition: Bounce,
+  });
+};
+const sweetSuccess = () => {
+  Swal.fire({
+    title: 'Successfully!',
+    text: 'You item is added to cart!',
+    icon: 'success',
+    confirmButtonText: 'Cool',
   });
 };
 
