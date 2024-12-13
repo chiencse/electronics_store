@@ -4,17 +4,36 @@ import React, { useState, useEffect, ReactNode } from 'react';
 import { decodeJWT } from '../utils/decodeJwt';
 import Link from 'next/link';
 import { FiGrid, FiSettings } from 'react-icons/fi';
-import { AiOutlineProduct,AiOutlineUser } from 'react-icons/ai';
+import { AiOutlineProduct, AiOutlineUser } from 'react-icons/ai';
+import { FaCartArrowDown } from "react-icons/fa";
 import Image from 'next/image';
 import logoBK from '../assets/hcmut.png';
+import Snowfall from 'react-snowfall';
 
 interface SideBarProps {
   children: ReactNode;
 }
 
+
+
+
 const SideBar: React.FC<SideBarProps> = ({ children }) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [role, setRole] = useState<string | null>(null);
+  
+
+  const [images, setImages] = useState([]);
+
+  useEffect(() => {
+    const snowflake1 = document.createElement("img");
+    snowflake1.src = "/assets/clipart568454.png";
+
+    const snowflake2 = document.createElement("img");
+    snowflake2.src = "/assets/winter-snowcrystal-001.png";
+
+    // Set the images in the state
+    setImages([snowflake1, snowflake2]);
+  }, []);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -35,7 +54,7 @@ const SideBar: React.FC<SideBarProps> = ({ children }) => {
         onMouseEnter={() => setIsCollapsed(false)}
         onMouseLeave={() => setIsCollapsed(true)}
         className={`${
-          isCollapsed ? 'w-14 ' : 'w-[12vw] '
+          isCollapsed ? 'w-14 ' : 'w-[20vw] '
         } shadow-lg transition-all duration-500 flex flex-col gap-2 items-center justify-start rounded-lg  `}
       >
         {/* Logo Section */}
@@ -63,25 +82,61 @@ const SideBar: React.FC<SideBarProps> = ({ children }) => {
             className="p-3 flex items-center justify-center  text-gray-600 hover:text-blue-500 hover:bg-gray-100  transition-all duration-500"
           >
             <AiOutlineProduct className="w-6 h-6 text-lg" />
-            {!isCollapsed && <span className="ml-2 flex-grow text-left font-semibold  ">Product</span>}
+            {!isCollapsed && (
+              <span className="ml-2 flex-grow text-left font-semibold  ">
+                Product
+              </span>
+            )}
+          </Link>
+          <Link
+            href="/orderM"
+            className="p-3 flex items-center justify-center  text-gray-600 hover:text-blue-500 hover:bg-gray-100  transition-all duration-500"
+          >
+            <FaCartArrowDown className="w-6 h-6 text-lg" />
+            {!isCollapsed && (
+              <span className="ml-2 flex-grow text-left font-semibold  ">
+                Order
+              </span>
+            )}
           </Link>
           <Link
             href="/accounts"
             className="p-3 flex items-center justify-center  text-gray-600 hover:text-blue-500 hover:bg-gray-100  transition-all duration-500"
           >
             <AiOutlineUser className="w-6 h-6 text-lg" />
-            {!isCollapsed && <span className="ml-2 flex-grow text-left font-semibold  ">User Management</span>}
+            {!isCollapsed && (
+              <span className="ml-2 flex-grow text-left font-semibold  ">
+                User Management
+              </span>
+            )}
           </Link>
           <Link
             href="/settings"
             className="p-3 flex items-center justify-center  text-gray-600 hover:text-blue-500 hover:bg-gray-100  transition-all duration-500"
           >
             <FiSettings className=" w-6 h-6 text-lg" />
-            {!isCollapsed && <span className="ml-2 flex-grow text-left font-semibold  ">Settings</span>}
+            {!isCollapsed && (
+              <span className="ml-2 flex-grow text-left font-semibold  ">
+                Settings
+              </span>
+            )}
           </Link>
         </div>
       </aside>
       {/* Main Content */}
+      <Snowfall
+        snowflakeCount={20}
+        images={images}
+        wind={[0, 1]}
+        radius={[1, 40]}
+        style={{
+          position: 'fixed',
+          width: '100vw',
+          height: '100vh',
+          zIndex: 9999,
+        }}
+      />
+
       <main className="flex-grow">{children}</main>
     </div>
   );

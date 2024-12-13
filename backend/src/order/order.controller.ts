@@ -40,6 +40,14 @@ export class OrderController {
         console.log('get all orders');
         return this.orderService.findAll(user);
     }
+
+    @Get('/allOrder')
+    @ApiProperty({ description: 'Get all orders' })
+    async findAllOrder() {
+        console.log('get all orders');
+        return this.orderService.findAllOrder();
+    }
+
     @Get('/maxOrderIdd')
     @ApiProperty({ description: 'Get max order id' })
     async maxOrderId() {

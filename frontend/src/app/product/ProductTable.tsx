@@ -171,26 +171,41 @@ const ProductTable: React.FC = () => {
     } catch (error) {
       console.error('Error fetching product detail:', error);
     }
-  }
+  };
 
   const handleDeleteProduct = async (id: string) => {
     try {
-      await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/product/deleteProduct/${id}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-          Accept: 'application/json',
-        },
-      });
+      await axios.delete(
+        `${process.env.NEXT_PUBLIC_API_URL}/product/deleteProduct/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+            Accept: 'application/json',
+          },
+        }
+      );
       toast.success('Product deleted successfully');
     } catch (error) {
       console.error('Error deleting product:', error);
       toast.error('Failed to delete product');
     }
-  }
-
+  };
 
   return (
     <div className="p-4">
+      <div className="flex items-center justify-center py-2 ">
+        <iframe
+          className='h-40'
+          src="https://open.spotify.com/embed/playlist/2947Kv6pDPHgLy35BApQQb?utm_source=generator"
+          width="100%"
+          height="120"
+          
+          
+          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+          loading="lazy"
+        ></iframe>
+        
+      </div>
       <div className="flex bg-white justify-between items-center mb-4 p-4 rounded-lg shadow-lg">
         <div className="join">
           <input
@@ -203,8 +218,12 @@ const ProductTable: React.FC = () => {
             <button className="btn join-item">Search</button>
           </div>
         </div>
+
         <div className="flex gap-2">
-          <button className="btn btn-sm bg-green-600 text-white" onClick={()=>setIsCreateModalOpen(true)}>
+          <button
+            className="btn btn-sm bg-green-600 text-white"
+            onClick={() => setIsCreateModalOpen(true)}
+          >
             + Add Product
           </button>
         </div>
@@ -217,7 +236,7 @@ const ProductTable: React.FC = () => {
               <th>Product Name</th>
               <th>Category</th>
               <th>Price</th>
-              
+
               <th>Suplier</th>
               <th>Inventory</th>
               <th>Action</th>
