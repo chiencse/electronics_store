@@ -6,6 +6,7 @@ import Review from './components/Review';
 import axios from 'axios';
 import { Bounce, toast } from 'react-toastify';
 import Swal from 'sweetalert2';
+const DiscountNumber = 0.95;
 
 const toastSuccess = () => {
   toast.success('Successful!', {
@@ -112,11 +113,19 @@ export default function ProductPage() {
             <span className="text-gray-500">(1,238 Sold)</span>
           </div>
           {/* Giá tiền của biến thể được chọn */}
+          <div className="text-xl font-semibold text-gray-400 ml-2">
+            <del>
+              {new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'VND',
+              }).format(selectedVariant?.price)}
+            </del>
+          </div>
           <div className="text-3xl font-semibold text-green-700 mb-4">
             {new Intl.NumberFormat('en-US', {
               style: 'currency',
               currency: 'VND',
-            }).format(selectedVariant?.price)}
+            }).format(selectedVariant?.price * DiscountNumber)}
           </div>
           <p className="text-gray-700 mb-6 h-24">
             {detailProduct?.description}
@@ -295,7 +304,7 @@ export default function ProductPage() {
       </div>
 
       {/* Reviews Section */}
-      <Review />
+      <Review detailProduct={detailProduct} variant={selectedVariant} />
     </div>
   );
 }

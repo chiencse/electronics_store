@@ -101,4 +101,16 @@ export class DiscountService {
             data: deleteResult,
         };
     }
+    async applyProduct(id: string, data: any) {
+        const discount = await this.discountRepo.findOneBy({id});
+        if (!discount) {
+            throw new NotFoundException(`Discount with ID ${id} not found`);
+        }
+        discount.products.push(data.product);
+        await this.discountRepo.save(discount);
+        return {
+            message: 'Product added to discount successfully',
+            data: discount,
+        };
+    }
 }

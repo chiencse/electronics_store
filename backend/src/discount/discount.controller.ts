@@ -7,6 +7,7 @@ import {
     Param,
     Delete,
     UseGuards,
+    Put,
 } from '@nestjs/common';
 import { DiscountService } from './discount.service';
 import { CreateDiscountDto } from './dto/create-discount.dto';
@@ -18,7 +19,7 @@ import { ApiBearerAuth, ApiProperty, ApiTags } from '@nestjs/swagger';
 
 @Controller('discount')
 @ApiTags('Discount')
-@UseGuards(AuthGuard, AuthorizeGuard([Roles.ADMIN]))
+@UseGuards(AuthGuard)
 @ApiBearerAuth('JWT-auth')
 export class DiscountController {
     constructor(private readonly discountService: DiscountService) {}
@@ -49,6 +50,11 @@ export class DiscountController {
         @Body() updateDiscountDto: UpdateDiscountDto,
     ) {
         return this.discountService.update(id, updateDiscountDto);
+    }
+
+    @Put('applyProduct/:id')
+    applyProduct(@Param('id') id: string, @Body() data: any) {
+        return this.discountService.applyProduct(id, data);
     }
 
     @Delete(':id')

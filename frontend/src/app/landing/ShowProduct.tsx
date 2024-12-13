@@ -2,9 +2,9 @@ import React from 'react';
 import PopularSection from './PopularSection';
 
 const categories = [
-  { name: 'Electronics', products: '6.4k' },
-  { name: 'Action Figure', products: '4.4k' },
-  { name: 'Electronics', products: '22.3k' },
+  { name: 'SmartPhone', products: '6.4k' },
+  { name: 'Laptop', products: '4.4k' },
+  { name: 'Assessory', products: '22.3k' },
   { name: 'Gaming', products: '8.2k' },
 ];
 

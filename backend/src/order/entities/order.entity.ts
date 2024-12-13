@@ -4,6 +4,7 @@ import { User } from 'src/user/entities/user.entity';
 import {
     Column,
     Entity,
+    JoinTable,
     ManyToMany,
     ManyToOne,
     OneToMany,
@@ -47,6 +48,7 @@ export class Order extends BaseEntity {
     @ManyToMany(() => Discount, (discount) => discount.order, {
         nullable: true,
     })
+    @JoinTable()
     discount: Discount[];
 
     @OneToMany(() => OrderProduct, (orderProduct) => orderProduct.order, {})

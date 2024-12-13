@@ -78,7 +78,7 @@ const reviewsData = {
   ],
 };
 
-const Review = () => {
+const Review = ({ detailProduct, variant }: any) => {
   const { averageRating, totalReviews, ratingsBreakdown, reviews } =
     reviewsData;
 
@@ -214,7 +214,11 @@ const Review = () => {
                 )}
               </div>
             ) : (
-              <ReviewForm />
+              <ReviewForm
+                key={'only'}
+                detailProduct={detailProduct}
+                variant={variant}
+              />
             )}
           </div>
         </div>

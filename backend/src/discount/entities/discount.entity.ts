@@ -56,7 +56,12 @@ export class Discount extends BaseEntity {
     isActive: boolean;
 
     @ApiProperty({ description: 'Discount type' })
-    discountType: DiscountType;
+    @Column({ })
+    discountType: string;
+
+    @Column({ })
+    @ApiProperty({ description: 'Discount max value' })
+    valueMax: number;
 
     @ManyToMany(() => Order, (order) => order.discount, { nullable: true })
     order: Order[];

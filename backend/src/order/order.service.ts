@@ -14,6 +14,7 @@ import { Product } from 'src/product/entities/product.entity';
 import { OrderProduct } from './entities/OrderProduct.entity';
 import { Cart } from 'src/cart/entities/cart.entity';
 import { CartProduct } from 'src/cart/entities/cartProduct.entity';
+import { Discount } from 'src/discount/entities/discount.entity';
 
 @Injectable()
 export class OrderService {
@@ -104,7 +105,18 @@ export class OrderService {
                     }
                 })
             );
-    
+            
+            const discount = await queryRunner.manager.findOne(Discount, {
+                where: { id: createOrderDto.discountId },
+            });
+
+            if (!discount) {
+                throw new NotFoundException(`Discount with ID ${createOrderDto.discountId} not found`);
+            }
+            if (!order.discount) {
+                order.discount = [];
+            }
+            order.discount.push(discount);
             // Attach order products to the order
             order.orderProducts = orderProducts;
     

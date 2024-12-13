@@ -6,6 +6,7 @@ import ContainProduct from '../landing/components/containProduct';
 import axios from 'axios';
 import { Bounce, toast } from 'react-toastify';
 import Swal from 'sweetalert2';
+const DiscountNumber = 0.95;
 
 const showAlertorder = () => {
   Swal.fire({
@@ -53,7 +54,10 @@ const PageCart = () => {
   const [selectedProducts, setSelectedProducts] = useState([]);
   const [checkout, setCheckout] = useState(false);
   const [Loading, setLoading] = useState(false);
+  const [discount, setDiscount] = useState([]);
+  const [listDiscount, setListDiscount] = useState([]);
   const [relateProduct, setRelateProduct] = useState([]);
+  const [selectDiscount, setSelectDiscount] = useState(null);
   const [optionOrder, setOptionOrder] = useState({
     status: 'pending',
     comments: '',
@@ -71,12 +75,43 @@ const PageCart = () => {
     }));
   };
 
-  const HandleCheckout = () => {
+  const HandleCheckout = async () => {
     const filteredCart = cart.filter((product) =>
       selectedProducts.includes(product.cartProduct_variantId)
     );
     setCart(filteredCart);
     setCheckout(true);
+
+    try {
+      const res = await axios.get(
+        'http://localhost:3001/discount/d3218648-05b9-ef11-88f8-000d3a80421a',
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+      if (res.status === 200) {
+        setDiscount(res.data.data);
+      }
+    } catch (error) {
+      console.error('Error fetching cart:', error);
+    }
+
+    try {
+      const res = await axios.get('http://localhost:3001/discount', {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+          'Content-Type': 'application/json',
+        },
+      });
+      if (res.status === 200) {
+        setListDiscount(res.data.data);
+      }
+    } catch (error) {
+      console.error('Error fetching cart:', error);
+    }
   };
 
   const getRelateProduct = async () => {
@@ -160,7 +195,7 @@ const PageCart = () => {
     console.log('selectedAttributes:', selectedAttributes);
     try {
       // Tính tổng tiền
-      const totalPrice = calculateTotal();
+      const totalPrice = calculateTotalDiscount();
       const orderIdd = await axios.get(
         'http://localhost:3001/order/maxOrderIdd',
         {
@@ -181,6 +216,7 @@ const PageCart = () => {
           comments: optionOrder.comments,
           address: optionOrder.address,
           orderIdd: orderIdd.data.data,
+          discountId: selectDiscount?.id,
         },
         {
           headers: {
@@ -331,11 +367,30 @@ const PageCart = () => {
     return cart?.reduce((total, product) => {
       if (selectedProducts.includes(product.cartProduct_variantId)) {
         return (
-          total + product.ProductVariant_price * product.cartProduct_quantity
+          total +
+          product.ProductVariant_price *
+            product.cartProduct_quantity *
+            DiscountNumber
         );
       }
       return total;
     }, 0);
+  };
+
+  const calculateDiscount = () => {
+    if (!selectDiscount) return 0;
+    if (selectDiscount.discountType === 'percentage') {
+      return calculateTotal() * (selectDiscount.discountPercentage / 100) >=
+        selectDiscount.valueMax
+        ? selectDiscount.valueMax
+        : calculateTotal() * (selectDiscount.discountPercentage / 100);
+    } else {
+      return selectDiscount.amountDiscount;
+    }
+  };
+
+  const calculateTotalDiscount = () => {
+    return calculateTotal() - calculateDiscount();
   };
 
   return (
@@ -396,7 +451,10 @@ const PageCart = () => {
                           {product?.ProductVariant_rom}GB ROM
                         </p>
                         <p className="text-base text-green-600 font-semibold">
-                          {product?.ProductVariant_price?.toLocaleString()}₫
+                          {(
+                            product.ProductVariant_price * DiscountNumber
+                          ).toLocaleString()}
+                          ₫
                         </p>
                       </div>
                     </div>
@@ -459,11 +517,11 @@ const PageCart = () => {
             <div className="mt-6 flex flex-col gap-4">
               <p className="flex justify-between text-base text-gray-700">
                 <span>Total Price:</span>
-                <span>${calculateTotal()}</span>
+                <span>${calculateTotal().toLocaleString()}</span>
               </p>
               <p className="flex justify-between text-base text-gray-700">
                 <span>Total Price (Discount):</span>
-                <span>$0</span>
+                <span>{calculateDiscount().toLocaleString()}</span>
               </p>
               <p className="flex justify-between text-base text-gray-700">
                 <span>Tax & Fee:</span>
@@ -478,7 +536,7 @@ const PageCart = () => {
                   {new Intl.NumberFormat('vi-VN', {
                     style: 'currency',
                     currency: 'VND',
-                  }).format(calculateTotal())}
+                  }).format(calculateTotalDiscount())}
                 </div>
               </div>
             </div>
@@ -517,64 +575,132 @@ const PageCart = () => {
           </div>
         </div>
       ) : (
-        <div className="max-w-6xl mx-auto px-4 py-8 font-[Roboto]">
-          <div className="mt-6">
-            <h3 className="text-lg font-semibold mb-4">Shipping Address</h3>
-            <div className="mb-4">
-              <label htmlFor="address" className="block text-sm text-gray-600">
-                Full Address:
-              </label>
-              <input
-                type="text"
-                name="address"
-                onChange={handleOptionOrder}
-                className="w-full mt-1 px-4 py-2 border rounded-lg"
-                placeholder="Enter your full address"
-              />
+        <div className="flex w-full justify-center">
+          <div className="rounded-box w-[30vw] flex-grow ml-28 mx-auto py-8 font-[Roboto]">
+            <div className="mt-6 w-3/4">
+              <h3 className="text-lg font-semibold mb-4">Shipping Address</h3>
+              <div className="mb-4">
+                <label
+                  htmlFor="address"
+                  className="block text-sm text-gray-600"
+                >
+                  Full Address:
+                </label>
+                <input
+                  type="text"
+                  name="address"
+                  onChange={handleOptionOrder}
+                  className="w-full mt-1 px-4 py-2 border rounded-lg"
+                  placeholder="Enter your full address"
+                />
+              </div>
+              <div className="mb-4">
+                <label htmlFor="phone" className="block text-sm text-gray-600">
+                  Note:
+                </label>
+                <input
+                  type="text"
+                  name="comments"
+                  onChange={handleOptionOrder}
+                  className="w-full mt-1 px-4 py-2 border rounded-lg"
+                  placeholder="Enter your Notice"
+                />
+              </div>
             </div>
-            <div className="mb-4">
-              <label htmlFor="phone" className="block text-sm text-gray-600">
-                Note:
-              </label>
-              <input
-                type="text"
-                name="comments"
-                onChange={handleOptionOrder}
-                className="w-full mt-1 px-4 py-2 border rounded-lg"
-                placeholder="Enter your Notice"
-              />
+            {/* Ô chọn phương thức thanh toán */}
+            <div className="mt-6 ">
+              <h3 className="text-lg font-semibold mb-4">Payment Method</h3>
+              <div className="flex items-center gap-4">
+                <input
+                  type="radio"
+                  id="vnpay"
+                  name="payment"
+                  className="cursor-pointer"
+                  checked={optionOrder.payment === 'VNPay'}
+                  onChange={handleOptionOrder} // Không cần bọc thêm function
+                  value="VNPay"
+                />
+                <label htmlFor="vnpay" className="cursor-pointer">
+                  VNPay
+                </label>
+              </div>
+              <div className="flex items-center gap-4 mt-2">
+                <input
+                  type="radio"
+                  id="cod"
+                  name="payment"
+                  className="cursor-pointer"
+                  checked={optionOrder.payment === 'COD'}
+                  onChange={handleOptionOrder}
+                  value="COD"
+                />
+                <label htmlFor="cod" className="cursor-pointer">
+                  Cash on Delivery (COD)
+                </label>
+              </div>
             </div>
           </div>
-          {/* Ô chọn phương thức thanh toán */}
-          <div className="mt-6">
-            <h3 className="text-lg font-semibold mb-4">Payment Method</h3>
-            <div className="flex items-center gap-4">
-              <input
-                type="radio"
-                id="vnpay"
-                name="payment"
-                className="cursor-pointer"
-                checked={optionOrder.payment === 'VNPay'}
-                onChange={handleOptionOrder} // Không cần bọc thêm function
-                value="VNPay"
-              />
-              <label htmlFor="vnpay" className="cursor-pointer">
-                VNPay
-              </label>
-            </div>
-            <div className="flex items-center gap-4 mt-2">
-              <input
-                type="radio"
-                id="cod"
-                name="payment"
-                className="cursor-pointer"
-                checked={optionOrder.payment === 'COD'}
-                onChange={handleOptionOrder}
-                value="COD"
-              />
-              <label htmlFor="cod" className="cursor-pointer">
-                Cash on Delivery (COD)
-              </label>
+          <div className="divider divider-horizontal"></div>
+          <div className="rounded-box w-[50vw] flex-grow grid place-items-center">
+            <div className="container mx-auto px-4 py-8 pr-10">
+              <h1 className="text-3xl font-bold text-center mb-8">
+                Available Discounts
+              </h1>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {listDiscount.map((discount) => (
+                  <div
+                    onClick={() => setSelectDiscount(discount)}
+                    key={discount.id}
+                    className={`bg-white shadow-md rounded-lg p-6 transition-transform transform cursor-pointer hover:scale-105 ${
+                      selectDiscount?.id === discount.id
+                        ? 'border-4 border-blue-500'
+                        : 'border border-gray-200'
+                    }`}
+                  >
+                    <h2 className="text-xl font-bold text-blue-600 mb-2">
+                      {discount.discountCode}
+                    </h2>
+                    <p className="text-gray-700 mb-4">{discount.description}</p>
+                    <div className="text-sm text-gray-500">
+                      <p>
+                        <span className="font-semibold">Type: </span>
+                        {discount.discountType === 'percentage'
+                          ? `${discount.discountPercentage}%`
+                          : `${new Intl.NumberFormat('en-US', {
+                              style: 'currency',
+                              currency: 'VND',
+                            }).format(discount.amountDiscount)}`}
+                      </p>
+                      <p>
+                        <span className="font-semibold">Max Value: </span>
+                        {new Intl.NumberFormat('en-US', {
+                          style: 'currency',
+                          currency: 'VND',
+                        }).format(discount.valueMax)}
+                      </p>
+                      <p>
+                        <span className="font-semibold">Start Date: </span>
+                        {new Date(discount.startDate).toLocaleDateString()}
+                      </p>
+                      <p>
+                        <span className="font-semibold">End Date: </span>
+                        {new Date(discount.endDate).toLocaleDateString()}
+                      </p>
+                      <p>
+                        <span className="font-semibold">Points Required: </span>
+                        {discount.points_required}
+                      </p>
+                      <p
+                        className={`font-bold ${
+                          discount.isActive ? 'text-green-600' : 'text-red-600'
+                        }`}
+                      >
+                        {discount.isActive ? 'Active' : 'Inactive'}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>

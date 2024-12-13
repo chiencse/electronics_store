@@ -26,4 +26,8 @@ export class CreateOrderDto {
     @IsNumber()
     @ApiProperty({ description: 'Order Id', type: 'number' })
     orderIdd: number;
+
+    @IsString()
+    @ApiProperty({description: 'Discount id', type: 'string'})
+    discountId: string;
 }

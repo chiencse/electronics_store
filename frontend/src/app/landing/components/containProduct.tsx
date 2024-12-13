@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import React from 'react';
+const DiscountNumber = 0.95;
 
 const ContainProduct = ({ product }: any) => {
   return (
@@ -17,11 +18,19 @@ const ContainProduct = ({ product }: any) => {
           <h3 className="text-lg font-semibold text-gray-800">
             {product.name}
           </h3>
+          <p className="text-gray-400 font-bold mt-1">
+            <del>
+              {new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'VND',
+              }).format(product.baseprice)}
+            </del>
+          </p>
           <p className="text-green-600 font-bold mt-1">
             {new Intl.NumberFormat('en-US', {
               style: 'currency',
               currency: 'VND',
-            }).format(product.baseprice)}
+            }).format(product.baseprice * DiscountNumber)}
           </p>
           <div className="flex items-center mt-2 text-gray-400">
             <span className="text-yellow-500">⭐ {product.averageRating}</span>

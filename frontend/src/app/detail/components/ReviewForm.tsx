@@ -11,7 +11,7 @@ const reviewsData = [
     dislikes: 2,
   },
 ];
-export default function ReviewForm() {
+export default function ReviewForm({ detailProduct, variant }: any) {
   const [reviews, setReviews] = useState<any[]>(reviewsData); // Store all reviews
   const [isEditing, setIsEditing] = useState(false); // Track edit mode
   const [reviewForm, setReviewForm] = useState({
@@ -41,16 +41,23 @@ export default function ReviewForm() {
       );
     } else {
       // Add new review
+      // const newReview = {
+      //   id: Date.now(),
+      //   rating: reviewForm.rating,
+      //   comment: reviewForm.comment,
+      //   date: new Date().toLocaleString(),
+      //   user: 'Your Name', // Replace with actual user data
+      //   userImage: 'https://via.placeholder.com/32',
+      //   likes: 0,
+      //   dislikes: 0,
+      // };
       const newReview = {
-        id: Date.now(),
+        productId: detailProduct.id,
+        productVariantId: variant.id,
         rating: reviewForm.rating,
         comment: reviewForm.comment,
-        date: new Date().toLocaleString(),
-        user: 'Your Name', // Replace with actual user data
-        userImage: 'https://via.placeholder.com/32',
-        likes: 0,
-        dislikes: 0,
       };
+      console.log(newReview);
       setReviews((prev) => [newReview, ...prev]);
     }
 
