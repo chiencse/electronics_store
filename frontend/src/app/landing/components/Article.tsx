@@ -4,33 +4,33 @@ const Article = () => {
   const articles = [
     {
       id: 1,
-      title: 'Make your desk more neat and beautiful',
-      date: '22 Dec 2022',
+      title: 'YouTube TV’s monthly cost soars to $82.99',
+      date: '22 Dec 2024',
       description:
-        'Lorem ipsum dolor sit amet consectetur. Arcu pellentesque etiam scelerisque pharetra id. Maecenas diam eu amet cras',
-      image: '/path-to-image1.jpg',
+        'YouTube TV’s monthly cost soars to $82.99',
+      image: '/images1art.webp',
     },
     {
       id: 2,
-      title: 'What are the fashion trend in 2023?',
-      date: '22 Dec 2022',
+      title: 'Character.AI has retrained its chatbots to stop chatting up teens',
+      date: '22 Dec 2024',
       description:
-        'Lorem ipsum dolor sit amet consectetur. Arcu pellentesque etiam scelerisque pharetra id. Maecenas diam eu amet cras',
-      image: '/path-to-image2.jpg',
+        'Among other newly announced changes, a specially trained under-18 model will steer minors away from romance and “sensitive” output.',
+      image: '/images2art.webp',
     },
     {
       id: 3,
-      title: 'Tips for Work Life Balance',
-      date: '22 Dec 2022',
+      title: 'Anker’s new 5K MagSafe battery is slimmer and faster',
+      date: '22 Dec 2024',
       description:
-        'Lorem ipsum dolor sit amet consectetur. Arcu pellentesque etiam scelerisque pharetra id. Maecenas diam eu amet cras',
-      image: '/path-to-image3.jpg',
+        'The new power bank is Anker’s thinnest MagSafe battery and includes a boost to 15W Qi2 wireless charging speeds.',
+      image: '/images3art.webp',
     },
   ];
 
   return (
     <section className="px-4 md:px-16 py-12 mx-16">
-      <h1 className="text-3xl font-bold mb-8">Lenny’s Article</h1>
+      <h1 className="text-3xl font-bold mb-8">Tech Article</h1>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {articles.map((article) => (
           <div

@@ -1,6 +1,4 @@
-import { useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCommentDots, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 
 interface Message {
@@ -13,34 +11,53 @@ const ChatBubble = () => {
   const [input, setInput] = useState<string>('');
   const [sessionId, setSessionId] = useState<string | null>(null);
   const [isChatOpen, setIsChatOpen] = useState<boolean>(false);
+  const [isTyping, setIsTyping] = useState<boolean>(false);
+  const [sending, setSending] = useState<boolean>(false);
+  const chatEndRef = useRef<HTMLDivElement | null>(null);
 
   const API_URL = 'http://localhost:3005';
 
-  const toggleChat = async () => {
-    setIsChatOpen((prev) => !prev);
+ 
+  const scrollToBottom = () => {
+    chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
 
-    if (!isChatOpen) {
+  useEffect(() => {
+    const openSession = async () => {
       try {
         const response = await axios.post(`${API_URL}/open`, {
           user_id: 'user-123',
         });
         console.log('Session initialized:', response.data);
         setSessionId(response.data.user_id);
+        setIsChatOpen(true);
       } catch (error) {
         console.error('Error initializing session:', error);
-        setIsChatOpen(false);
       }
-    } else {
+    };
+
+    const closeSession = async () => {
       if (sessionId) {
         try {
           await axios.post(`${API_URL}/close`, { user_id: sessionId });
+          console.log('Session closed');
         } catch (error) {
           console.error('Error closing session:', error);
         }
       }
-      setSessionId(null);
-    }
-  };
+    };
+
+    openSession();
+
+    return () => {
+      closeSession();
+    };
+  }, [sessionId]);
+
+  // Autoscroll to the bottom whenever messages change
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
 
   const handleSend = async () => {
     if (!input.trim() || !sessionId) return;
@@ -48,6 +65,8 @@ const ChatBubble = () => {
     const message = input;
     setMessages((prev) => [...prev, { sender: 'user', text: message }]);
     setInput('');
+    setIsTyping(true);
+    setSending(true);
 
     try {
       const response = await axios.post(`${API_URL}/query`, {
@@ -60,21 +79,43 @@ const ChatBubble = () => {
       ]);
     } catch (error) {
       console.error('Error fetching bot response:', error);
+      setMessages((prev) => [
+        ...prev,
+        { sender: 'bot', text: 'Oops! Something went wrong.' },
+      ]);
+    } finally {
+      setIsTyping(false);
+      setSending(false);
     }
   };
 
   return (
     <div className="fixed bottom-4 right-4 z-50">
-      {/* Toggle Icon with bounce animation */}
-      <button
-        onClick={toggleChat}
-        className={`bg-green-600 text-white p-4 rounded-full shadow-lg focus:outline-none hover:bg-green-700 transition ${!isChatOpen ? 'animate-bounce' : ''}`}
-      >
-        <FontAwesomeIcon
-          icon={isChatOpen ? faTimes : faCommentDots}
-          className="w-12 h-12"
-        />
-      </button>
+      {/* Toggle Icon */}
+      <div className="relative">
+        {isChatOpen ? (
+          <button
+            onClick={() => setIsChatOpen((prev) => !prev)}
+            className="text-white p-4 rounded-full shadow-lg focus:outline-none hover:bg-red-500 transition bg-red-500 absolute top-[-0.5rem] right-3"
+          >
+            X
+          </button>
+        ) : (
+          <button
+            onClick={() => setIsChatOpen((prev) => !prev)}
+            className="text-white relative p-4 rounded-full shadow-lg focus:outline-none hover:bg-red-500 transition animate-bounce"
+          >
+            <img
+              src="/terminator-skull-head-grim-sticker.png"
+              className="w-24 h-24"
+              alt=""
+            />
+            <div className="absolute top-[-1.5rem] right-20 chat chat-end w-40">
+              <div className="chat-bubble animate-bounce">Ask me something!</div>
+            </div>
+          </button>
+        )}
+      </div>
 
       {/* Chat Interface */}
       {isChatOpen && (
@@ -92,8 +133,8 @@ const ChatBubble = () => {
                     <img
                       src={
                         message.sender === 'user'
-                          ? '/user-avatar.png'
-                          : '/bot-avatar.png'
+                          ? '/frog.png'
+                          : '/terminator-skull-head-grim-sticker.png'
                       }
                       alt={`${message.sender} avatar`}
                     />
@@ -105,11 +146,20 @@ const ChatBubble = () => {
                       ? 'chat-bubble-primary bg-blue-600 text-white'
                       : 'chat-bubble-secondary bg-gray-200 text-black'
                   }`}
+                  style={{ whiteSpace: 'pre-line' }} // Preserve line breaks
                 >
                   {message.text}
                 </div>
               </div>
             ))}
+            {isTyping && (
+              <div className="chat chat-start">
+                <div className="chat-bubble chat-bubble-secondary bg-gray-200 text-black">
+                  Typing...
+                </div>
+              </div>
+            )}
+            <div ref={chatEndRef} /> {/* Empty div to scroll into view */}
           </div>
           <div className="flex items-center mt-4 space-x-3">
             <input
@@ -119,13 +169,14 @@ const ChatBubble = () => {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && handleSend()}
+              disabled={sending} // Disable input while sending
             />
             <button
               className="btn btn-primary px-6"
               onClick={handleSend}
-              disabled={!input.trim()}
+              disabled={!input.trim() || sending} // Disable button while sending
             >
-              Send
+              {sending ? 'Sending...' : 'Send'}
             </button>
           </div>
         </div>
