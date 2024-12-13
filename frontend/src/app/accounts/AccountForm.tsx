@@ -28,12 +28,13 @@ const AccountsForm: React.FC<AccountsFormProps> = ({
     roles: 'user',
   });
   const [avatar, setAvatar] = useState<File | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const modalRef = useRef<HTMLDivElement>(null);
 
   const handleAddUser = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
+    setIsLoading(true);
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/user/signup`,
@@ -99,9 +100,11 @@ const AccountsForm: React.FC<AccountsFormProps> = ({
         roles: 'user',
       });
       setAvatar(null);
+      setIsLoading(false);
     } catch (error) {
       console.error(error);
       toast.error('Failed to create user');
+      setIsLoading(false);
       
     }
   };
@@ -249,7 +252,7 @@ const AccountsForm: React.FC<AccountsFormProps> = ({
                 >
                   Cancel
                 </button>
-                <button type="submit" className="btn btn-primary">
+                <button type="submit" className="btn btn-primary ">
                   Add User
                 </button>
               </div>

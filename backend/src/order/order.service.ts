@@ -140,6 +140,20 @@ export class OrderService {
         }
     }
 
+    async findAllOrder() {
+        try {
+            const orders = await this.orderRepo.find(
+                {relations: ['customer', 'orderProducts', 'orderProducts.product']}
+            );
+            return {
+                message: 'List of orders',
+                data: orders,
+            };
+        } catch (error) {
+            throw new InternalServerErrorException('Error retrieving orders');
+        }
+    }
+
     async findOne(id: string) {
         const order = await this.orderRepo.findOneBy({ id });
         if (!order) {

@@ -5,7 +5,7 @@ import Chart from './Chart';
 const AdminPage = () => {
   return (
     <div className="bg-zinc-50">
-      <div className="flex flex-col item-centers gap-2 py-4 pl-60 pr-20 min-h-[100vh]">
+      <div className="flex flex-col item-centers gap-2 py-4 pl-40 pr-20 min-h-[100vh]">
         <iframe
         
           src="https://open.spotify.com/embed/playlist/3tcCT7XxZStJ2v0nW1AVfO?utm_source=generator"

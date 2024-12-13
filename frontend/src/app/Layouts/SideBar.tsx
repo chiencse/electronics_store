@@ -5,6 +5,7 @@ import { decodeJWT } from '../utils/decodeJwt';
 import Link from 'next/link';
 import { FiGrid, FiSettings } from 'react-icons/fi';
 import { AiOutlineProduct, AiOutlineUser } from 'react-icons/ai';
+import { FaCartArrowDown } from "react-icons/fa";
 import Image from 'next/image';
 import logoBK from '../assets/hcmut.png';
 import Snowfall from 'react-snowfall';
@@ -53,7 +54,7 @@ const SideBar: React.FC<SideBarProps> = ({ children }) => {
         onMouseEnter={() => setIsCollapsed(false)}
         onMouseLeave={() => setIsCollapsed(true)}
         className={`${
-          isCollapsed ? 'w-14 ' : 'w-[12vw] '
+          isCollapsed ? 'w-14 ' : 'w-[20vw] '
         } shadow-lg transition-all duration-500 flex flex-col gap-2 items-center justify-start rounded-lg  `}
       >
         {/* Logo Section */}
@@ -88,6 +89,17 @@ const SideBar: React.FC<SideBarProps> = ({ children }) => {
             )}
           </Link>
           <Link
+            href="/orderM"
+            className="p-3 flex items-center justify-center  text-gray-600 hover:text-blue-500 hover:bg-gray-100  transition-all duration-500"
+          >
+            <FaCartArrowDown className="w-6 h-6 text-lg" />
+            {!isCollapsed && (
+              <span className="ml-2 flex-grow text-left font-semibold  ">
+                Order
+              </span>
+            )}
+          </Link>
+          <Link
             href="/accounts"
             className="p-3 flex items-center justify-center  text-gray-600 hover:text-blue-500 hover:bg-gray-100  transition-all duration-500"
           >
@@ -113,7 +125,7 @@ const SideBar: React.FC<SideBarProps> = ({ children }) => {
       </aside>
       {/* Main Content */}
       <Snowfall
-        snowflakeCount={200}
+        snowflakeCount={20}
         images={images}
         wind={[0, 1]}
         radius={[1, 40]}

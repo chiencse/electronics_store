@@ -12,6 +12,7 @@ import { decodeJWT } from './utils/decodeJwt';
 import React from 'react';
 import { cookies } from 'next/headers';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import SnowWrapper from './Layouts/SnowWrapper';
 
 const queryClient = new QueryClient();
 config.autoAddCss = false; // Tắt CSS tự động để tránh xung đột
@@ -54,7 +55,7 @@ export default function RootLayout({
         />
        
         <Header />
-        {decode?.role === 'admin' ? <Sidebar>{children}</Sidebar> : children}
+        {decode?.role === 'admin' ? <Sidebar>{children}</Sidebar> : <SnowWrapper>{children}</SnowWrapper>}
 
         <Footer />
       </body>
