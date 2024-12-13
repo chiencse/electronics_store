@@ -6,20 +6,7 @@ export class CreateOrderDto {
     @ApiProperty({ description: 'List of product IDs', type: 'array', items: { type: 'string' } })
     listProduct: { productId: string, variantId: string, quantity: number }[];
 
-    @IsString()
-    @ApiProperty({
-        description: 'Required date',
-        type: 'string',
-        format: 'date-time',
-    })
-    requiredDate: Date;
-    @IsString()
-    @ApiProperty({
-        description: 'Shipped date',
-        type: 'string',
-        format: 'date-time',
-    })
-    shippedDate: Date;
+
     @IsString()
     @ApiProperty({ description: 'Order status', type: 'string' })
     status: string;

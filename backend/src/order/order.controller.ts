@@ -30,19 +30,27 @@ export class OrderController {
         @Body() createOrderDto: CreateOrderDto,
         @CurrentUser() user: any,
     ) {
+        console.log('create order', createOrderDto);
         return this.orderService.create(createOrderDto, user);
     }
 
     @Get('/all')
     @ApiProperty({ description: 'Get all orders' })
     async findAll(@CurrentUser() user: any) {
-        
+        console.log('get all orders');
         return this.orderService.findAll(user);
+    }
+    @Get('/maxOrderIdd')
+    @ApiProperty({ description: 'Get max order id' })
+    async maxOrderId() {
+
+        return this.orderService.maxOrderId();
     }
 
     @Get(':id')
     @ApiProperty({ description: 'Get a order by id' })
     async findOne(@Param('id') id: string) {
+        console.log('id', id);
         return this.orderService.findOne(id);
     }
 
@@ -60,4 +68,7 @@ export class OrderController {
     async remove(@Param('id') id: string) {
         return this.orderService.remove(id);
     }
+
+
+
 }

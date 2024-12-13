@@ -12,6 +12,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { ExceptionEntityNotFound } from 'src/common';
 import { Product } from 'src/product/entities/product.entity';
 import { OrderProduct } from './entities/OrderProduct.entity';
+import { Cart } from 'src/cart/entities/cart.entity';
+import { CartProduct } from 'src/cart/entities/cartProduct.entity';
 
 @Injectable()
 export class OrderService {
@@ -67,7 +69,32 @@ export class OrderService {
                             variantId: item.variantId,
                             order,
                         });
-    
+                        
+                        //Delete Cart Item
+                        const cart = await queryRunner.manager.findOne(Cart, {
+                            where: { user: { id: user.id } },
+                        });
+                        if (!cart) {
+                            throw new NotFoundException(`Cart with User ID ${user.id} not found`);
+                        }
+                        const cartProduct = await queryRunner.manager.findOne(CartProduct, {
+                            where : {
+                                productId: item.productId,
+                                variantId: item.variantId,
+                                cartId: cart.id
+                            }
+                        });
+
+                        console.log("Cart", cartProduct);
+                        if(cartProduct){
+                            if(item.quantity >= cartProduct.quantity){
+                            await queryRunner.manager.delete(CartProduct, cartProduct);
+                            }
+                            else{
+                                cartProduct.quantity -= item.quantity;
+                                await queryRunner.manager.save(CartProduct, cartProduct);
+                            }
+                        }
                         // Insert orderProduct into the database instead of save
                         await queryRunner.manager.insert(OrderProduct, orderProduct);
                         return orderProduct; // Return orderProduct to attach later
@@ -153,5 +180,19 @@ export class OrderService {
         }
         return deleteResult;
     }
+
+    async maxOrderId() {
+        const result = await this.dataSource
+        .createQueryBuilder()
+        .select('MAX(order.orderIdd)', 'maxOrderIdd')
+        .from('order', 'order')
+        .getRawOne();
+
+    return {
+      message: 'Max Order ID',
+      data: result?.maxOrderIdd+1 || null,
+    };
+    }
+    
 }
 
