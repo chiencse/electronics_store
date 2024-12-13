@@ -7,6 +7,8 @@ import axios from 'axios';
 import { Bounce, toast } from 'react-toastify';
 import Swal from 'sweetalert2';
 const DiscountNumber = 0.95;
+import logoBK from '../assets/hcmut.png';
+import Image from 'next/image';
 
 const toastSuccess = () => {
   toast.success('Successful!', {
@@ -287,10 +289,10 @@ export default function ProductPage() {
         </h2>
         <div className="flex flex-row">
           <div className=" ">
-            <img
-              src=""
+            <Image
+              src={logoBK}
               alt="Logo"
-              className=" h-20 w-20 bg-cyan-400 rounded-full ml-4 mt-2 shadow-md"
+              className=" h-20 w-20 rounded-full ml-4  shadow-md"
             />
           </div>
           <div className="flex flex-col ml-6">
