@@ -1,6 +1,8 @@
 'use client';
 import ContainProduct from '@/app/landing/components/containProduct';
+import { useTextSearch } from '@/app/Layouts/HeaderUser';
 import axios from 'axios';
+
 import { useEffect, useState } from 'react';
 
 const SearchLayout = () => {
@@ -13,8 +15,10 @@ const SearchLayout = () => {
     priceRange: { min: '', max: '' },
     sortBy: 'relevant',
   });
-
+  // const [textSearch, setTextSearch] = useState(''); // Từ khóa tìm kiếm
   const [products, setProducts] = useState([]); // Sản phẩm từ API
+  const [initProducts, setInitProducts] = useState([]); // Sản phẩm gốc
+  const { textSearch, setTextSearch } = useTextSearch();
 
   // Xử lý khi filter thay đổi
   const handleFilterChange = (field: any, value: any) => {
@@ -29,14 +33,15 @@ const SearchLayout = () => {
         );
         if (res.status === 200) {
           setProducts(res.data.data); // Lưu sản phẩm gốc
+          setInitProducts(res.data.data); // Lưu sản phẩm gốc
         }
       } catch (error) {
         console.error('Error fetching products:', error);
       }
     };
-
     fetchProducts();
   }, []);
+
   const sortProducts = (sortBy: any) => {
     const sortedProducts = products.sort((a: any, b: any) => {
       if (sortBy === 'priceLow') {
@@ -50,21 +55,37 @@ const SearchLayout = () => {
     console.log(sortedProducts);
     setProducts(sortedProducts);
   };
+
+  useEffect(() => {
+    if (textSearch.trim()) {
+      const productSearch = textSearch.toLowerCase();
+      console.log('ProductSeach', productSearch);
+      const filteredProducts = initProducts.filter((product) => {
+        return (
+          product.name.toLowerCase().includes(productSearch) ||
+          product.manufacturer.toLowerCase().includes(productSearch) ||
+          product.description.toLowerCase().includes(productSearch)
+        );
+      });
+      setProducts(filteredProducts);
+    }
+  }, [textSearch, initProducts]);
   // Fetch data dựa trên filters
   const fetchProducts = async () => {
     // Ví dụ fetch giả lập
-    const filteredProducts = product.filter((product) => {
+    console.log(filters);
+    const filteredProducts = initProducts.filter((product) => {
       return (
-        (!filters.rating || product.rating >= Number(filters.rating)) &&
-        (!filters.manufacturer ||
-          product.manufacturer === filters.manufacturer) &&
+        (!filters.rating || product.averageRating >= Number(filters.rating)) &&
+        (!filters.label || product.manufacturer === filters.label) &&
         (!filters.category || product.category === filters.category) &&
         (filters.priceRange.min === '' ||
-          Number(product.price) >= parseFloat(filters.priceRange.min)) &&
+          Number(product.baseprice) >= parseFloat(filters.priceRange.min)) &&
         (filters.priceRange.max === '' ||
-          Number(product.price) <= parseFloat(filters.priceRange.max))
+          Number(product.baseprice) <= parseFloat(filters.priceRange.max))
       );
     });
+    console.log(filteredProducts);
     setProducts(filteredProducts);
   };
 

@@ -34,7 +34,6 @@ const ContainProduct = ({ product }: any) => {
           </p>
           <div className="flex items-center mt-2 text-gray-400">
             <span className="text-yellow-500">⭐ {product.averageRating}</span>
-            <span className="ml-2 text-sm">{product.sold || 0} Sold</span>
           </div>
         </div>
       </div>

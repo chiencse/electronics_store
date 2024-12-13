@@ -8,11 +8,11 @@ const reviewsData = {
   averageRating: 4.8,
   totalReviews: 1250,
   ratingsBreakdown: {
-    5: 2823,
+    5: 50,
     4: 38,
     3: 4,
-    2: 0,
-    1: 0,
+    2: 4,
+    1: 1,
   },
   reviews: [
     {

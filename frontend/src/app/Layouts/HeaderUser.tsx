@@ -21,7 +21,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Link from 'next/link';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { navbarLogin } from '../../data/navbar';
 import AuthLogin from '@/app/components/Login-box';
 import { Bounce, toast } from 'react-toastify';
@@ -31,6 +31,13 @@ import Image from 'next/image';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
 import { fetchAvatar } from '@/app/api/user/userFetch';
+
+import { create } from 'zustand';
+export const useTextSearch = create((set: any) => ({
+  textSearch: '',
+  setTextSearch: (text: string) => set({ textSearch: text }),
+}));
+
 const categories = [
   { name: 'Phone, Tablet', icon: faMobileAlt },
   { name: 'Laptop', icon: faLaptop },
@@ -68,6 +75,7 @@ const HeaderUser = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [dataUser, setDataUser] = useState<any>({});
+  const { textSearch, setTextSearch } = useTextSearch();
   const router = useRouter();
   const togglePopup = () => {
     setShowPopup(!showPopup);
@@ -98,6 +106,18 @@ const HeaderUser = () => {
     }
   };
 
+  const [textSearchChange, setTextSearchChange] = useState('');
+  const handleSearch = () => {
+    console.log(textSearchChange);
+    setTextSearch(textSearchChange);
+    router.push(`/search?q=${textSearch}`);
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      handleSearch();
+    }
+  };
   const handleCheckLogin = () => {
     if (isLoggedIn) return;
     setIsLoggedIn(false);
@@ -163,17 +183,19 @@ const HeaderUser = () => {
           </div>
           <label className="input input-bordered input-sm flex items-center gap-2 flex-grow">
             <input
+              onChange={(e) => setTextSearchChange(e.target.value)}
+              onKeyDown={handleKeyDown} // Lắng nghe phím Enter
               type="text"
+              value={textSearchChange}
               placeholder="Search for products..."
-              className=" w-full bg-white text-black"
+              className="w-full bg-white text-black"
             />
-
             <FontAwesomeIcon
-              className="hover:text-blue-500"
+              className="hover:text-blue-500 cursor-pointer"
               icon={faMagnifyingGlass}
               size="sm"
+              onClick={handleSearch} // Thêm sự kiện click
             />
-            {/* 🔍 */}
           </label>
         </div>
 
