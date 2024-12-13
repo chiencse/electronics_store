@@ -1,0 +1,914 @@
+[
+  {
+    "id": "7F91E5D8-36B6-EF11-88F8-6045BD56900E",
+    "createdAt": "2024-12-09T07:06:56.510Z",
+    "updatedAt": "2024-12-09T07:06:56.510Z",
+    "name": "iPad Gen 10 10.9 inch 2022",
+    "baseprice": 8790000,
+    "description": "Kiểu dáng mỏng nhẹ, phong cách hiện đại - Khung viền và mặt lưng kim loại, mỏng chỉ 7 mm",
+    "manufacturer": "Apple",
+    "screenSize": 10.9,
+    "screenType": "IPS LCD",
+    "refreshRate": 60,
+    "battery": 7587,
+    "camera": "12MP, ƒ/1.8",
+    "averageRating": 0,
+    "imageProducts": [
+      {
+        "id": "8291E5D8-36B6-EF11-88F8-6045BD56900E",
+        "createdAt": "2024-12-09T07:06:56.650Z",
+        "updatedAt": "2024-12-09T07:06:56.650Z",
+        "imageUrl": "https://ebkstoragea.blob.core.windows.net/fileupload/64274d6b-053d-462e-8d37-c6cfc1543e28.webp"
+      },
+      {
+        "id": "8391E5D8-36B6-EF11-88F8-6045BD56900E",
+        "createdAt": "2024-12-09T07:06:56.650Z",
+        "updatedAt": "2024-12-09T07:06:56.650Z",
+        "imageUrl": "https://ebkstoragea.blob.core.windows.net/fileupload/3b08cfa2-5079-4fc2-94c7-64bbc43bdb80.webp"
+      },
+      {
+        "id": "8491E5D8-36B6-EF11-88F8-6045BD56900E",
+        "createdAt": "2024-12-09T07:06:56.650Z",
+        "updatedAt": "2024-12-09T07:06:56.650Z",
+        "imageUrl": "https://ebkstoragea.blob.core.windows.net/fileupload/d4be723d-9f1a-49a8-bf90-4b893053efde.webp"
+      }
+    ],
+    "category": {
+      "id": "DEDB98F5-39B2-EF11-88F8-000D3A80414D",
+      "title": "Phone, Tablet"
+    },
+    "inventory": "In Stock",
+    "supplier": {
+      "id": "865E00BB-E6B2-EF11-88F8-6045BD569740",
+      "createdAt": "2024-12-05T01:55:53.136Z",
+      "updatedAt": "2024-12-05T01:55:53.136Z",
+      "name": "AppleStore",
+      "address": "Ho Chi Minh City",
+      "email": "Apple@supply.com",
+      "phone": "01234567890"
+    },
+    "reviews": [],
+    "variants": [
+      {
+        "id": "8091E5D8-36B6-EF11-88F8-6045BD56900E",
+        "createdAt": "2024-12-09T07:06:56.580Z",
+        "updatedAt": "2024-12-09T07:06:56.580Z",
+        "ram": 4,
+        "rom": 256,
+        "cpu": "Apple A14 Bionic",
+        "color": "Yellow",
+        "quantity": 10,
+        "price": 12990000
+      },
+      {
+        "id": "8191E5D8-36B6-EF11-88F8-6045BD56900E",
+        "createdAt": "2024-12-09T07:06:56.580Z",
+        "updatedAt": "2024-12-09T07:06:56.580Z",
+        "ram": 4,
+        "rom": 256,
+        "cpu": "Apple A14 Bionic",
+        "color": "Pink",
+        "quantity": 2,
+        "price": 12990000
+      }
+    ]
+  },
+  {
+    "id": "44B247B5-38B6-EF11-88F8-6045BD56900E",
+    "createdAt": "2024-12-09T07:20:15.750Z",
+    "updatedAt": "2024-12-09T07:20:15.750Z",
+    "name": "Mac mini M4 2024",
+    "baseprice": 14990000,
+    "description": "Thiết kế nhỏ gọn, tinh tế phù hợp với bất kỳ không gian làm việc nào.",
+    "manufacturer": "Apple",
+    "screenSize": 0,
+    "screenType": "",
+    "refreshRate": 0,
+    "battery": 0,
+    "camera": "",
+    "averageRating": 0,
+    "imageProducts": [
+      {
+        "id": "47B247B5-38B6-EF11-88F8-6045BD56900E",
+        "createdAt": "2024-12-09T07:20:15.880Z",
+        "updatedAt": "2024-12-09T07:20:15.880Z",
+        "imageUrl": "https://ebkstoragea.blob.core.windows.net/fileupload/b1101906-c400-41d1-a068-acf8ccc40cc6.webp"
+      },
+      {
+        "id": "48B247B5-38B6-EF11-88F8-6045BD56900E",
+        "createdAt": "2024-12-09T07:20:15.880Z",
+        "updatedAt": "2024-12-09T07:20:15.880Z",
+        "imageUrl": "https://ebkstoragea.blob.core.windows.net/fileupload/73a1072c-2134-474c-8443-da2da6b0198b.webp"
+      },
+      {
+        "id": "49B247B5-38B6-EF11-88F8-6045BD56900E",
+        "createdAt": "2024-12-09T07:20:15.880Z",
+        "updatedAt": "2024-12-09T07:20:15.880Z",
+        "imageUrl": "https://ebkstoragea.blob.core.windows.net/fileupload/94b64f2b-b136-4672-baf2-0b70daed8af0.webp"
+      }
+    ],
+    "category": {
+      "id": "E4DB98F5-39B2-EF11-88F8-000D3A80414D",
+      "title": "PC, Monitors, Printers"
+    },
+    "inventory": "In Stock",
+    "supplier": {
+      "id": "865E00BB-E6B2-EF11-88F8-6045BD569740",
+      "createdAt": "2024-12-05T01:55:53.136Z",
+      "updatedAt": "2024-12-05T01:55:53.136Z",
+      "name": "AppleStore",
+      "address": "Ho Chi Minh City",
+      "email": "Apple@supply.com",
+      "phone": "01234567890"
+    },
+    "reviews": [],
+    "variants": [
+      {
+        "id": "45B247B5-38B6-EF11-88F8-6045BD56900E",
+        "createdAt": "2024-12-09T07:20:15.820Z",
+        "updatedAt": "2024-12-09T07:20:15.820Z",
+        "ram": 16,
+        "rom": 512,
+        "cpu": "Apple M4",
+        "color": "Silver",
+        "quantity": 2,
+        "price": 19990000
+      },
+      {
+        "id": "46B247B5-38B6-EF11-88F8-6045BD56900E",
+        "createdAt": "2024-12-09T07:20:15.820Z",
+        "updatedAt": "2024-12-09T07:20:15.820Z",
+        "ram": 24,
+        "rom": 512,
+        "cpu": "Apple M4",
+        "color": "Silver",
+        "quantity": 3,
+        "price": 19990000
+      }
+    ]
+  },
+  {
+    "id": "1815A64C-39B6-EF11-88F8-6045BD56900E",
+    "createdAt": "2024-12-09T07:24:29.706Z",
+    "updatedAt": "2024-12-09T07:24:29.706Z",
+    "name": "Macbook Pro 14 M4",
+    "baseprice": 39990000,
+    "description": "Cung cấp hiệu năng mạnh mẽ với 10 nhân CPU và 10 nhân GPU, đáp ứng tốt nhu cầu công việc hàng ngày và các tác vụ sáng tạo cơ bản.",
+    "manufacturer": "Apple",
+    "screenSize": 120,
+    "screenType": "Liquid Rentina XDR",
+    "refreshRate": 120,
+    "battery": 55000,
+    "camera": "",
+    "averageRating": 0,
+    "imageProducts": [
+      {
+        "id": "8F969E9A-39B6-EF11-88F8-6045BD56900E",
+        "createdAt": "2024-12-09T07:26:40.526Z",
+        "updatedAt": "2024-12-09T07:26:40.526Z",
+        "imageUrl": "https://ebkstoragea.blob.core.windows.net/fileupload/76f1bbd1-3e81-4354-a201-00f0a5b6bccd.webp"
+      },
+      {
+        "id": "90969E9A-39B6-EF11-88F8-6045BD56900E",
+        "createdAt": "2024-12-09T07:26:40.770Z",
+        "updatedAt": "2024-12-09T07:26:40.770Z",
+        "imageUrl": "https://ebkstoragea.blob.core.windows.net/fileupload/d2bd6c4e-c768-4692-951a-e11fa0821d3a.webp"
+      },
+      {
+        "id": "91969E9A-39B6-EF11-88F8-6045BD56900E",
+        "createdAt": "2024-12-09T07:26:40.990Z",
+        "updatedAt": "2024-12-09T07:26:40.990Z",
+        "imageUrl": "https://ebkstoragea.blob.core.windows.net/fileupload/39068986-77d2-440c-81ea-24cd5005ef26.webp"
+      }
+    ],
+    "category": {
+      "id": "DFDB98F5-39B2-EF11-88F8-000D3A80414D",
+      "title": "Laptop"
+    },
+    "inventory": "In Stock",
+    "supplier": {
+      "id": "865E00BB-E6B2-EF11-88F8-6045BD569740",
+      "createdAt": "2024-12-05T01:55:53.136Z",
+      "updatedAt": "2024-12-05T01:55:53.136Z",
+      "name": "AppleStore",
+      "address": "Ho Chi Minh City",
+      "email": "Apple@supply.com",
+      "phone": "01234567890"
+    },
+    "reviews": [],
+    "variants": [
+      {
+        "id": "1915A64C-39B6-EF11-88F8-6045BD56900E",
+        "createdAt": "2024-12-09T07:24:29.776Z",
+        "updatedAt": "2024-12-09T07:24:29.776Z",
+        "ram": 16,
+        "rom": 512,
+        "cpu": "10 CORE M4",
+        "color": "Black",
+        "quantity": 2,
+        "price": 39990000
+      },
+      {
+        "id": "1A15A64C-39B6-EF11-88F8-6045BD56900E",
+        "createdAt": "2024-12-09T07:24:29.776Z",
+        "updatedAt": "2024-12-09T07:24:29.776Z",
+        "ram": 24,
+        "rom": 256,
+        "cpu": "10 CORE M4",
+        "color": "Silver",
+        "quantity": 4,
+        "price": 44990000
+      },
+      {
+        "id": "1B15A64C-39B6-EF11-88F8-6045BD56900E",
+        "createdAt": "2024-12-09T07:24:29.776Z",
+        "updatedAt": "2024-12-09T07:24:29.776Z",
+        "ram": 24,
+        "rom": 256,
+        "cpu": "12 CORE M4",
+        "color": "Black",
+        "quantity": 5,
+        "price": 44990000
+      }
+    ]
+  },
+  {
+    "id": "A6696B79-42B6-EF11-88F8-6045BD56900E",
+    "createdAt": "2024-12-09T08:30:10.290Z",
+    "updatedAt": "2024-12-09T08:30:10.290Z",
+    "name": "Apple MacBook Air M2",
+    "baseprice": 22290000,
+    "description": "Macbook Air M2 2022 với thiết kế sang trọng, vẻ ngoài siêu mỏng đầy lịch lãm. Đa nhiệm mượt mà - Ram 8GB, SSD 256GB cho phép vừa làm việc, vừa nghe nhạc.",
+    "manufacturer": "Apple",
+    "screenSize": 13.6,
+    "screenType": "Liquid Retina Display",
+    "refreshRate": 120,
+    "battery": 55600,
+    "camera": "",
+    "averageRating": 0,
+    "imageProducts": [
+      {
+        "id": "AA696B79-42B6-EF11-88F8-6045BD56900E",
+        "createdAt": "2024-12-09T08:30:10.430Z",
+        "updatedAt": "2024-12-09T08:30:10.430Z",
+        "imageUrl": "https://ebkstoragea.blob.core.windows.net/fileupload/e2ab5c31-fc1e-4807-850d-ab0cb3f00c94.webp"
+      },
+      {
+        "id": "AB696B79-42B6-EF11-88F8-6045BD56900E",
+        "createdAt": "2024-12-09T08:30:10.430Z",
+        "updatedAt": "2024-12-09T08:30:10.430Z",
+        "imageUrl": "https://ebkstoragea.blob.core.windows.net/fileupload/bb36cfe1-c928-48b1-a22e-138d133c3588.webp"
+      },
+      {
+        "id": "AC696B79-42B6-EF11-88F8-6045BD56900E",
+        "createdAt": "2024-12-09T08:30:10.430Z",
+        "updatedAt": "2024-12-09T08:30:10.430Z",
+        "imageUrl": "https://ebkstoragea.blob.core.windows.net/fileupload/386a5da4-490f-4039-9573-2f68d1bdd464.webp"
+      },
+      {
+        "id": "AD696B79-42B6-EF11-88F8-6045BD56900E",
+        "createdAt": "2024-12-09T08:30:10.430Z",
+        "updatedAt": "2024-12-09T08:30:10.430Z",
+        "imageUrl": "https://ebkstoragea.blob.core.windows.net/fileupload/467745eb-d490-4295-b5f5-0b8d5aba469d.webp"
+      }
+    ],
+    "category": {
+      "id": "DFDB98F5-39B2-EF11-88F8-000D3A80414D",
+      "title": "Laptop"
+    },
+    "inventory": "In Stock",
+    "supplier": {
+      "id": "865E00BB-E6B2-EF11-88F8-6045BD569740",
+      "createdAt": "2024-12-05T01:55:53.136Z",
+      "updatedAt": "2024-12-05T01:55:53.136Z",
+      "name": "AppleStore",
+      "address": "Ho Chi Minh City",
+      "email": "Apple@supply.com",
+      "phone": "01234567890"
+    },
+    "reviews": [],
+    "variants": [
+      {
+        "id": "A7696B79-42B6-EF11-88F8-6045BD56900E",
+        "createdAt": "2024-12-09T08:30:10.360Z",
+        "updatedAt": "2024-12-09T08:30:10.360Z",
+        "ram": 8,
+        "rom": 256,
+        "cpu": "M2-8CPU",
+        "color": "Yellow White",
+        "quantity": 4,
+        "price": 22290000
+      },
+      {
+        "id": "A8696B79-42B6-EF11-88F8-6045BD56900E",
+        "createdAt": "2024-12-09T08:30:10.360Z",
+        "updatedAt": "2024-12-09T08:30:10.360Z",
+        "ram": 16,
+        "rom": 512,
+        "cpu": "M2-8CPU",
+        "color": "Black",
+        "quantity": 5,
+        "price": 24390000
+      },
+      {
+        "id": "A9696B79-42B6-EF11-88F8-6045BD56900E",
+        "createdAt": "2024-12-09T08:30:10.360Z",
+        "updatedAt": "2024-12-09T08:30:10.360Z",
+        "ram": 16,
+        "rom": 51,
+        "cpu": "M2-8CPU-10GPU",
+        "color": "Geay",
+        "quantity": 5,
+        "price": 28890000
+      }
+    ]
+  },
+  {
+    "id": "46F66468-5BB6-EF11-88F8-6045BD56900E",
+    "createdAt": "2024-12-09T11:28:39.150Z",
+    "updatedAt": "2024-12-09T11:28:39.150Z",
+    "name": "iPad Pro M4 ",
+    "baseprice": 27690000,
+    "description": "iPad Pro M4 11 inch là mẫu máy tính bảng dành cho các công việc chuyên nghiệp khi được trang bị con chip M4 với hiệu năng vượt bậc. ",
+    "manufacturer": "Apple",
+    "screenSize": 11,
+    "screenType": "Ultra Retina XDR",
+    "refreshRate": 120,
+    "battery": 55000,
+    "camera": "12MP",
+    "averageRating": 0,
+    "imageProducts": [
+      {
+        "id": "4AF66468-5BB6-EF11-88F8-6045BD56900E",
+        "createdAt": "2024-12-09T11:28:39.286Z",
+        "updatedAt": "2024-12-09T11:28:39.286Z",
+        "imageUrl": "https://ebkstoragea.blob.core.windows.net/fileupload/03f26217-9b0a-44ee-871b-d6bfd78fc3d9.webp"
+      },
+      {
+        "id": "4BF66468-5BB6-EF11-88F8-6045BD56900E",
+        "createdAt": "2024-12-09T11:28:39.286Z",
+        "updatedAt": "2024-12-09T11:28:39.286Z",
+        "imageUrl": "https://ebkstoragea.blob.core.windows.net/fileupload/f3e432b2-64ca-4cf0-9664-8d9dcfc05c4c.webp"
+      },
+      {
+        "id": "4CF66468-5BB6-EF11-88F8-6045BD56900E",
+        "createdAt": "2024-12-09T11:28:39.286Z",
+        "updatedAt": "2024-12-09T11:28:39.286Z",
+        "imageUrl": "https://ebkstoragea.blob.core.windows.net/fileupload/dbc4b896-0955-42cc-b771-21d81450ec6c.webp"
+      }
+    ],
+    "category": {
+      "id": "DEDB98F5-39B2-EF11-88F8-000D3A80414D",
+      "title": "Phone, Tablet"
+    },
+    "inventory": "In Stock",
+    "supplier": {
+      "id": "865E00BB-E6B2-EF11-88F8-6045BD569740",
+      "createdAt": "2024-12-05T01:55:53.136Z",
+      "updatedAt": "2024-12-05T01:55:53.136Z",
+      "name": "AppleStore",
+      "address": "Ho Chi Minh City",
+      "email": "Apple@supply.com",
+      "phone": "01234567890"
+    },
+    "reviews": [],
+    "variants": [
+      {
+        "id": "47F66468-5BB6-EF11-88F8-6045BD56900E",
+        "createdAt": "2024-12-09T11:28:39.220Z",
+        "updatedAt": "2024-12-09T11:28:39.220Z",
+        "ram": 8,
+        "rom": 256,
+        "cpu": "Apple M4",
+        "color": "Grey",
+        "quantity": 4,
+        "price": 27690000
+      },
+      {
+        "id": "48F66468-5BB6-EF11-88F8-6045BD56900E",
+        "createdAt": "2024-12-09T11:28:39.220Z",
+        "updatedAt": "2024-12-09T11:28:39.220Z",
+        "ram": 8,
+        "rom": 256,
+        "cpu": "Apple M4",
+        "color": "Black",
+        "quantity": 4,
+        "price": 27690000
+      },
+      {
+        "id": "49F66468-5BB6-EF11-88F8-6045BD56900E",
+        "createdAt": "2024-12-09T11:28:39.220Z",
+        "updatedAt": "2024-12-09T11:28:39.220Z",
+        "ram": 8,
+        "rom": 512,
+        "cpu": "Apple M4",
+        "color": "Black",
+        "quantity": 4,
+        "price": 32690000
+      }
+    ]
+  },
+  {
+    "id": "61B819C4-E6B2-EF11-88F8-6045BD569740",
+    "createdAt": "2024-12-05T01:56:08.403Z",
+    "updatedAt": "2024-12-05T01:56:08.403Z",
+    "name": "iPhone 16 Pro Max",
+    "baseprice": 33790000,
+    "description": "iPhone 16 Pro Max có màn hình OLED 6.9 inch, với công nghệ màn hình Super Retina XDR, camera gồm: ống kính Fusion 48MP và Ultra Wide 48MP và camera Telephoto 5x 12MP, kết hợp camera trước 12MP chụp hình sắc nét đến từng chi tiết nhỏ",
+    "manufacturer": "Apple",
+    "screenSize": 6.9,
+    "screenType": "Super Retina XDR",
+    "refreshRate": 120,
+    "battery": 6000,
+    "camera": "4K@60 fps",
+    "averageRating": 0,
+    "imageProducts": [
+      {
+        "id": "66B819C4-E6B2-EF11-88F8-6045BD569740",
+        "createdAt": "2024-12-05T01:56:08.520Z",
+        "updatedAt": "2024-12-05T01:56:08.520Z",
+        "imageUrl": "https://ebkstoragea.blob.core.windows.net/fileupload/2a83b76b-26cb-4f95-9206-4fc67989f9a0.png"
+      },
+      {
+        "id": "67B819C4-E6B2-EF11-88F8-6045BD569740",
+        "createdAt": "2024-12-05T01:56:08.520Z",
+        "updatedAt": "2024-12-05T01:56:08.520Z",
+        "imageUrl": "https://ebkstoragea.blob.core.windows.net/fileupload/bdd5caac-9441-4ce2-bc91-a67a4870058c.png"
+      },
+      {
+        "id": "68B819C4-E6B2-EF11-88F8-6045BD569740",
+        "createdAt": "2024-12-05T01:56:08.520Z",
+        "updatedAt": "2024-12-05T01:56:08.520Z",
+        "imageUrl": "https://ebkstoragea.blob.core.windows.net/fileupload/e92aa0df-ac4c-4e68-aa91-4e1565eae86b.png"
+      },
+      {
+        "id": "69B819C4-E6B2-EF11-88F8-6045BD569740",
+        "createdAt": "2024-12-05T01:56:08.520Z",
+        "updatedAt": "2024-12-05T01:56:08.520Z",
+        "imageUrl": "https://ebkstoragea.blob.core.windows.net/fileupload/0badeb37-6646-459e-ab94-16f04accf9c1.png"
+      },
+      {
+        "id": "6AB819C4-E6B2-EF11-88F8-6045BD569740",
+        "createdAt": "2024-12-05T01:56:08.520Z",
+        "updatedAt": "2024-12-05T01:56:08.520Z",
+        "imageUrl": "https://ebkstoragea.blob.core.windows.net/fileupload/f30679b6-542a-44f8-a3d5-f5c40550aafd.png"
+      },
+      {
+        "id": "6BB819C4-E6B2-EF11-88F8-6045BD569740",
+        "createdAt": "2024-12-05T01:56:08.520Z",
+        "updatedAt": "2024-12-05T01:56:08.520Z",
+        "imageUrl": "https://ebkstoragea.blob.core.windows.net/fileupload/47549ad4-e26c-451e-b3c7-d8292423a9c9.png"
+      }
+    ],
+    "category": {
+      "id": "DEDB98F5-39B2-EF11-88F8-000D3A80414D",
+      "title": "Phone, Tablet"
+    },
+    "inventory": "In Stock",
+    "supplier": {
+      "id": "865E00BB-E6B2-EF11-88F8-6045BD569740",
+      "createdAt": "2024-12-05T01:55:53.136Z",
+      "updatedAt": "2024-12-05T01:55:53.136Z",
+      "name": "AppleStore",
+      "address": "Ho Chi Minh City",
+      "email": "Apple@supply.com",
+      "phone": "01234567890"
+    },
+    "reviews": [],
+    "variants": [
+      {
+        "id": "62B819C4-E6B2-EF11-88F8-6045BD569740",
+        "createdAt": "2024-12-05T01:56:08.460Z",
+        "updatedAt": "2024-12-05T01:56:08.460Z",
+        "ram": 12,
+        "rom": 512,
+        "cpu": "Snapdragon",
+        "color": "Titan TuNhien",
+        "quantity": 20,
+        "price": 34090000
+      },
+      {
+        "id": "63B819C4-E6B2-EF11-88F8-6045BD569740",
+        "createdAt": "2024-12-05T01:56:08.460Z",
+        "updatedAt": "2024-12-05T01:56:08.460Z",
+        "ram": 8,
+        "rom": 256,
+        "cpu": "Snapdragon",
+        "color": "Titan Samac",
+        "quantity": 10,
+        "price": 34090000
+      },
+      {
+        "id": "64B819C4-E6B2-EF11-88F8-6045BD569740",
+        "createdAt": "2024-12-05T01:56:08.460Z",
+        "updatedAt": "2024-12-05T01:56:08.460Z",
+        "ram": 12,
+        "rom": 1024,
+        "cpu": "Snapdragon",
+        "color": "Titan Đen",
+        "quantity": 10,
+        "price": 34090000
+      }
+    ]
+  },
+  {
+    "id": "9260B913-0CB3-EF11-88F8-6045BD569740",
+    "createdAt": "2024-12-05T06:23:13.376Z",
+    "updatedAt": "2024-12-05T06:23:13.376Z",
+    "name": "iPhone 15 Pro Max",
+    "baseprice": 29990000,
+    "description": "iPhone 15 Pro Max có màn hình OLED 6.7 inch với công nghệ màn hình Super Retina XDR, camera chính Fusion 48MP, camera Ultra Wide 12MP và Telephoto 12MP, camera trước 12MP, hỗ trợ chụp hình chi tiết và quay video 4K.",
+    "manufacturer": "Apple",
+    "screenSize": 6.7,
+    "screenType": "Super Retina XDR",
+    "refreshRate": 120,
+    "battery": 5000,
+    "camera": "4K@60 fps",
+    "averageRating": 0,
+    "imageProducts": [
+      {
+        "id": "9660B913-0CB3-EF11-88F8-6045BD569740",
+        "createdAt": "2024-12-05T06:23:13.520Z",
+        "updatedAt": "2024-12-05T06:23:13.520Z",
+        "imageUrl": "https://ebkstoragea.blob.core.windows.net/fileupload/5b5d10ae-7cb5-46a5-81d6-b74cbf07e050.jpg"
+      },
+      {
+        "id": "9760B913-0CB3-EF11-88F8-6045BD569740",
+        "createdAt": "2024-12-05T06:23:13.520Z",
+        "updatedAt": "2024-12-05T06:23:13.520Z",
+        "imageUrl": "https://ebkstoragea.blob.core.windows.net/fileupload/3019d9e4-de0c-4f06-83c6-fee14ef2a1b6.jpg"
+      },
+      {
+        "id": "9860B913-0CB3-EF11-88F8-6045BD569740",
+        "createdAt": "2024-12-05T06:23:13.520Z",
+        "updatedAt": "2024-12-05T06:23:13.520Z",
+        "imageUrl": "https://ebkstoragea.blob.core.windows.net/fileupload/1603e190-b6b2-4837-8809-207154168414.jpg"
+      },
+      {
+        "id": "9960B913-0CB3-EF11-88F8-6045BD569740",
+        "createdAt": "2024-12-05T06:23:13.520Z",
+        "updatedAt": "2024-12-05T06:23:13.520Z",
+        "imageUrl": "https://ebkstoragea.blob.core.windows.net/fileupload/bf59a9a4-9196-417b-81a3-868dd13170b3.jpg"
+      },
+      {
+        "id": "9A60B913-0CB3-EF11-88F8-6045BD569740",
+        "createdAt": "2024-12-05T06:23:13.520Z",
+        "updatedAt": "2024-12-05T06:23:13.520Z",
+        "imageUrl": "https://ebkstoragea.blob.core.windows.net/fileupload/9deadcb4-9d78-4af1-806a-2f25afa8f9c1.jpg"
+      },
+      {
+        "id": "9B60B913-0CB3-EF11-88F8-6045BD569740",
+        "createdAt": "2024-12-05T06:23:13.520Z",
+        "updatedAt": "2024-12-05T06:23:13.520Z",
+        "imageUrl": "https://ebkstoragea.blob.core.windows.net/fileupload/55c31677-3079-4da6-a674-9520042ae1a8.jpg"
+      }
+    ],
+    "category": {
+      "id": "DEDB98F5-39B2-EF11-88F8-000D3A80414D",
+      "title": "Phone, Tablet"
+    },
+    "inventory": "In Stock",
+    "supplier": {
+      "id": "865E00BB-E6B2-EF11-88F8-6045BD569740",
+      "createdAt": "2024-12-05T01:55:53.136Z",
+      "updatedAt": "2024-12-05T01:55:53.136Z",
+      "name": "AppleStore",
+      "address": "Ho Chi Minh City",
+      "email": "Apple@supply.com",
+      "phone": "01234567890"
+    },
+    "reviews": [],
+    "variants": [
+      {
+        "id": "9360B913-0CB3-EF11-88F8-6045BD569740",
+        "createdAt": "2024-12-05T06:23:13.446Z",
+        "updatedAt": "2024-12-05T06:23:13.446Z",
+        "ram": 8,
+        "rom": 256,
+        "cpu": "A17 Pro",
+        "color": "Titan Xám",
+        "quantity": 15,
+        "price": 29990000
+      },
+      {
+        "id": "9460B913-0CB3-EF11-88F8-6045BD569740",
+        "createdAt": "2024-12-05T06:23:13.446Z",
+        "updatedAt": "2024-12-05T06:23:13.446Z",
+        "ram": 8,
+        "rom": 512,
+        "cpu": "A17 Pro",
+        "color": "Titan Bạc",
+        "quantity": 10,
+        "price": 32990000
+      },
+      {
+        "id": "9560B913-0CB3-EF11-88F8-6045BD569740",
+        "createdAt": "2024-12-05T06:23:13.446Z",
+        "updatedAt": "2024-12-05T06:23:13.446Z",
+        "ram": 8,
+        "rom": 1024,
+        "cpu": "A17 Pro",
+        "color": "Titan Đen",
+        "quantity": 5,
+        "price": 35990000
+      }
+    ]
+  },
+  {
+    "id": "6F7BC303-0DB3-EF11-88F8-6045BD569740",
+    "createdAt": "2024-12-05T06:29:56.086Z",
+    "updatedAt": "2024-12-05T06:29:56.086Z",
+    "name": "iPhone 13",
+    "baseprice": 19990000,
+    "description": "iPhone 13 có màn hình OLED 6.1 inch với công nghệ Super Retina XDR, camera kép 12MP với tính năng chụp đêm, chip A15 Bionic mạnh mẽ, và thời lượng pin kéo dài.",
+    "manufacturer": "Apple",
+    "screenSize": 6.1,
+    "screenType": "Super Retina XDR",
+    "refreshRate": 60,
+    "battery": 3240,
+    "camera": "4K@60 fps",
+    "averageRating": 0,
+    "imageProducts": [
+      {
+        "id": "737BC303-0DB3-EF11-88F8-6045BD569740",
+        "createdAt": "2024-12-05T06:29:56.223Z",
+        "updatedAt": "2024-12-05T06:29:56.223Z",
+        "imageUrl": "https://ebkstoragea.blob.core.windows.net/fileupload/a1008fe4-4afb-4c6e-be39-3bd74ab0b7ac.jpg"
+      },
+      {
+        "id": "747BC303-0DB3-EF11-88F8-6045BD569740",
+        "createdAt": "2024-12-05T06:29:56.223Z",
+        "updatedAt": "2024-12-05T06:29:56.223Z",
+        "imageUrl": "https://ebkstoragea.blob.core.windows.net/fileupload/25fb7a67-8ee7-4952-99f6-6f4f756a8264.jpg"
+      },
+      {
+        "id": "757BC303-0DB3-EF11-88F8-6045BD569740",
+        "createdAt": "2024-12-05T06:29:56.223Z",
+        "updatedAt": "2024-12-05T06:29:56.223Z",
+        "imageUrl": "https://ebkstoragea.blob.core.windows.net/fileupload/25fb7a67-8ee7-4952-99f6-6f4f756a8264.jpg"
+      },
+      {
+        "id": "767BC303-0DB3-EF11-88F8-6045BD569740",
+        "createdAt": "2024-12-05T06:29:56.223Z",
+        "updatedAt": "2024-12-05T06:29:56.223Z",
+        "imageUrl": "https://ebkstoragea.blob.core.windows.net/fileupload/555dd44e-1549-446c-960e-b3523217738a.jpg"
+      },
+      {
+        "id": "777BC303-0DB3-EF11-88F8-6045BD569740",
+        "createdAt": "2024-12-05T06:29:56.223Z",
+        "updatedAt": "2024-12-05T06:29:56.223Z",
+        "imageUrl": "https://ebkstoragea.blob.core.windows.net/fileupload/cf7d709b-502b-4e4c-9721-cfe94fdc390a.jpg"
+      }
+    ],
+    "category": {
+      "id": "DEDB98F5-39B2-EF11-88F8-000D3A80414D",
+      "title": "Phone, Tablet"
+    },
+    "inventory": "In Stock",
+    "supplier": {
+      "id": "865E00BB-E6B2-EF11-88F8-6045BD569740",
+      "createdAt": "2024-12-05T01:55:53.136Z",
+      "updatedAt": "2024-12-05T01:55:53.136Z",
+      "name": "AppleStore",
+      "address": "Ho Chi Minh City",
+      "email": "Apple@supply.com",
+      "phone": "01234567890"
+    },
+    "reviews": [],
+    "variants": [
+      {
+        "id": "707BC303-0DB3-EF11-88F8-6045BD569740",
+        "createdAt": "2024-12-05T06:29:56.153Z",
+        "updatedAt": "2024-12-05T06:29:56.153Z",
+        "ram": 4,
+        "rom": 128,
+        "cpu": "A15 Bionic",
+        "color": "Đen",
+        "quantity": 20,
+        "price": 19990000
+      },
+      {
+        "id": "717BC303-0DB3-EF11-88F8-6045BD569740",
+        "createdAt": "2024-12-05T06:29:56.153Z",
+        "updatedAt": "2024-12-05T06:29:56.153Z",
+        "ram": 4,
+        "rom": 256,
+        "cpu": "A15 Bionic",
+        "color": "Xanh",
+        "quantity": 15,
+        "price": 21990000
+      },
+      {
+        "id": "727BC303-0DB3-EF11-88F8-6045BD569740",
+        "createdAt": "2024-12-05T06:29:56.153Z",
+        "updatedAt": "2024-12-05T06:29:56.153Z",
+        "ram": 4,
+        "rom": 512,
+        "cpu": "A15 Bionic",
+        "color": "Trắng",
+        "quantity": 10,
+        "price": 24990000
+      }
+    ]
+  },
+  {
+    "id": "E17C3063-0EB3-EF11-88F8-6045BD569740",
+    "createdAt": "2024-12-05T06:39:45.680Z",
+    "updatedAt": "2024-12-05T06:39:45.680Z",
+    "name": "Samsung Galaxy Z Fold6",
+    "baseprice": 54990000,
+    "description": "Samsung Galaxy Z Fold6 sở hữu màn hình chính Dynamic AMOLED 2X 7.6 inch và màn hình phụ 6.2 inch, hỗ trợ bút S-Pen, camera chính 50MP, và pin dung lượng 4400mAh, đem lại trải nghiệm gập mở độc đáo và mạnh mẽ.",
+    "manufacturer": "Samsung",
+    "screenSize": 7.6,
+    "screenType": "Dynamic AMOLED 2X",
+    "refreshRate": 120,
+    "battery": 4400,
+    "camera": "4K@60fps",
+    "averageRating": 0,
+    "imageProducts": [
+      {
+        "id": "E57C3063-0EB3-EF11-88F8-6045BD569740",
+        "createdAt": "2024-12-05T06:39:45.793Z",
+        "updatedAt": "2024-12-05T06:39:45.793Z",
+        "imageUrl": "https://ebkstoragea.blob.core.windows.net/fileupload/6b100fba-87c9-4e5b-a148-f12cc0fe9808.png"
+      },
+      {
+        "id": "E67C3063-0EB3-EF11-88F8-6045BD569740",
+        "createdAt": "2024-12-05T06:39:45.793Z",
+        "updatedAt": "2024-12-05T06:39:45.793Z",
+        "imageUrl": "https://ebkstoragea.blob.core.windows.net/fileupload/6dc5aa5e-0db1-4da0-9fab-c6c13a4a081c.png"
+      },
+      {
+        "id": "E77C3063-0EB3-EF11-88F8-6045BD569740",
+        "createdAt": "2024-12-05T06:39:45.793Z",
+        "updatedAt": "2024-12-05T06:39:45.793Z",
+        "imageUrl": "https://ebkstoragea.blob.core.windows.net/fileupload/02f2259f-8393-423e-94c3-65f30c23197c.png"
+      },
+      {
+        "id": "E87C3063-0EB3-EF11-88F8-6045BD569740",
+        "createdAt": "2024-12-05T06:39:45.793Z",
+        "updatedAt": "2024-12-05T06:39:45.793Z",
+        "imageUrl": "https://ebkstoragea.blob.core.windows.net/fileupload/375346bd-9fc0-41b3-8705-fb38ffc8722e.png"
+      },
+      {
+        "id": "E97C3063-0EB3-EF11-88F8-6045BD569740",
+        "createdAt": "2024-12-05T06:39:45.793Z",
+        "updatedAt": "2024-12-05T06:39:45.793Z",
+        "imageUrl": "https://ebkstoragea.blob.core.windows.net/fileupload/e9885265-343e-4ab1-b791-65385ebdbe94.png"
+      },
+      {
+        "id": "EA7C3063-0EB3-EF11-88F8-6045BD569740",
+        "createdAt": "2024-12-05T06:39:45.793Z",
+        "updatedAt": "2024-12-05T06:39:45.793Z",
+        "imageUrl": "https://ebkstoragea.blob.core.windows.net/fileupload/7a6858b2-eb83-4bab-81b5-883a124d9d85.png"
+      }
+    ],
+    "category": {
+      "id": "DEDB98F5-39B2-EF11-88F8-000D3A80414D",
+      "title": "Phone, Tablet"
+    },
+    "inventory": "In Stock",
+    "supplier": {
+      "id": "38B5A157-0EB3-EF11-88F8-6045BD569740",
+      "createdAt": "2024-12-05T06:39:26.283Z",
+      "updatedAt": "2024-12-05T06:39:26.283Z",
+      "name": "Samsung",
+      "address": "Ho Chi Minh City",
+      "email": "samsung@supply.com",
+      "phone": "0123123132"
+    },
+    "reviews": [],
+    "variants": [
+      {
+        "id": "E27C3063-0EB3-EF11-88F8-6045BD569740",
+        "createdAt": "2024-12-05T06:39:45.746Z",
+        "updatedAt": "2024-12-05T06:39:45.746Z",
+        "ram": 12,
+        "rom": 512,
+        "cpu": "Snapdragon 8 Gen 2",
+        "color": "Phantom Black",
+        "quantity": 5,
+        "price": 56990000
+      },
+      {
+        "id": "E37C3063-0EB3-EF11-88F8-6045BD569740",
+        "createdAt": "2024-12-05T06:39:45.746Z",
+        "updatedAt": "2024-12-05T06:39:45.746Z",
+        "ram": 12,
+        "rom": 256,
+        "cpu": "Snapdragon 8 Gen 2",
+        "color": "Cream",
+        "quantity": 10,
+        "price": 54990000
+      },
+      {
+        "id": "E47C3063-0EB3-EF11-88F8-6045BD569740",
+        "createdAt": "2024-12-05T06:39:45.746Z",
+        "updatedAt": "2024-12-05T06:39:45.746Z",
+        "ram": 16,
+        "rom": 1,
+        "cpu": "Snapdragon 8 Gen 2",
+        "color": "Icy Blue",
+        "quantity": 3,
+        "price": 59990000
+      }
+    ]
+  },
+  {
+    "id": "224301AC-10B3-EF11-88F8-6045BD569740",
+    "createdAt": "2024-12-05T06:56:06.833Z",
+    "updatedAt": "2024-12-05T06:56:06.833Z",
+    "name": "Samsung Galaxy S24 Ultra",
+    "baseprice": 32990000,
+    "description": "Samsung Galaxy S24 Ultra được trang bị màn hình Dynamic AMOLED 2X 6.8 inch, độ phân giải QHD+, hỗ trợ bút S-Pen, camera chính 200MP, và pin dung lượng 5000mAh, mang lại hiệu năng vượt trội và trải nghiệm cao cấp.",
+    "manufacturer": "Samsung",
+    "screenSize": 6.8,
+    "screenType": "Dynamic AMOLED 2X",
+    "refreshRate": 120,
+    "battery": 5000,
+    "camera": "200MP, 4K@60fps",
+    "averageRating": 0,
+    "imageProducts": [
+      {
+        "id": "264301AC-10B3-EF11-88F8-6045BD569740",
+        "createdAt": "2024-12-05T06:56:06.980Z",
+        "updatedAt": "2024-12-05T06:56:06.980Z",
+        "imageUrl": "https://ebkstoragea.blob.core.windows.net/fileupload/f5176816-1798-40ed-bd5a-ceb15c97ce78.png"
+      },
+      {
+        "id": "274301AC-10B3-EF11-88F8-6045BD569740",
+        "createdAt": "2024-12-05T06:56:06.980Z",
+        "updatedAt": "2024-12-05T06:56:06.980Z",
+        "imageUrl": "https://ebkstoragea.blob.core.windows.net/fileupload/f737b5cd-8f50-4ada-81a8-5898e655f99b.png"
+      },
+      {
+        "id": "284301AC-10B3-EF11-88F8-6045BD569740",
+        "createdAt": "2024-12-05T06:56:06.980Z",
+        "updatedAt": "2024-12-05T06:56:06.980Z",
+        "imageUrl": "https://ebkstoragea.blob.core.windows.net/fileupload/8e5b57f5-15ea-4513-a447-64ba17994ef8.png"
+      },
+      {
+        "id": "294301AC-10B3-EF11-88F8-6045BD569740",
+        "createdAt": "2024-12-05T06:56:06.980Z",
+        "updatedAt": "2024-12-05T06:56:06.980Z",
+        "imageUrl": "https://ebkstoragea.blob.core.windows.net/fileupload/7221de04-314d-4fb8-8704-1adac5343c7d.png"
+      },
+      {
+        "id": "2A4301AC-10B3-EF11-88F8-6045BD569740",
+        "createdAt": "2024-12-05T06:56:06.980Z",
+        "updatedAt": "2024-12-05T06:56:06.980Z",
+        "imageUrl": "https://ebkstoragea.blob.core.windows.net/fileupload/05e48669-14e6-4c6c-8db4-900410668161.png"
+      }
+    ],
+    "category": {
+      "id": "DEDB98F5-39B2-EF11-88F8-000D3A80414D",
+      "title": "Phone, Tablet"
+    },
+    "inventory": "In Stock",
+    "supplier": {
+      "id": "38B5A157-0EB3-EF11-88F8-6045BD569740",
+      "createdAt": "2024-12-05T06:39:26.283Z",
+      "updatedAt": "2024-12-05T06:39:26.283Z",
+      "name": "Samsung",
+      "address": "Ho Chi Minh City",
+      "email": "samsung@supply.com",
+      "phone": "0123123132"
+    },
+    "reviews": [],
+    "variants": [
+      {
+        "id": "234301AC-10B3-EF11-88F8-6045BD569740",
+        "createdAt": "2024-12-05T06:56:06.906Z",
+        "updatedAt": "2024-12-05T06:56:06.906Z",
+        "ram": 12,
+        "rom": 256,
+        "cpu": "Snapdragon 8 Gen 3",
+        "color": "Phantom Black",
+        "quantity": 10,
+        "price": 32990000
+      },
+      {
+        "id": "244301AC-10B3-EF11-88F8-6045BD569740",
+        "createdAt": "2024-12-05T06:56:06.906Z",
+        "updatedAt": "2024-12-05T06:56:06.906Z",
+        "ram": 12,
+        "rom": 512,
+        "cpu": "Snapdragon 8 Gen 3",
+        "color": "Green",
+        "quantity": 8,
+        "price": 35990000
+      },
+      {
+        "id": "254301AC-10B3-EF11-88F8-6045BD569740",
+        "createdAt": "2024-12-05T06:56:06.906Z",
+        "updatedAt": "2024-12-05T06:56:06.906Z",
+        "ram": 16,
+        "rom": 1,
+        "cpu": "Snapdragon 8 Gen 3",
+        "color": "Beige",
+        "quantity": 5,
+        "price": 39990000
+      }
+    ]
+  }
+]

@@ -1,0 +1,94 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "id": { "type": "string", "format": "uuid" },
+    "createdAt": { "type": "string", "format": "date-time" },
+    "updatedAt": { "type": "string", "format": "date-time" },
+    "name": { "type": "string" },
+    "baseprice": { "type": "number" },
+    "description": { "type": "string" },
+    "manufacturer": { "type": "string" },
+    "screenSize": { "type": "number" },
+    "screenType": { "type": "string" },
+    "refreshRate": { "type": "number" },
+    "battery": { "type": "number" },
+    "camera": { "type": "string" },
+    "averageRating": { "type": "number" },
+    "imageProducts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string", "format": "uuid" },
+          "createdAt": { "type": "string", "format": "date-time" },
+          "updatedAt": { "type": "string", "format": "date-time" },
+          "imageUrl": { "type": "string", "format": "uri" }
+        },
+        "required": ["id", "createdAt", "updatedAt", "imageUrl"]
+      }
+    },
+    "category": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "format": "uuid" },
+        "title": { "type": "string" }
+      },
+      "required": ["id", "title"]
+    },
+    "inventory": { "type": "string" },
+    "supplier": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "format": "uuid" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" },
+        "name": { "type": "string" },
+        "address": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "phone": { "type": "string" }
+      },
+      "required": ["id", "createdAt", "updatedAt", "name", "address", "email", "phone"]
+    },
+    "reviews": { "type": "array", "items": { "type": "object" } },
+    "variants": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string", "format": "uuid" },
+          "createdAt": { "type": "string", "format": "date-time" },
+          "updatedAt": { "type": "string", "format": "date-time" },
+          "ram": { "type": "number" },
+          "rom": { "type": "number" },
+          "cpu": { "type": "string" },
+          "color": { "type": "string" },
+          "quantity": { "type": "number" },
+          "price": { "type": "number" }
+        },
+        "required": ["id", "createdAt", "updatedAt", "ram", "rom", "cpu", "color", "quantity", "price"]
+      }
+    }
+  },
+  "required": [
+    "id",
+    "createdAt",
+    "updatedAt",
+    "name",
+    "baseprice",
+    "description",
+    "manufacturer",
+    "screenSize",
+    "screenType",
+    "refreshRate",
+    "battery",
+    "camera",
+    "averageRating",
+    "imageProducts",
+    "category",
+    "inventory",
+    "supplier",
+    "reviews",
+    "variants"
+  ]
+}
