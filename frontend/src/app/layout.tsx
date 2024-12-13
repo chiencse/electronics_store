@@ -52,6 +52,7 @@ export default function RootLayout({
           autoClose={3000}
           style={{ zIndex: 9999 }}
         />
+       
         <Header />
         {decode?.role === 'admin' ? <Sidebar>{children}</Sidebar> : children}
 

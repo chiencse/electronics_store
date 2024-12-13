@@ -45,7 +45,8 @@ const CreateProductModal: React.FC<CreateProductModalProps> = ({
   isModalOpen,
   setIsModalOpen,
 }) => {
-  const [formData, setFormData] = useState<Product>({
+
+  const initialFormData: Product = {
     name: '',
     baseprice: 0,
     description: '',
@@ -60,7 +61,8 @@ const CreateProductModal: React.FC<CreateProductModalProps> = ({
     variants: [],
     categoryId: '',
     supplierId: '',
-  });
+  };
+  const [formData, setFormData] = useState<Product>(initialFormData);
   const modalRef = useRef<HTMLDivElement>(null);
   const [categories, setCategories] = useState([]);
   const [suppliers, setSuppliers] = useState([]);
@@ -197,6 +199,19 @@ const CreateProductModal: React.FC<CreateProductModalProps> = ({
     toast.success('Image deleted successfully!');
   };
 
+  const handleDeleteVariant = (index: number) => {
+    setFormData((prev) => ({
+      ...prev,
+      variants: prev.variants.filter((_, i) => i !== index),
+    }));
+    toast.success('Variant deleted successfully!');
+  };
+
+  const handleReset = () => {
+    setFormData(initialFormData);
+    toast.info('Form reset successfully!');
+  };
+
   const handleSubmit = async () => {
     try {
       await axios.post(
@@ -211,11 +226,14 @@ const CreateProductModal: React.FC<CreateProductModalProps> = ({
 
       setIsModalOpen(false);
       toast.success('Product created successfully!');
+      handleReset();
     } catch (error) {
       console.error('Error creating product:', error);
       toast.error('Failed to create product');
     }
   };
+
+  
 
   if (!isModalOpen) return null;
 
@@ -430,6 +448,12 @@ const CreateProductModal: React.FC<CreateProductModalProps> = ({
             {formData.variants.map((variant, index) => (
               <div key={index} className="p-4 bg-gray-100 rounded-lg mb-2">
                 <h3 className="font-bold mb-2">Variant {index + 1}</h3>
+                <button
+                  className="btn btn-sm btn-error mt-2"
+                  onClick={() => handleDeleteVariant(index)}
+                >
+                  Delete Variant
+                </button>
                 <div className="grid grid-cols-3 gap-4">
                   <div>
                     <label className="block font-bold mb-1">RAM (GB)</label>
@@ -528,6 +552,9 @@ const CreateProductModal: React.FC<CreateProductModalProps> = ({
           <button className="btn btn-neutral" onClick={handleSubmit}>
             Create Product
           </button>
+          <button className="btn btn-outline ml-2" onClick={handleReset}>
+              Reset Form
+            </button>
         </div>
       </div>
     </div>
