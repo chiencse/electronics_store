@@ -21,7 +21,9 @@ const ChatBubble = () => {
 
     if (!isChatOpen) {
       try {
-        const response = await axios.post(`${API_URL}/open`, { user_id: 'user-123' });
+        const response = await axios.post(`${API_URL}/open`, {
+          user_id: 'user-123',
+        });
         console.log('Session initialized:', response.data);
         setSessionId(response.data.user_id);
       } catch (error) {
@@ -52,7 +54,10 @@ const ChatBubble = () => {
         user_id: sessionId,
         user_query: message,
       });
-      setMessages((prev) => [...prev, { sender: 'bot', text: response.data.response }]);
+      setMessages((prev) => [
+        ...prev,
+        { sender: 'bot', text: response.data.response },
+      ]);
     } catch (error) {
       console.error('Error fetching bot response:', error);
     }
@@ -60,12 +65,15 @@ const ChatBubble = () => {
 
   return (
     <div className="fixed bottom-4 right-4 z-50">
-      {/* Toggle Icon */}
+      {/* Toggle Icon with bounce animation */}
       <button
         onClick={toggleChat}
-        className="bg-green-600 text-white p-4 rounded-full shadow-lg focus:outline-none hover:bg-green-700 transition"
+        className={`bg-green-600 text-white p-4 rounded-full shadow-lg focus:outline-none hover:bg-green-700 transition ${!isChatOpen ? 'animate-bounce' : ''}`}
       >
-        <FontAwesomeIcon icon={isChatOpen ? faTimes : faCommentDots} className='w-12 h-12' />
+        <FontAwesomeIcon
+          icon={isChatOpen ? faTimes : faCommentDots}
+          className="w-12 h-12"
+        />
       </button>
 
       {/* Chat Interface */}
