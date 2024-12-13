@@ -1,4 +1,5 @@
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import os
 from src.NormalRag.NormalRag import RAGSystemWithExpertAssistant, RAGChainBuilder
@@ -23,7 +24,13 @@ if not NEXT_PUBLIC_API_URL or not TOKEN:
 
 
 app = FastAPI()
-
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"], 
+    allow_headers=["*"],  
+)
 
 user_rag_systems = {}
 shared_rag_builder = None

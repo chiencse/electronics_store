@@ -7,8 +7,8 @@ from langchain.memory import ConversationBufferMemory
 from langchain_ollama import OllamaLLM
 import os
 from langchain.prompts import PromptTemplate
-
-
+import re
+from langchain.schema import HumanMessage, AIMessage
 class RAGChainBuilder:
     def __init__(
         self, data_file, embedding_model="sentence-transformers/all-MiniLM-L6-v2"
@@ -159,12 +159,53 @@ class RAGSystemWithMemory:
             memory_key="chat_history", return_messages=True
         )
 
+    def get_short_memory(self, max_turns=3):
+        """
+        Extracts the most recent exchanges from the conversation memory.
+
+        Parameters:
+        - memory: ConversationBufferMemory or similar object.
+        - max_turns: Maximum number of message pairs (HumanMessage-AIMessage) to return.
+
+        Returns:
+        - short_memory (str): A shortened version of the chat history as a string.
+        """
+        # Load memory variables and check for chat_history
+        memory_variables = self.memory.load_memory_variables({})
+        chat_history = memory_variables.get("chat_history", None)
+
+       
+        if not chat_history:
+            return "No chat history available."
+        if not isinstance(chat_history, list):
+            raise TypeError(f"Expected chat_history to be a list, got: {type(chat_history)}")
+
+        
+        recent_history = chat_history[-(max_turns * 2):]
+
+        # Format messages into a readable string
+        short_memory = []
+        for message in recent_history:
+            if hasattr(message, "content"):
+                if isinstance(message, HumanMessage):
+                    short_memory.append(f"User: {message.content.strip()}")
+                elif isinstance(message, AIMessage):
+                    short_memory.append(f"AI: {message.content.strip()}")
+            else:
+                short_memory.append(f"Unknown message format: {message}")
+
+        return "\n".join(short_memory)
+
     def reformulate_question(self, user_query):
         """
         Reformulates the user question to make it standalone.
         """
         # Load the chat history from memory
-        chat_history = self.memory.load_memory_variables({}).get("chat_history", "")
+        chat_history = self.memory.load_memory_variables({}).get("chat_history", None)
+        
+        
+        chat_history = self.get_short_memory()
+        print(f"Chat History: {chat_history}")
 
         # Construct the reformulation prompt
         reformulation_prompt = f"""
@@ -391,7 +432,7 @@ class RAGSystemWithExpertAssistant(RAGSystemWithMemory):
         """
         prompt = f"""
         You are a customer assistance expert.
-        The context below is derived from our shop's product information database, and the user query is a customer's question.
+        The context below is derived from our shop's product information database(please read carefully), and the user query is a customer's question.
 
         Context:
         {context}
@@ -441,7 +482,10 @@ class RAGSystemWithExpertAssistant(RAGSystemWithMemory):
                 Please "DO NOT" provide if customer ask about code, context.
                 customer queries from customer:{user_query}
                 """
-                return self.expert_llm.invoke(prompt)
+                response= self.expert_llm.invoke(prompt)
+                self.memory.save_context({"input": f'chit chat of user: "{user_query}"'}, {"output": response} )
+                return response
+
 
         # Step 2: Retrieve data using the RAG system
         retrieved_data = self.rag_builder.retrieve_data(standalone_query)
