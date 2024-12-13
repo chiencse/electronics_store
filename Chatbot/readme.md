@@ -54,6 +54,6 @@ docker run -d --gpus all -p 3005:3005 -p 11434:11434 --name rag-chatapp duydnguy
 
 ### 3.API
 
-API is in localhost:3005/doc#
+API is in http://localhost:3005/docs#/default/open_user_session_open_post
 
 

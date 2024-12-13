@@ -180,30 +180,34 @@ const FilterPanel = ({ filters, handleFilterPress, onFilterChange }: any) => {
 };
 const FeaturedProduct = ({ product }: any) => {
   return (
-    <div className="mt-12 bg-gray-50 p-8 rounded-lg flex flex-col lg:flex-row items-center shadow-md">
-      <img
-        src={product.image}
-        alt={product.name}
-        className="w-full max-w-xs lg:max-w-sm rounded-lg object-cover"
-      />
-      <div className="lg:ml-10 mt-6 lg:mt-0">
-        <h3 className="text-3xl font-semibold text-gray-900">{product.name}</h3>
-        <p className="text-gray-500 mt-4">
-          Lorem ipsum dolor sit amet consectetur. Integer cursus cursus in
-          sapien quam risus sed diam.
+    <div className="mt-12 bg-gradient-to-r from-green-50 to-green-100 p-8 rounded-lg flex flex-col lg:flex-row items-center shadow-lg hover:shadow-2xl transition-shadow duration-300">
+      <div className="w-full lg:w-1/2">
+        <img
+          src="/images.jpg"
+          alt="featured-product"
+          className="w-full h-full object-cover rounded-lg"
+        />
+      </div>
+      <div className="lg:ml-10 mt-6 lg:mt-0 text-center lg:text-left">
+        <h3 className="text-4xl font-bold text-gray-900">{product.name}</h3>
+        <p className="text-gray-600 mt-4 leading-relaxed">
+          Experience the power of the iPad Pro M4 with its stunning Liquid Retina display, advanced M4 chip, and sleek design, perfect for both work and play.
         </p>
-        <div className="flex items-center mt-6 space-x-4">
-          <button className="bg-green-600 hover:bg-green-700 text-white font-medium py-3 px-6 rounded-full shadow-md">
-            Buy {product.price}
+        <div className="flex items-center mt-6 justify-center lg:justify-start space-x-4">
+          <button className="bg-green-600 hover:bg-green-700 text-white font-medium py-3 px-6 rounded-full shadow-md transition-transform transform hover:scale-105">
+            Buy Now for {product.price}
           </button>
-          <button className="border border-gray-300 py-3 px-6 rounded-full text-gray-600 font-medium">
-            View Detail
+          <button className="border border-gray-300 py-3 px-6 rounded-full text-gray-700 font-medium hover:border-gray-400 hover:text-gray-900 transition-all">
+            View Details
           </button>
         </div>
       </div>
     </div>
   );
 };
+
+
+
 const PopularSection = () => {
   const [filters, setFilters] = useState({
     category: '',
@@ -264,7 +268,7 @@ const PopularSection = () => {
       {/* Section Heading */}
       <div className="text-center mb-10">
         <h2 className="text-4xl font-semibold text-gray-900">
-          Popular Products on Lenny
+          Popular Products on eBKStore
         </h2>
         <p className="text-gray-500 mt-2">
           Discover the most trending products this season
@@ -297,10 +301,9 @@ const PopularSection = () => {
       {/* Featured Product */}
       <FeaturedProduct
         product={{
-          name: 'Ipad Air Gen 5',
+          name: 'iPad Pro M4',
           price: '$900',
-          image:
-            'https://monngonmoingay.com/wp-content/smush-webp/2024/10/Salad-ca-hoi-sot-tom-kho.png.webp-image',
+       
         }}
       />
     </div>

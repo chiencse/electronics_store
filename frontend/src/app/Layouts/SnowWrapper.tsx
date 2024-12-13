@@ -2,7 +2,7 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { Snowfall } from 'react-snowfall';
-
+import ChatBubble from './BubbleChatAI';
 interface SnowWrapperProps {
   children: React.ReactNode;
 }
@@ -33,6 +33,7 @@ const SnowWrapper: React.FC<SnowWrapperProps> = ({ children }) => {
         }} />
        
         {children}
+        <ChatBubble />
     </div>
     );
 };
