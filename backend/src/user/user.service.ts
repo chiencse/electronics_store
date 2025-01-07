@@ -12,7 +12,9 @@ import { DataSource, Repository } from 'typeorm';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { SignInDto } from './dto/signIn.dto';
-
+import { RedisService } from 'src/modules/redis/redis.service';
+import { MailService } from 'src/mail/mail.service';
+import { FilesAzureService } from 'src/modules/files/files.service';
 @Injectable()
 export class UserService {
     constructor(
@@ -20,7 +22,10 @@ export class UserService {
         private userRepository: Repository<User>,
         private readonly jwtService: JwtService,
         private readonly dataSource: DataSource,
-    ) {}
+        private readonly redisService: RedisService,
+        private readonly mailService: MailService,
+        private readonly fileService: FilesAzureService,
+    ) { }
 
     async createUser(createUserDto: CreateUserDto) {
         const queryRunner = this.dataSource.createQueryRunner();
@@ -48,9 +53,11 @@ export class UserService {
 
             await queryRunner.manager.save(newUser);
             await queryRunner.commitTransaction();
+            const payload: AuthPayload = { id: newUser.id, email: newUser.email, FName: newUser.Fname, username: newUser.username, role: newUser.roles };
             return {
-                message: 'User created successfully',
-                data: newUser,
+                message: 'User Sign up successfully',
+                token: this.jwtService.sign(payload),
+
             };
         } catch (error) {
             await queryRunner.rollbackTransaction();
@@ -80,10 +87,11 @@ export class UserService {
             throw new NotFoundException('Invalid password');
         }
 
-        const payload = { id: user.id, email: user.email };
+        const payload: AuthPayload = { id: user.id, email: user.email, FName: user.Fname, username: user.username, role: user.roles };
         return {
             message: 'User logged in successfully',
             token: this.jwtService.sign(payload),
+            user,
         };
     }
 
@@ -108,5 +116,113 @@ export class UserService {
         }
 
         return user;
+    }
+
+    async findAll() {
+        const users = await this.userRepository.find({
+            relations: ['orders'],
+        });
+
+        return await users.map((user) => {
+            delete user.hash_password;
+            delete user.salt;
+            return user;
+        });
+    }
+
+    async findOne(id: string) {
+        const user = await this.userRepository.findOneBy({ id });
+        if (!user) throw new NotFoundException('User not found');
+        return user;
+    }
+
+    async forgotPassword(email: string) {
+        const user = await this.userRepository.findOneBy({ email });
+        if (!user) {
+            throw new NotFoundException('User not found');
+        }
+        const code = Math.floor(100000 + Math.random() * 900000).toString();
+        this.mailService.sendMail(user.email, code);
+        await this.redisService.set(user.email, code, 300);
+        return code;
+    }
+
+    async changePassword(newPassword: string, OldPassword: string, current_user: AuthPayload) {
+        const user = await this.userRepository.findOneBy({ id: current_user.id });
+        if (!user) {
+            throw new NotFoundException('User not found');
+        }
+
+        const hash_p = await bcrypt.hash(OldPassword, user.salt);
+
+        if (hash_p !== user.hash_password) {
+            throw new NotFoundException('Invalid password');
+        }
+
+        const salt = await bcrypt.genSaltSync(10);
+        const hash = await bcrypt.hashSync(newPassword, salt);
+
+        user.salt = salt;
+        user.hash_password = hash;
+
+        try {
+            await this.userRepository.save(user);
+        } catch (error) {
+            throw new BadRequestException('Failed to change password');
+        }
+        return {
+            message: 'Password changed successfully',
+        }
+    }
+
+    async uploadAvatar(userId: string, file: Express.Multer.File): Promise<string> {
+        const containerName = 'fileupload';
+        try {
+
+            const avatarUrl = await this.fileService.uploadFile(
+                file,
+                containerName,
+            );
+
+
+            await this.userRepository.update(userId, { avatar: avatarUrl });
+
+            return avatarUrl;
+        } catch (error) {
+            console.error('Error uploading avatar:', error);
+            throw new Error('Failed to upload avatar. Please try again.');
+        }
+    }
+
+    e
+    async getAvatarUrl(userId: string): Promise<string | null> {
+        const user = await this.userRepository.findOne({
+            where: { id: userId },
+            select: ['avatar'],
+        });
+
+        return user?.avatar || null;
+    }
+
+
+    async deleteAvatar(userId: string): Promise<void> {
+        const containerName = 'fileupload';
+        const user = await this.userRepository.findOne({
+            where: { id: userId },
+            select: ['avatar'],
+        });
+
+        if (user?.avatar) {
+
+            const fileName = user.avatar.split('/').pop();
+
+            if (fileName) {
+
+                await this.fileService.deleteFile(fileName, containerName);
+            }
+
+
+            await this.userRepository.update(userId, { avatar: null });
+        }
     }
 }

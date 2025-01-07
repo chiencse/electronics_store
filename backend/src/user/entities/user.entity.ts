@@ -1,7 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Exclude } from 'class-transformer';
-import { BaseEntity } from 'src/common/Entity/baseEntity';
-import { Column, Entity } from 'typeorm';
+import { BaseEntity } from '../../common/index';
+import { Column, Entity, JoinColumn, OneToMany, OneToOne } from 'typeorm';
+import { Roles } from 'src/common/user-role.enum';
+import { Order } from 'src/order/entities/order.entity';
+import { Cart } from 'src/cart/entities/cart.entity';
+import { Review } from 'src/review/entities/review.entity';
 
 @Entity()
 export class User extends BaseEntity {
@@ -19,7 +23,7 @@ export class User extends BaseEntity {
 
     @Column()
     @ApiProperty({ type: 'string', description: 'The username of the user' })
-    @Exclude()
+    
     username: string;
 
     @Column()
@@ -34,12 +38,33 @@ export class User extends BaseEntity {
     @ApiProperty({ description: 'The phone_number of the user' })
     phone_number: Number;
 
+    
+    @Column({nullable: true})
+    @ApiProperty({ type: 'string', description: 'Image User' ,  nullable: true})
+    avatar: string;
+
     @Column()
     @ApiProperty({ type: 'string', description: 'The address of the user' })
     address: string;
+
+    @Column({ type: 'nvarchar', enum: Roles, default: [Roles.USER] })
+    roles: string;
+
+    @OneToMany(() => Order, (order) => order.customer, { nullable: true })
+    orders: Order[];
+
+    @OneToOne(() => Cart, (cart) => cart.user)
+    @JoinColumn()
+    cart: Cart;
+
+    @OneToMany(() => Review, (rev) => rev.user)
+    reviews: Review[];
 }
 
 export interface AuthPayload {
     id: string;
     email: string;
+    FName: string;
+    username: string;
+    role: string;
 }

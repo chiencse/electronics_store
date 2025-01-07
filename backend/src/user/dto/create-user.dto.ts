@@ -1,18 +1,20 @@
+import { Optional } from '@nestjs/common';
 import { ApiProperty } from '@nestjs/swagger';
 import {
     IsEmail,
-    IsNumber,
+    IsEnum,
     IsNumberString,
     IsString,
     Length,
 } from 'class-validator';
+import { Roles } from 'src/common/user-role.enum';
 
 export class CreateUserDto {
     @IsString()
     @ApiProperty({
         type: 'string',
         description: 'The Fname of the user',
-        required: true,
+        default: 'Your First Name',
     })
     Fname: string;
 
@@ -20,7 +22,7 @@ export class CreateUserDto {
     @ApiProperty({
         type: 'string',
         description: 'The LName of the user',
-        required: true,
+        default: 'Your Last Name',
     })
     LName: string;
 
@@ -56,4 +58,22 @@ export class CreateUserDto {
     })
     @Length(6, 30)
     password: string;
+
+    @Optional()
+    @IsString()
+    @ApiProperty({
+        type: 'string',
+        description: 'Image User',
+        default: 'default.jpg',
+    })
+    image: string;
+
+    @IsEnum(Roles, { each: true })
+    @ApiProperty({
+        enum: Roles,
+        type: 'string',
+        description: 'The roles of the user',
+        example: Roles.USER,
+    })
+    roles: string;
 }
